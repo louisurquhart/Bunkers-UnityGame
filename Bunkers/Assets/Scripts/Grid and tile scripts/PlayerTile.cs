@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTile : Tile // SubClass of Tile class with on clicked method specialised for player tiles
@@ -41,7 +42,6 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
 
     public override void SetBunker(int bunkerNumber, Bunker bunkerType) // Procedure to be called when a tile is designated as a bunker (when bunker generation is happening)
     {
-        Color colorrvariable = Color.red;
         IsBunker = true;
         TileSpriteRenderer.color = bunkerType.BunkerColor;
     }

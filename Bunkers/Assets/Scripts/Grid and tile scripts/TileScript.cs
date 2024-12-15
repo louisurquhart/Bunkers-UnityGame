@@ -27,7 +27,17 @@ public class Tile : MonoBehaviour
     protected string TileOwner = "Unknown"; // who owns the tile (AI/Player)
 
 
-    // need an Update() method to detect if clicked
+    protected void OnMouseDown() // Automatically called by unity if tile's clicked
+    {
+        OnTileClicked(); // Calls OnTileClicked function as tile has been clicked
+    }
+
+    protected void OnMouseOver() // Automatically called by unity if tile's hovered over
+    {
+        Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
+        newColor.a = 125f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
+        TileSpriteRenderer.color = newColor; // Commits the new sprite colour with modified alpha (transparency)
+    }
 
     // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)
     public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
