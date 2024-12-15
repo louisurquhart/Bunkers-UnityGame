@@ -31,11 +31,16 @@ public class Tile : MonoBehaviour
     {
         OnTileClicked(); // Calls OnTileClicked function as tile has been clicked
     }
-
     protected void OnMouseOver() // Automatically called by unity if tile's hovered over
     {
         Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
-        newColor.a = 125f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
+        newColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
+        TileSpriteRenderer.color = newColor; // Commits the new sprite colour with modified alpha (transparency)
+    }
+    protected void OnMouseExit() // Automatically called if tile's no longer being hovered over
+    {
+        Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
+        newColor.a = 1f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
         TileSpriteRenderer.color = newColor; // Commits the new sprite colour with modified alpha (transparency)
     }
 
