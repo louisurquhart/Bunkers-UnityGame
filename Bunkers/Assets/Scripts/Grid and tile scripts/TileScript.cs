@@ -14,23 +14,20 @@ public class Tile : MonoBehaviour
     public SpriteRenderer TileSpriteRenderer; // reference to the tiles sprite renderer to change its colour and stuff when hit
 
     // Variables - (private variables have _ infront to follow naming convention)
-    protected int row; // row position of tile
-    protected int col; // column position of the tile
+    public int row; // row position of tile
+    public int col; // column position of the tile
 
     public int bunkerNumber;
     public int bunkerType;
 
+
     public bool IsBunker = false;  // checks if the tile has a bunker
     public bool IsRotated = false; // sets the rotation status of the tile (false by default)
-    protected bool isPreviouslyHit = false;  // checks if tiles been hit
+    public bool isPreviouslyHit = false;  // checks if tiles been hit
 
-    protected string TileOwner = "Unknown"; // who owns the tile (AI/Player)
+    public string TileOwner = "Unknown"; // who owns the tile (AI/Player)
 
 
-    protected void OnMouseDown() // Automatically called by unity if tile's clicked
-    {
-        OnTileClicked(); // Calls OnTileClicked function as tile has been clicked
-    }
     protected void OnMouseOver() // Automatically called by unity if tile's hovered over
     {
         Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
@@ -53,9 +50,35 @@ public class Tile : MonoBehaviour
         _gridManager = gridManagerRef; // sets the gridmanager variable == the inputted grid manager script
     }
 
-    public virtual bool OnTileClicked()
+    public bool OnTileHit() // Override method of OnTileHit function. Does immediate validation of hit
     {
-        return false;
+        if (!isPreviouslyHit && !CommonVariables.PlayerTurn) // makes sure the tile hasn't been hit before + validating it's definitely the AI's turn
+        {
+            Debug.Log($"{TileOwner} owned tile hit at: Row = {row} Column = {col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
+
+            isPreviouslyHit = true; // sets the isHit variable to true to signifiy it has been clicked (incase it's clicked again)
+
+            if (IsBunker == true) // if tile's a bunker 
+            {
+                _gridManager.OnBunkerHit(this); // it calls the onhit function in the gridmanager script inputting its row and column as variables
+                return true; // returns true to signify that the method completed successfully
+            }
+            else // if tile's not a bunker 
+            {
+                _gridManager.OnBunkerMiss(this); // it calls the onmiss function in the gridmanager script inputting its row and column as variables
+                return true; // returns true to signify that the method completed successfully
+            }
+        }
+        else if (isPreviouslyHit) // If the tile has been hit before 
+        {
+            Debug.Log("OnTileClicked: Entity tried to hit a tile which has already been hit"); // Outputs error that that validation blocked the player trying to hit a tile when it's not their turn
+            return false; // returns false to signify that the method failed to complete successfully due to one or more validation failiures
+        }
+        else // Else if it's not been previously hit it must not be the players turn 
+        {
+            Debug.Log("OnTileClicked: Entity tried to hit a tile which has already been hit"); // outputs info message that validation blocked the player from clicking a tile when it's not their turn for debugging + testing
+            return false; // Returns false to signify that the method failed to complete successfully due to one or more validation failiures
+        }
     }
 
     public virtual void SetBunker(int bunkerNumber, Bunker bunkerType)

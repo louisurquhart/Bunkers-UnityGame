@@ -14,7 +14,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
         // Move grid generation function calls to here instead of them being done on start
         // After grid generation
-        
+
 
         CommonVariables.Paused = false; // makes sure the game's unpaused
         CommonVariables.GameActive = true; // sets gameactive == true for other methods and functions to work properly (eg timers)
@@ -99,6 +99,15 @@ public class GeneralBackgroundLogic : MonoBehaviour
             CommonVariables.AIScore = 0;
             CommonVariables.PlayerScore = 0;
         }
+    }
+
+    public static Tile GenerateRandomTile(GridManager gridManager) // Method to return a random tile
+    {
+        int randomRow = UnityEngine.Random.Range(0, 10); // Generates a random row
+        int randomColumn = UnityEngine.Random.Range(0, 10); // Generates a random column
+        Tile randomTile = gridManager.Grid[randomRow, randomColumn]; // Finds the position of the random row + column combined and the tile located at it (through the referenced gridmanager)
+
+        return randomTile; // Returns the random tile
     }
 
 } // ------------------ End of GeneralBackgroundGameLogic class ------------------

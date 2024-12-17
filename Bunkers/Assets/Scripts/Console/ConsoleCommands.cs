@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsoleCommands : MonoBehaviour
+public class ConsoleCommands : MonoBehaviour 
 {
     public static ConsoleCommands Instance;
     private void Awake()
@@ -10,7 +10,7 @@ public class ConsoleCommands : MonoBehaviour
         Instance = this;
     }
 
-    public void RandomlyGenerateBunkers()
+    public static void RandomlyGenerateBunkers()
     {
         Debug.Log("RandomlyGenerateBunker command called");
     }

@@ -14,11 +14,11 @@ public class ConsoleFunctionality : MonoBehaviour
     Dictionary<string, Action> commands = new Dictionary<string, Action>(1); // Dictionary to convert string commands to their methods
 
 
-    private void Awake()
-    {
-        // Console commands added in awake method as they use an instance of a class
-        //commands.Add( "GenerateBunkers", ConsoleCommands.Instance.RandomlyGenerateBunkers); // Adds GenerateBunker command + the corrosponding method
-    }
+    //private void Awake()
+    //{
+    //    // Console commands added in awake method as they use an instance of a class
+    //    //commands.Add( "GenerateBunkers", ConsoleCommands.Instance.RandomlyGenerateBunkers); // Adds GenerateBunker command + the corrosponding method
+    //}
 
     private void Update()
     {

@@ -14,6 +14,11 @@ public class GridManager : MonoBehaviour
     public int _rows = 9;     // number of rows for the grid
     public int _colums = 9;     // number of columns for the grid 
     protected int bunkerNumber; // Number of the full bunker it's apart of
+    public bool turnValue; // need validation for read only
+
+    // Hit + Miss color values. Will be replaced with images in final iteration
+    protected Color missColour;
+    protected Color hitColour;
 
     [SerializeField] protected bool isPlayer = false;
     [SerializeField] protected GameObject _tileprefab;  // tile prefab (editable copy of a tile) linked
@@ -60,14 +65,67 @@ public class GridManager : MonoBehaviour
         BunkerGenerator.RandomBunkerGenerator(isPlayer, this); // After grid has been fully generated, it calls the RandomBunkerGenerator 
     }
 
-    public virtual void OnBunkerHit(int row, int col)
+    public int OnTileHit(Tile tile) // Override method of OnTileHit function. Does immediate validation of hit
     {
+        if (!tile.isPreviouslyHit && CommonVariables.PlayerTurn == turnValue) // makes sure the tile hasn't been hit before + validating it's definitely the AI's turn
+        {
+            Debug.Log(tile.TileOwner + " owned tile hit at: Row = " + tile.row + " Column = " + tile.col); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
 
+            tile.isPreviouslyHit = true; // sets the isHit variable to true to signifiy it has already been clicked
+
+            if (tile.IsBunker == true) // if tile's a bunker 
+            {
+                OnBunkerHit(tile); // it calls the onhit function in the gridmanager script inputting its row and column as variables
+                return 0; // returns true to signify that the method completed successfully 
+            }
+            else // if tile's not a bunker 
+            {
+                OnBunkerMiss(tile); // it calls the onmiss function in the gridmanager script inputting its row and column as variables
+                return 0; // returns true to signify that the method completed successfully
+            }
+        }
+        else if (tile.isPreviouslyHit)
+        {
+            return 1; // returns false to signify that the method failed to complete successfully due to one or more validation failiures
+        }
+        else // validation that it's the AI's turn has failed. Outputs error
+        { 
+            return 2; // returns false to signify that the method failed to complete successfully due to one or more validation failiures
+        }
     }
 
-    public virtual void OnBunkerMiss(int row, int col) // function called when a tile's hit but there's no bunker on the tile (validation already done)
+    public void OnBunkerHit(Tile tile) // function called when a tile with a bunkers been hit (validation already done)
     {
-        Debug.LogError("OnBunkerMiss: Method hasn't been overridden. No code is executed.");
+        Debug.Log("PlayerGridManager - OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
+
+        // In future will need to check if the tile's a special bunker here (special bunkers will be implemented in final prototype)
+
+        tile.TileSpriteRenderer.color = hitColour; // Changes the tiles colour to red (will be a sprite in final iteration just for prototype & testing)
+
+        // Hit animation will be added in the final iteration
+        // Sound effect will be added in final iteration
+
+        GeneralBackgroundLogic.ChangeTurn();
+
+        // Update statistics when implemented (own bunkers hit)
+
+        GeneralBackgroundLogic.HasGameEnded(); // Calls HasGameEnded function to check if this hit was gameending. It will deal with all outcomes
+    }
+
+    public void OnBunkerMiss(Tile tile)
+    {
+        Debug.Log("StrikeGridManager: Determined tile wasn't a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
+
+        // In future will need to check if the tile's a special bunker here (special bunkers will be implemented in final prototype)
+
+        tile.TileSpriteRenderer.color = Color.blue; // changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
+
+        // Hit animation will be added in the final iteration
+        // Sound effect will be added in final iteration
+
+        GeneralBackgroundLogic.ChangeTurn();
+
+        // Update statistics when they're implemented (enemy bunkers hit + maybe special bunker hit too)
     }
 
     public void DestroyGrid()
