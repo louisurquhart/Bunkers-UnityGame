@@ -16,9 +16,10 @@ public class AILogic : MonoBehaviour
     {
         bool noPositionGenerated = true;
 
-        if (CommonVariables.PlayerTurn == false)
+        if (CommonVariables.PlayerTurn) // If it's not the AI's turn and instead the players turn
         {
-
+            Debug.LogError("AILogic - EasyAI: AITurn has been called when it's not the AI's turn");
+            return;
         }
 
         int iterations = 0;

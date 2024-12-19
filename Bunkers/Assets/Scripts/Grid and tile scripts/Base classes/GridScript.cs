@@ -13,14 +13,16 @@ public class GridManager : MonoBehaviour
     // Variables - (private variables have _ infront to follow naming convention)
     public int _rows = 9;     // number of rows for the grid
     public int _colums = 9;     // number of columns for the grid 
-    protected int bunkerNumber; // Number of the full bunker it's apart of
-    public bool turnValue; // need validation for read only
+    protected int _bunkerNumber; // Number of the full bunker it's apart of
+    public bool turnValue { get;} // turnValue signifies what state "PlayerTurn" needs to be in for it to be the entities turn (true for player, false for AI). It only has a getter as value's read only
+    public bool isPlayer = false;
 
     // Hit + Miss color values. Will be replaced with images in final iteration
-    protected Color missColour;
-    protected Color hitColour;
+    [SerializeField] protected Color _missColour;
+    [SerializeField] protected Color _hitColour;
 
-    [SerializeField] protected bool isPlayer = false;
+
+
     [SerializeField] protected GameObject _tileprefab;  // tile prefab (editable copy of a tile) linked
     [SerializeField] protected Transform _gridObject;   // creates a parent called gridobject for all the tiles to be put under so they can be
                                                         // anchored and moved together + organised under 1 parent 
@@ -100,7 +102,7 @@ public class GridManager : MonoBehaviour
 
         // In future will need to check if the tile's a special bunker here (special bunkers will be implemented in final prototype)
 
-        tile.TileSpriteRenderer.color = hitColour; // Changes the tiles colour to red (will be a sprite in final iteration just for prototype & testing)
+        tile.TileSpriteRenderer.color = _hitColour; // Changes the tiles colour to red (will be a sprite in final iteration just for prototype & testing)
 
         // Hit animation will be added in the final iteration
         // Sound effect will be added in final iteration
@@ -118,7 +120,7 @@ public class GridManager : MonoBehaviour
 
         // In future will need to check if the tile's a special bunker here (special bunkers will be implemented in final prototype)
 
-        tile.TileSpriteRenderer.color = Color.blue; // changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
+        tile.TileSpriteRenderer.color = _missColour; // changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
 
         // Hit animation will be added in the final iteration
         // Sound effect will be added in final iteration

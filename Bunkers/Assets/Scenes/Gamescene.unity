@@ -5672,6 +5672,8 @@ MonoBehaviour:
   _rows: 9
   _colums: 9
   isPlayer: 1
+  _missColour: {r: 0.043137256, g: 0.5294118, b: 0.14117648, a: 0.3882353}
+  _hitColour: {r: 0, g: 0, b: 0, a: 0.39607844}
   _tileprefab: {fileID: 8513388887282730065, guid: a3a0b28b82c9d224eb041a64db567779, type: 3}
   _gridObject: {fileID: 983897697}
 --- !u!1 &1004181912
@@ -6976,6 +6978,8 @@ MonoBehaviour:
   _rows: 9
   _colums: 9
   isPlayer: 0
+  _missColour: {r: 0.19001423, g: 0.41972658, b: 0.6603774, a: 0}
+  _hitColour: {r: 0.7169812, g: 0.21306516, b: 0.21306516, a: 0}
   _tileprefab: {fileID: 8513388887282730065, guid: bd13868268af49d49a933ff1ddb1f22e, type: 3}
   _gridObject: {fileID: 1224810906}
 --- !u!1 &1243746844
