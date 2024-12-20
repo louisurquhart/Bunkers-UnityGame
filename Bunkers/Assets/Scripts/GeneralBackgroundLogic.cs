@@ -9,36 +9,10 @@ public class GeneralBackgroundLogic : MonoBehaviour
 {
     public static void StartGame()
     {
-        Console.WriteLine("Attempting to start a singleplayer game");
-        SceneManager.LoadScene("Gamescene"); // loads the gamescene
-
-        // Move grid generation function calls to here instead of them being done on start
-        // After grid generation
-
-
-        CommonVariables.Paused = false; // makes sure the game's unpaused
-        CommonVariables.GameActive = true; // sets gameactive == true for other methods and functions to work properly (eg timers)
-    }
-
-    public static bool HasGameEnded() // procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
-    {
-        if (CommonVariables.PlayerBunkerCount == 0)
-        {
-            CommonVariables.PlayerScore += 1; // Updates the players win count in common variables
-            EndGame(0); // End game function. 0 is passed in to signify the player won
-            return true;
-
-        }
-        else if (CommonVariables.PlayerBunkerCount > 0)
-        {
-            return false;
-        }
-        else
-        {
-            Debug.LogError("ERROR - HasGameEnded: Player has less than 0 ships, Ending game"); // error message for testing for a case in which somehow the players ship count's negative
-            EndGame(1); // End game function. 1 is passed in to signify the AI won
-            return true;
-        }
+        Debug.Log("Attempting to start a singleplayer game"); // Outputs a log to the debug console for testing
+        SceneManager.LoadScene("Gamescene"); // Loads the gamescene
+        CommonVariables.Paused = false; // Makes sure the game's unpaused
+        CommonVariables.GameActive = true; // Sets gameactive == true for other methods and functions to work properly (eg timers)
     }
 
     public static void ChangeTurn() // procedure to switch turns between AI and the player
@@ -85,14 +59,14 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static bool Rematch() // function to play another game (when one's lost)
     {
-        return false; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
+
+        return true; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
     }
 
     public static void ResetGame(bool fullReset)
     {
         TimerScripts.Instance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
 
-        // need to either delete both grids 
 
         if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after
         {
@@ -101,14 +75,4 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
     }
 
-    public static Tile GenerateRandomTile(GridManager gridManager) // Method to return a random tile
-    {
-        int randomRow = UnityEngine.Random.Range(0, 10); // Generates a random row
-        int randomColumn = UnityEngine.Random.Range(0, 10); // Generates a random column
-        Tile randomTile = gridManager.Grid[randomRow, randomColumn]; // Finds the position of the random row + column combined and the tile located at it (through the referenced gridmanager)
-
-        return randomTile; // Returns the random tile
-    }
-
 } // ------------------ End of GeneralBackgroundGameLogic class ------------------
-
