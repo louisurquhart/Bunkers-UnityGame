@@ -27,4 +27,11 @@ public class SceneNavigationFunctions : MonoBehaviour
             SceneManager.LoadScene("OptionsMenu");
         }
     }
+
+    public static void GoToAIGame()
+    {
+        GeneralBackgroundLogic.StartGame();
+    }
+
+    
 }

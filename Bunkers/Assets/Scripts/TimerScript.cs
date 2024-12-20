@@ -4,14 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TimerScripts : MonoBehaviour
+public class TimerScript : MonoBehaviour
 {
-    public static TimerScripts Instance { get; private set; } // creates a single instance of this class which all other classes can reference to meaning lots of copies dont need to be 
-                                                              // created to access the non static methods in it
-    public static int PlayerTimeLeft; // creates a float variable to hold the amount of time left for the player
-    public static int AITimeLeft; // creates a float variable to hold the amount of time left for the opponent
-
-    public TMP_Text[] timerTexts; // creates an array for reference of the player timers on screen text (0 = player 1 = AI)
+    public static TimerScript Instance;
 
     private void Awake()
     {
@@ -19,28 +14,30 @@ public class TimerScripts : MonoBehaviour
     }
 
 
+
+    public TMP_Text[] timerTexts; // creates an array for reference of the player timers on screen text (0 = player 1 = AI)
+
     void Start() // Start function to load the saved default times and 
     {
         ResetTime();
         InvokeRepeating("UpdateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
     }
 
-    // Update function which is called every frame. Updates the timers every frame
-    void UpdateTime()
+    void UpdateTime() // Update time function is called by InvokeRepeating every second. Updates time
     {
         //Debug.Log("Updating time");
 
-        bool _validated = CommonVariables.GameActive & !CommonVariables.Paused; // Validation to check if code is safe to execute
+        bool _validated = CommonVariables.GameActive & !CommonVariables.Paused; // Validation to check if game's active and not paused before executing
 
         if (_validated) // Checks validation before executing
         {
             if (CommonVariables.PlayerTurn) // if it's the players turn (signified by playerturn varaible == true)
             {
-                PlayerTimeLeft = PlayerTimeLeft - 1;
-                UpdateTimerText(PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
+                CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1;
+                UpdateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
                 //Debug.Log("New player time: " + PlayerTimeLeft); // outputs log for testing
 
-                if (PlayerTimeLeft == 0) // Checks that the player still has time left
+                if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
                     GeneralBackgroundLogic.EndGame(1); // Calls EndGame function passing in 1 to signify it was the AI who won
                 }
@@ -48,16 +45,17 @@ public class TimerScripts : MonoBehaviour
 
             else // if it isn't the players turn it's assumed to be the AI's turn. 
             {
-                AITimeLeft = AITimeLeft - 1;
-                UpdateTimerText(AITimeLeft, 1); // UpdateTimer procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
+                CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1;
+                UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimer procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
                 //Debug.Log("New AI time: " + PlayerTimeLeft); // outputs log for testing
 
-                if (AITimeLeft == 0) // Checks that the AI still has time left
+                if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
                     GeneralBackgroundLogic.EndGame(0); // Calls EndGame function passing in 0 to signify it was the player who won
                 }
             }
         }
+
     } 
     // End of UpdateTime procedure
 
@@ -66,7 +64,7 @@ public class TimerScripts : MonoBehaviour
     {
         if (entity >= 0 && entity <=1) // validation for entity input to make sure it's either 0 or 1 (player or AI)
         {
-            var (minutes, remainderSeconds) = SecondsToTime(PlayerTimeLeft);
+            var (minutes, remainderSeconds) = SecondsToTime(CommonVariables.PlayerTimeLeft);
             timerTexts[entity].SetText(minutes + ":" + remainderSeconds);
         }
         else // else means validation has failed (entity is out of bounds)
@@ -79,16 +77,15 @@ public class TimerScripts : MonoBehaviour
     public static (string sMinutes, string sRemainderSeconds) SecondsToTime(int seconds) // Input: Seconds -> Output: Minutes + ReaminderSeconds
     {
         
-        if (seconds >= 0 && seconds < 3600) // validation to check inputted time's within bounds
+        if (seconds >= 0 && seconds <= 3600) // Validates seconds are within bounds (0 - 3
         {
             int minutes = seconds / 60; // divdes the int seconds by 60 to find out how many minutes there are in the amount of seconds
-            int remainderSeconds = seconds % 60; // uses modulus to find the remainder seconds
-            //Debug.Log("Minutes: " + minutes + " Seconds: " + remainderSeconds);
+            int remainderSeconds = seconds % 60; // Uses modulus to find the remainding seconds
             string sMinutes = minutes.ToString();
-            string sRemainderSeconds = remainderSeconds.ToString("D2");
-            return (sMinutes, sRemainderSeconds); // returns minutes + remaindingseconds
+            string sRemainderSeconds = remainderSeconds.ToString("D2"); // Converts the remainding seconds to a string with "D2" signifying only 2 digits (removes any decimals)
+            return (sMinutes, sRemainderSeconds); // Returns minutes + remaindingseconds
         }
-        else // if validation fails
+        else // If validation fails
         {
             //Debug.LogError("SecondsToTime: Inputted seconds are out of bounds, Convertion failed."); // outputs error to console for testing/debugging
             return ("7", "30"); // returns the default time
@@ -98,14 +95,14 @@ public class TimerScripts : MonoBehaviour
     public void ResetTime()
     {
         // The Player and AI Time variables are set to either the saved times or a default time
-        PlayerTimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the Player time value set in options with playerprefs and sets PlayerTimeLeft variable to it (if no value the default's set to 450 seconds)
-        AITimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the AI time value set in options and sets the AITimeLeft variable to it (if no value the default's set to 450 seconds)
+        CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the Player time value set in options with playerprefs and sets PlayerTimeLeft variable to it (if no value the default's set to 450 seconds)
+        CommonVariables.AITimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the AI time value set in options and sets the AITimeLeft variable to it (if no value the default's set to 450 seconds)
         //Debug.Log("AI loaded time value: " + AITimeLeft);
         //Debug.Log("Player loaded time value : " + PlayerTimeLeft);
 
         // UpdateTimerText functions then called to update the onscreen text to the values
-        UpdateTimerText(PlayerTimeLeft, 0);
-        UpdateTimerText(AITimeLeft, 1);
+        UpdateTimerText(CommonVariables.PlayerTimeLeft, 0);
+        UpdateTimerText(CommonVariables.AITimeLeft, 1);
     }
 
 

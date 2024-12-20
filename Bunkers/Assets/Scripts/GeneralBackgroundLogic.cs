@@ -7,30 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class GeneralBackgroundLogic : MonoBehaviour
 {
-    public static void StartGame()
+    [SerializeField] TimerScript timerScript; // Reference to the timerscript instance. Linked via unity inspector
+    public static void StartGame() // Procedure to start a new game
     {
         Debug.Log("Attempting to start a singleplayer game"); // Outputs a log to the debug console for testing
-        SceneManager.LoadScene("Gamescene"); // Loads the gamescene
+        ResetGame(false); // Calls ResetGame function (with false to signify not full reset) to ensure game is reset (should already be)
         CommonVariables.Paused = false; // Makes sure the game's unpaused
         CommonVariables.GameActive = true; // Sets gameactive == true for other methods and functions to work properly (eg timers)
+        SceneManager.LoadScene("Gamescene"); // Loads the gamescene
     }
 
-    public static void ChangeTurn() // procedure to switch turns between AI and the player
+    public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
-
-        if (CommonVariables.PlayerTurn) // If it's currently the player turn
-        {
-            CommonVariables.PlayerTurn = false; //  PlayerTurn is set to false making it the AI's turn
-            Debug.Log("Turn changed from AI's turn -> Players turn"); // outputs message to debug log that the turns changed (how its changed too) for debugging + testing
-                                                                      // Will need to call AITurn procedure when it's made
-        }
-        else // Otherwise if it's not the players turn it assumes it's the AI's turn
-        {
-            CommonVariables.PlayerTurn = true; // PlayerTurn is set to true making it the players turn.
-            Debug.Log("Turn changed from Players turn -> AI's turn"); // outputs message to debug log that the turns changed (how its changed too) for debugging + testing
-            // Will need to call PlayerTurn procedure when it's made
-        }
+        CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
+        Debug.Log($"Turn changed to {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
     }
+
     public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic
     {
         CommonVariables.GameActive = false; // makes the gameactive variable false
@@ -45,9 +37,9 @@ public class GeneralBackgroundLogic : MonoBehaviour
         {
             CommonVariables.AIScore += 1;
 
-            AdditiveGameMenus.Instance.EnableEndScreen(); // enables end screen overlay after scores have been updated so they're updated on the end screen
+            AdditiveGameMenus.Instance.EnableEndScreen(); // Enables end screen overlay after scores have been updated so the end screen updates with the new score values
 
-            // need to update statistics
+            // Will update statistics in later iteration
         }
     } // End of EndGame method
 
@@ -59,16 +51,16 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static bool Rematch() // function to play another game (when one's lost)
     {
-
+        ResetGame(false); // Calls ResetGame function to reset game state to default. Inputs false to not full reset so scores remain
+        SceneManager.LoadScene("Gamescene"); // Loads the gamescene again
         return true; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
     }
 
     public static void ResetGame(bool fullReset)
     {
-        TimerScripts.Instance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
+        TimerScript.Instance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
 
-
-        if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after
+        if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {
             CommonVariables.AIScore = 0;
             CommonVariables.PlayerScore = 0;
