@@ -1945,7 +1945,7 @@ GameObject:
   - component: {fileID: 294954938}
   - component: {fileID: 294954939}
   m_Layer: 0
-  m_Name: bottom backboard
+  m_Name: BottomBackboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2209,6 +2209,9 @@ GameObject:
   - component: {fileID: 374169911}
   - component: {fileID: 374169910}
   - component: {fileID: 374169909}
+  - component: {fileID: 374169913}
+  - component: {fileID: 374169912}
+  - component: {fileID: 374169914}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2266,6 +2269,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &374169912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerTexts:
+  - {fileID: 902294815}
+  - {fileID: 581187464}
+--- !u!114 &374169913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c29f364fffa0945baa6a8097c3f3af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instanceReferences: {fileID: 0}
+--- !u!114 &374169914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21699849796de8f49958eb41f16084a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerTimerText: {fileID: 0}
+  AITimerText: {fileID: 0}
+  TimerScriptInstance: {fileID: 0}
 --- !u!1 &453057409
 GameObject:
   m_ObjectHideFlags: 0
@@ -5954,7 +6000,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 0f87c9d004860d944af8900488b0cb76, type: 3}
   m_Color: {r: 0.9245283, g: 0.17880027, b: 0.318652, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7480,7 +7526,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 0f87c9d004860d944af8900488b0cb76, type: 3}
   m_Color: {r: 0, g: 0.65493673, b: 0.8679245, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7799,7 +7845,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1661401415}
-  - component: {fileID: 1661401416}
   m_Layer: 0
   m_Name: Scores + Timers
   m_TagString: Untagged
@@ -7824,21 +7869,6 @@ Transform:
   - {fileID: 921604547}
   m_Father: {fileID: 1044650140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1661401416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1661401414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerTexts:
-  - {fileID: 902294815}
-  - {fileID: 581187464}
 --- !u!1 &1686202798
 GameObject:
   m_ObjectHideFlags: 0

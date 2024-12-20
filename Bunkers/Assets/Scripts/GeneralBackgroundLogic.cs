@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GeneralBackgroundLogic : MonoBehaviour
 {
-    [SerializeField] TimerScript timerScript; // Reference to the timerscript instance. Linked via unity inspector
+    [SerializeField] GameObject instanceReferences;
     public static void StartGame() // Procedure to start a new game
     {
         Debug.Log("Attempting to start a singleplayer game"); // Outputs a log to the debug console for testing
@@ -58,7 +58,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static void ResetGame(bool fullReset)
     {
-        TimerScript.Instance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
+        InstanceReferences.instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
 
         if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {
