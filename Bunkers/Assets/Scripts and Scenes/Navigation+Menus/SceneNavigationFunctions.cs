@@ -11,7 +11,7 @@ public class SceneNavigationFunctions : MonoBehaviour
         SceneManager.LoadScene("MainMenu"); // unloads current scene and loads main menu scene
     }
 
-    public static void GoToStatisticsMenu()
+    public void GoToStatisticsMenu()
     {
         SceneManager.LoadScene("StatisticsMenu"); // unloads current scene and loads statistics menu
     }
@@ -26,6 +26,11 @@ public class SceneNavigationFunctions : MonoBehaviour
         {
             SceneManager.LoadScene("OptionsMenu");
         }
+    }
+
+    public static void GoToInformationMenu()
+    {
+        SceneManager.LoadScene("InformationMenu");
     }
 
     public static void GoToAIGame()

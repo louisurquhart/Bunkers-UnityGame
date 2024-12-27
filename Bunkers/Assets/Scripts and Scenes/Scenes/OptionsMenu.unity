@@ -128,7 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2902668}
-  - component: {fileID: 2902669}
   m_Layer: 5
   m_Name: Volume
   m_TagString: Untagged
@@ -143,7 +142,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2902667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -151,27 +150,13 @@ RectTransform:
   - {fileID: 499719373}
   - {fileID: 765925608}
   - {fileID: 2129693469}
-  m_Father: {fileID: 1197787207}
+  m_Father: {fileID: 1877745325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.35791, y: -80.11194}
+  m_AnchoredPosition: {x: 42.413086, y: 285.98157}
   m_SizeDelta: {x: 673.51, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2902669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2902667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b848abd372bdc84cb8e2c1d0e74853b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VolSlider: {fileID: 499719374}
-  VolSliderText: {fileID: 2129693470}
 --- !u!1 &5207125
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &5207128
@@ -272,13 +257,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: ChangeDifficulty
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 13
           m_FloatArgument: 0
           m_StringArgument: Easy
           m_BoolArgument: 0
@@ -358,7 +343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -414.6667, y: -221.87253}
+  m_AnchoredPosition: {x: -413.6, y: -223.1}
   m_SizeDelta: {x: -913.78, y: -500.8994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &60948080
@@ -724,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &162191776
@@ -772,13 +757,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: ChangeDifficulty
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 12
           m_FloatArgument: 0
           m_StringArgument: Medium
           m_BoolArgument: 0
@@ -1275,7 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &351148807
@@ -1323,13 +1308,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: StatisticRecordingType
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 42
           m_FloatArgument: 0
           m_StringArgument: Competitive
           m_BoolArgument: 0
@@ -1400,7 +1385,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 474967216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1409,8 +1394,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 240, y: -0.000030517578}
-  m_SizeDelta: {x: 199.3882, y: 89.7517}
+  m_AnchoredPosition: {x: -15, y: 0}
+  m_SizeDelta: {x: 199.3882, y: 89.752}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &474967218
 MonoBehaviour:
@@ -1424,8 +1409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &474967219
 MonoBehaviour:
@@ -1472,13 +1457,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: StatisticRecordingStatus
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 31
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1611,9 +1596,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2902669}
-        m_TargetAssemblyTypeName: VolumeSlider, Assembly-CSharp
-        m_MethodName: VolumeChange
+      - m_Target: {fileID: 1514742740}
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1811,8 +1796,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &566117703
 MonoBehaviour:
@@ -1859,13 +1844,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: ChangeDifficulty
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 11
           m_FloatArgument: 0
           m_StringArgument: Hard
           m_BoolArgument: 0
@@ -3054,7 +3039,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094081924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3063,7 +3048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 321.87253}
+  m_AnchoredPosition: {x: 265, y: 321.87253}
   m_SizeDelta: {x: 199.3882, y: 89.7517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1094081926
@@ -3078,7 +3063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &1094081927
@@ -3126,13 +3111,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: SpecialStrikesStatus
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 22
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3247,7 +3232,6 @@ RectTransform:
   m_Children:
   - {fileID: 1411436119}
   - {fileID: 2025977594}
-  - {fileID: 2902668}
   m_Father: {fileID: 1877745325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3493,7 +3477,6 @@ GameObject:
   - component: {fileID: 1258791904}
   - component: {fileID: 1258791907}
   - component: {fileID: 1258791906}
-  - component: {fileID: 1258791908}
   m_Layer: 5
   m_Name: Options menu
   m_TagString: Untagged
@@ -3509,7 +3492,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258791903}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 200}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3561,19 +3544,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258791903}
   m_CullTransparentMesh: 1
---- !u!114 &1258791908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1258791903}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0742037977dfcf45951638ecb9ec6dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OptionsEventManager: {fileID: 0}
 --- !u!1 &1273035497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,8 +3734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &1278234425
 MonoBehaviour:
@@ -3812,13 +3782,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: StatisticRecordingType
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 41
           m_FloatArgument: 0
           m_StringArgument: All
           m_BoolArgument: 0
@@ -3887,7 +3857,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407948154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4239,7 +4209,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1424386662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4248,7 +4218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 265, y: 321.87253}
+  m_AnchoredPosition: {x: 40, y: 321.87253}
   m_SizeDelta: {x: 199.3882, y: 89.7517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424386664
@@ -4263,8 +4233,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &1424386665
 MonoBehaviour:
@@ -4311,13 +4281,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: SpecialStrikesStatus
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 21
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4388,7 +4358,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465340485}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4397,8 +4367,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 0}
-  m_SizeDelta: {x: 199.3882, y: 89.7517}
+  m_AnchoredPosition: {x: 240, y: 0}
+  m_SizeDelta: {x: 199.3882, y: 89.752}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1465340487
 MonoBehaviour:
@@ -4412,7 +4382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &1465340488
@@ -4437,7 +4407,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.7176471}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -4460,13 +4430,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: StatisticRecordingStatus
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 32
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4760,7 +4730,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0742037977dfcf45951638ecb9ec6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OptionsEventManager: {fileID: 2084778546}
+  _difficultyButtonReferences:
+  - {fileID: 566117700}
+  - {fileID: 162191773}
+  - {fileID: 5207125}
+  _specialStrikeStatusButtonReferences:
+  - {fileID: 1424386662}
+  - {fileID: 1094081924}
+  _statisticRecordingStatusButtonReferences:
+  - {fileID: 474967216}
+  - {fileID: 1465340485}
+  _statisticRecordingTypeButtonReferences:
+  - {fileID: 1278234422}
+  - {fileID: 351148804}
+  - {fileID: 2084376975}
+  _volumeSliderGameObjectReferences:
+  - {fileID: 499719372}
+  - {fileID: 2129693468}
 --- !u!1 &1520992152
 GameObject:
   m_ObjectHideFlags: 0
@@ -5134,7 +5120,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1258791908}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
         m_MethodName: ExitButton
         m_Mode: 1
@@ -5552,7 +5538,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1663188758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -200}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5830,6 +5816,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2902668}
   - {fileID: 1197787207}
   m_Father: {fileID: 1407948155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6201,7 +6188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!114 &2084376978
@@ -6249,13 +6236,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1514742740}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
-        m_MethodName: StatisticRecordingType
-        m_Mode: 5
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
+        m_MethodName: changeSetting
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 43
           m_FloatArgument: 0
           m_StringArgument: Fun
           m_BoolArgument: 0
