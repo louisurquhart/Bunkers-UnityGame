@@ -7,11 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class GeneralBackgroundLogic : MonoBehaviour
 {
-    [SerializeField] GameObject instanceReferences;
     public static void StartGame() // Procedure to start a new game
     {
         Debug.Log("Attempting to start a singleplayer game"); // Outputs a log to the debug console for testing
-        ResetGame(false); // Calls ResetGame function (with false to signify not full reset) to ensure game is reset (should already be)
         CommonVariables.Paused = false; // Makes sure the game's unpaused
         CommonVariables.GameActive = true; // Sets gameactive == true for other methods and functions to work properly (eg timers)
         SceneManager.LoadScene("Gamescene"); // Loads the gamescene
@@ -37,7 +35,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         {
             CommonVariables.AIScore += 1;
 
-            AdditiveGameMenus.Instance.EnableEndScreen(); // Enables end screen overlay after scores have been updated so the end screen updates with the new score values
+            AdditiveGameMenus.ToggleEndScreen  (); // Enables end screen overlay after scores have been updated so the end screen updates with the new score values
 
             // Will update statistics in later iteration
         }
@@ -58,7 +56,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static void ResetGame(bool fullReset)
     {
-        InstanceReferences.instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
+        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default  24681
 
         if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {
@@ -66,5 +64,23 @@ public class GeneralBackgroundLogic : MonoBehaviour
             CommonVariables.PlayerScore = 0;
         }
     }
+
+    // Pause menu procedures
+    public static void TogglePauseStatus() // Procedure to pause the game
+    {
+        CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
+        InstanceReferences.Instance.PauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
+
+        if (CommonVariables.Paused)
+        {
+            Time.timeScale = 0f; // Sets the speed of time to 0 stopping timers and pausing game 
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+
 
 } // ------------------ End of GeneralBackgroundGameLogic class ------------------

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scripts and Scenes/Scenes/Common scene.unity
     guid: e27a2c4f07d42ef4791415961d917cab
+  - enabled: 1
+    path: Assets/Scripts and Scenes/Scenes/InformationMenu.unity
+    guid: ba61727fde6f3e948aa116a973ac27a0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 72d3a46f032556149b95359d670dcd82, type: 2}
   m_UseUCBPForAssetBundles: 0

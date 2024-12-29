@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+
 
 
 public class OptionsMenuFunctionality : MonoBehaviour
@@ -82,7 +79,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     // ------------------------------ HIGHLIGHT SAVED BUTTONS PROCEDURE (called on start) -----------------------------------------
     private void loadSavedButtonValues()  // Called to highlight the option buttons which values were loaded from the users saved playerpreferences (if no values saved, the default value is highlighted)
     {
-        for(int i = 0; i < gameObjectArrays.Length; i++) // For loop goes through all the items in gameObjectArray
+        for(int i = 0; i < _arrayCount; i++) // For loop goes through all the items in gameObjectArray
         {
             Array currentArray = gameObjectArrays[i]; // Reference is created for current array in question for easier maintainability + readability
             Debug.Log($"currentArray is now set to array {i}");

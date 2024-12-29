@@ -795,7 +795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: 'Total games won:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2281,9 +2281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTexts:
-  - {fileID: 902294815}
-  - {fileID: 581187464}
 --- !u!114 &374169913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2296,7 +2293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c29f364fffa0945baa6a8097c3f3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceReferences: {fileID: 0}
 --- !u!114 &374169914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2309,9 +2305,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21699849796de8f49958eb41f16084a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerTimerText: {fileID: 0}
-  AITimerText: {fileID: 0}
-  TimerScriptInstance: {fileID: 0}
+  PlayerTimerText: {fileID: 902294815}
+  AITimerText: {fileID: 581187464}
+  EndMenuUI: {fileID: 328331170}
+  PauseMenuUI: {fileID: 2011272633}
+  TimerScriptInstance: {fileID: 374169912}
+  GeneralBackgroundLogicInstance: {fileID: 374169913}
 --- !u!1 &453057409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,7 +2410,7 @@ GameObject:
   - component: {fileID: 581187465}
   - component: {fileID: 581187464}
   m_Layer: 0
-  m_Name: Opponent time
+  m_Name: AITime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3427,7 +3426,7 @@ GameObject:
   - component: {fileID: 679577745}
   - component: {fileID: 679577744}
   m_Layer: 0
-  m_Name: Opponent score
+  m_Name: AIScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4210,9 +4209,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430966656}
-        m_TargetAssemblyTypeName: UIPauseMenu, Assembly-CSharp
-        m_MethodName: Pause
+      - m_Target: {fileID: 374169913}
+        m_TargetAssemblyTypeName: GeneralBackgroundLogic, Assembly-CSharp
+        m_MethodName: TogglePauseStatus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5035,7 +5034,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921604547}
   m_Layer: 0
-  m_Name: Opponent scores + timers
+  m_Name: AI scores + timers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6985,8 +6984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndMenuUI: {fileID: 328331170}
-  PauseMenuUI: {fileID: 2011272633}
 --- !u!1 &1435417147
 GameObject:
   m_ObjectHideFlags: 0
@@ -7914,7 +7911,7 @@ GameObject:
   - component: {fileID: 1709789909}
   - component: {fileID: 1709789908}
   m_Layer: 0
-  m_Name: AI name
+  m_Name: AIName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,16 +6,14 @@ using TMPro;
 
 public class TimerScript : MonoBehaviour
 {
-    public static TimerScript Instance;
+    // Creates references to the TMP text objects in game for modification in an array
+    TMP_Text[] timerTexts = new TMP_Text[2];
 
     private void Awake()
     {
-        Instance = this;
+        timerTexts[0] = InstanceReferences.Instance.PlayerTimerText;
+        timerTexts[1] = InstanceReferences.Instance.AITimerText;
     }
-
-
-
-    public TMP_Text[] timerTexts; // creates an array for reference of the player timers on screen text (0 = player 1 = AI)
 
     void Start() // Start function to load the saved default times and 
     {
@@ -60,7 +58,7 @@ public class TimerScript : MonoBehaviour
     // End of UpdateTime procedure
 
     // Function to update the onscreen timer. 
-    public void UpdateTimerText(float seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
+    private void UpdateTimerText(float seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
     {
         if (entity >= 0 && entity <=1) // validation for entity input to make sure it's either 0 or 1 (player or AI)
         {
@@ -74,7 +72,7 @@ public class TimerScript : MonoBehaviour
     }
 
     // SecondsToTime function where seconds are converted into minutes + remainder seconds. Seperate function for easier maintance and addition of new features.
-    public static (string sMinutes, string sRemainderSeconds) SecondsToTime(int seconds) // Input: Seconds -> Output: Minutes + ReaminderSeconds
+    private static (string sMinutes, string sRemainderSeconds) SecondsToTime(int seconds) // Input: Seconds -> Output: Minutes + ReaminderSeconds
     {
         
         if (seconds >= 0 && seconds <= 3600) // Validates seconds are within bounds (0 - 3
@@ -87,7 +85,7 @@ public class TimerScript : MonoBehaviour
         }
         else // If validation fails
         {
-            //Debug.LogError("SecondsToTime: Inputted seconds are out of bounds, Convertion failed."); // outputs error to console for testing/debugging
+            Debug.LogError("SecondsToTime: Inputted seconds are out of bounds, Convertion failed."); // outputs error to console for testing/debugging
             return ("7", "30"); // returns the default time
         }
     }
@@ -104,7 +102,4 @@ public class TimerScript : MonoBehaviour
         UpdateTimerText(CommonVariables.PlayerTimeLeft, 0);
         UpdateTimerText(CommonVariables.AITimeLeft, 1);
     }
-
-
-
 } // ------------------------------------------ END OF CLASS ------------------------------------------------------------------

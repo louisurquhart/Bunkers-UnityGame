@@ -1,23 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class InstanceReferences : MonoBehaviour
 {
-    public static InstanceReferences instance;
+    public static InstanceReferences Instance;
     private void Awake()
     {
-        GameObject eventSystem = GameObject.Find("EventSystem");
-        instance = eventSystem.GetComponent<InstanceReferences>();
+        Instance = this;
+
+        //GameObject eventSystem = GameObject.Find("EventSystem");
+        //Instance = eventSystem.GetComponent<InstanceReferences>();
     }
 
     // Timer text references
-    public GameObject PlayerTimerText;
-    public GameObject AITimerText;
+    public TMP_Text PlayerTimerText;
+    public TMP_Text AITimerText;
 
-    // Timer script instance
+    public GameObject EndMenuUI;
+    public GameObject PauseMenuUI;
+    
+   
     public TimerScript TimerScriptInstance;
+    public GeneralBackgroundLogic GeneralBackgroundLogicInstance;
 
 }
 
