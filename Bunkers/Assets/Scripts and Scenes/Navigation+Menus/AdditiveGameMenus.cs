@@ -19,7 +19,8 @@ public class AdditiveGameMenus : MonoBehaviour
     // Both menu procedures
     public static void ExitToMenuButton() // Procedure to end the game + go to main menu
     {
-        GeneralBackgroundLogic.ResetGame(true); // calls the ResetGame function to put the game in a new state for if it's started again.                                    // Passes in true to signify the reset will be full (completely resets the state of the game)
+        GeneralBackgroundLogic.ResetGame(true); // calls the ResetGame function to put the game in a new state for if it's started again.                                   
+        // Passes in true to signify the reset will be full (completely resets the state of the game)
         SceneNavigationFunctions.GoToMainMenu(); // returns user to main menu
     }
 
