@@ -21,7 +21,7 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         "HitRate%",
         "Wins",
         "Losses",
-        "Winrate%"
+        "WinRate%"
     };
 
     String[] _funPlayerPrefNames = new string[_funArrayCount]
@@ -30,7 +30,7 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         "TimeSpentInGame",
         "BunkersDestroyed",
         "GamesPlayed",
-        "TotalGameLaunches"
+        "TotalGamesLaunched"
     };
 
 
@@ -39,32 +39,34 @@ public class StatisticsMenuFunctionality : MonoBehaviour
 
     private void Awake() // Method called immediately after class is initialized
     {
-        // Adds the sub arrays to the main array
+        // Adds the sub TMP arrays to the main TMP array
         _tmpTextArrays[0] = _competitiveStatisticReferences;
         _tmpTextArrays[1] = _funStatisticsReferences;
+
+        // Adds the sub playerPrefName arrays to the name playerPrefName array array
+        _playerPrefArrays[0] = _competitvePlayerPrefNames;
+        _playerPrefArrays[1] = _funPlayerPrefNames;
     }
 
 
     private void Start()
     {
-        // Edge case values/figures set for loading of statistic values
-        PlayerPrefs.SetInt("TotalNumberOfHits", 1000);
-        PlayerPrefs.SetInt("WinRate%", 1000);
-        PlayerPrefs.SetInt("SpecialStrikesUsed", 1000);
-        PlayerPrefs.SetInt("TotalGamesLaunched", 1000);
+        loadStatisticValues(); // Saved statistics are loaded 
     }
 
     // ------------ Procedure to load the players statistics onto the menu's text values --------------
     private void loadStatisticValues() 
     {
-        for(int i = 0; i <= _arrayCount; i++) // Loops through the sub arrays in the main array
+        for(int i = 0; i < _arrayCount; i++) // Loops through the sub arrays in the main array
         {
             Array currentPlayerPrefArray = _playerPrefArrays[i]; // Creates a reference to the current PlayerPrefName array (for maintainability + easy referencing)
             Array currentGameObjectArray = _tmpTextArrays[i]; // Creates a reference to the current GameObject array (for maintainability + easy referencing)
 
 
-            for (int k = 0; k <= currentGameObjectArray.Length; k++) // Loops through for each value in the array to load each statistic value for each in game text value
+            for (int k = 0; k < currentGameObjectArray.Length; k++) // Loops through for each value in the array to load each statistic value for each in game text value
             {
+                Debug.Log($"Updating array: {i} at position: {k}");
+                Debug.Log($"INFO: PlayerPrefValue: {PlayerPrefs.GetInt((string) currentPlayerPrefArray.GetValue(k), 0)} PlayerPrefName: {(string)currentPlayerPrefArray.GetValue(k)}");
                 int loadedValue = PlayerPrefs.GetInt((string)currentPlayerPrefArray.GetValue(k), 0); // Finds the saved statistic value (if no saved value, default of 0's loaded)
 
                 TMP_Text tmpText = (TMP_Text)currentGameObjectArray.GetValue(k); // Finds the TMP component in the array

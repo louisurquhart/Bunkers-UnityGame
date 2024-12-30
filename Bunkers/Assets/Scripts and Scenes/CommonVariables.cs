@@ -9,7 +9,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
 {
     // ----------------- GAME STATE BOOLEAN VALUES ---------------
 
-    public static bool GameActive = false; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
+    public static bool GameActive = true; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
     public static bool PlayerTurn = true;  // Boolean property to signify it's currently the players turn (true by default as player starts by default)
     public static bool Paused = false; // Boolean property to signify if the game is paused or not
 
@@ -23,13 +23,20 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         get { return playerTimeLeft; } 
         set
         {
-            if (value >= 0 && value <= 900) // Validates given time value's within bounds 0-900 
+            if (GameActive)
             {
-                playerTimeLeft = value;
+                if (value >= 0 && value <= 900) // Validates given time value's within bounds 0-900 
+                {
+                    playerTimeLeft = value;
+                }
+                else
+                {
+                    Debug.LogError($"Invalid value inputted for PlayerTimeLeft. Value given == {value}. No changes applied"); // If validation fails an errors outputted for testing
+                }
             }
             else
             {
-                Debug.LogError($"Invalid value inputted for PlayerTimeLeft. Value given == {value}. No changes applied"); // If validation fails an errors outputted for testing
+                playerTimeLeft = value;
             }
         }
     }
@@ -55,16 +62,16 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
 
     // --------------------- SCORE PROPERTIES ---------------------
 
-    // Player score property
-    private static int playerScore;
+    // Player score property (encapsulated + validated) 
+    private static int playerScore; 
     static public int PlayerScore
     {
         get { return playerScore; }
         set 
         { 
-            if (value == playerScore + 1) 
+            if (value == playerScore + 1 || value == 0) // Validates new value's either incremented or reset
             {
-                playerScore = value; 
+                playerScore = value; // If so the encapsulated value's set to the input
             }
             else
             {
@@ -73,16 +80,17 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         }
     }
 
-    // AI score property
+    // AI score property (encapsulated + validated)
+
     private static int aiScore = 0;
     static public int AIScore
     {
         get { return aiScore; }
         set
         { 
-            if (value == aiScore + 1 || value == 0) 
+            if (value == aiScore + 1 || value == 0)  // Validates new value's either incremented or reset
             {
-                aiScore = value; 
+                aiScore = value; // If so the encapsulated value's set to the input
             }
             else
             {

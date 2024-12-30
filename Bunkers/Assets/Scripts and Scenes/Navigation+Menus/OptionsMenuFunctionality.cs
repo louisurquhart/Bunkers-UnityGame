@@ -119,7 +119,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
 
     // -------------------------------------- CHANGE BUTTON PROCEDURE -----------------------------------------
-    [SerializeField] private void changeSetting(int settingAndValueRef) 
+    public void ChangeSetting(int settingAndValueRef) 
     {
         int settingNumberRef = findFirstDigit(settingAndValueRef) -1;
         int value = findLastDigit(settingAndValueRef) -1;
@@ -147,7 +147,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     // -------------------------------------- CHANGE SLIDER PRODCEDURE -----------------------------------------
 
     // Change the volume
-    public void changeVolume() // Method called when volume sliders value's changed
+    public void ChangeVolume() // Method called when volume sliders value's changed
     {
         // Creates references to the specific components needed
         Slider volSlider = _volumeSliderGameObjectReferences[0].GetComponent<Slider>();
@@ -161,7 +161,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
     }
 
     // ------------------------------------ BACK BUTTON --------------------------------------------
-    private void exitButton()
+    
+    public void ExitButton()
     {
         if (!CommonVariables.GameActive) // If a game isn't currently active
         {
@@ -169,7 +170,11 @@ public class OptionsMenuFunctionality : MonoBehaviour
         }
         else // Otherwise if a game is currently active
         {
-            SceneManager.UnloadSceneAsync("OptionsMenu"); // If a game's active it only unloads the option menu because the users in the middle of the game and the scene is overlayed ontop of it.
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Gamescene"));
+            InstanceReferences.Instance.GameSceneAudioListener.enabled = true;
+            InstanceReferences.Instance.GameSceneEventSystemParent.SetActive(true);
+            SceneManager.UnloadSceneAsync("OptionsMenu"); // If a game's active it only unloads the option menu because the users in the middle of the game
+                                                          // and the scene is overlayed ontop of it.
         }
     }
 

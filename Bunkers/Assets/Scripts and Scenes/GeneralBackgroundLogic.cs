@@ -18,7 +18,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
         CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
-        Debug.Log($"Turn changed to {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
+        Debug.Log($"PlayerTurn changed to: {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
     }
 
     public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic
@@ -44,6 +44,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void ForceEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
     {
         // maybe update statistics for games quit
+        SceneNavigationFunctions.GoToMainMenu();
         ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
     }
 
@@ -56,7 +57,9 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static void ResetGame(bool fullReset)
     {
-        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default  24681
+        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default 
+        CommonVariables.GameActive = false;
+        CommonVariables.Paused = false;
 
         if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {

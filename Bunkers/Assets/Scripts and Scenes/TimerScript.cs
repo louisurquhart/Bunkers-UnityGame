@@ -21,19 +21,19 @@ public class TimerScript : MonoBehaviour
         InvokeRepeating("UpdateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
     }
 
+
+
     void UpdateTime() // Update time function is called by InvokeRepeating every second. Updates time
     {
-        //Debug.Log("Updating time");
-
         bool _validated = CommonVariables.GameActive & !CommonVariables.Paused; // Validation to check if game's active and not paused before executing
 
         if (_validated) // Checks validation before executing
         {
-            if (CommonVariables.PlayerTurn) // if it's the players turn (signified by playerturn varaible == true)
+            if (CommonVariables.PlayerTurn) // If it's the players turn (signified by playerturn varaible == true)
             {
                 CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1;
                 UpdateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
-                //Debug.Log("New player time: " + PlayerTimeLeft); // outputs log for testing
+                Debug.Log($"New player time: {CommonVariables.PlayerTimeLeft}"); // outputs log for testing
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
@@ -41,11 +41,11 @@ public class TimerScript : MonoBehaviour
                 }
             }
 
-            else // if it isn't the players turn it's assumed to be the AI's turn. 
+            else // If it isn't the players turn it's assumed to be the AI's turn. 
             {
                 CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1;
                 UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimer procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
-                //Debug.Log("New AI time: " + PlayerTimeLeft); // outputs log for testing
+                Debug.Log($"New player time: {CommonVariables.AITimeLeft}"); // outputs log for testing
 
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
@@ -58,14 +58,14 @@ public class TimerScript : MonoBehaviour
     // End of UpdateTime procedure
 
     // Function to update the onscreen timer. 
-    private void UpdateTimerText(float seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
+    private void UpdateTimerText(int seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
     {
-        if (entity >= 0 && entity <=1) // validation for entity input to make sure it's either 0 or 1 (player or AI)
+        if (entity >= 0 && entity <=1) // Validation for entity input to make sure it's within bounds (either 0 or 1 /player or AI)
         {
-            var (minutes, remainderSeconds) = SecondsToTime(CommonVariables.PlayerTimeLeft);
+            var (minutes, remainderSeconds) = SecondsToTime(seconds);
             timerTexts[entity].SetText(minutes + ":" + remainderSeconds);
         }
-        else // else means validation has failed (entity is out of bounds)
+        else // Else means validation has failed (entity is out of bounds)
         {
             Debug.LogError("UpdateTimer: Entity input is out of bounds (Entity: " +  entity + "). Unable to update timer."); // outputs an error to the log that there has been a wrong input
         }

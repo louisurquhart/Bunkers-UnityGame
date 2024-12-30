@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 380016916}
   - component: {fileID: 380016915}
   m_Layer: 5
-  m_Name: LossesValue
+  m_Name: WinRate%Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2152,6 +2152,7 @@ GameObject:
   - component: {fileID: 1154269462}
   - component: {fileID: 1154269461}
   - component: {fileID: 1154269465}
+  - component: {fileID: 1154269466}
   m_Layer: 5
   m_Name: StatisticsCanvas
   m_TagString: Untagged
@@ -2254,6 +2255,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6f426e40ad9e74d928cfa96de59c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1154269466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154269460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f307f160f4ea0054aa44976293517868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _competitiveStatisticReferences:
+  - {fileID: 1496392532}
+  - {fileID: 1538276825}
+  - {fileID: 449658846}
+  - {fileID: 704994217}
+  - {fileID: 1411399139}
+  - {fileID: 380016915}
+  _funStatisticsReferences:
+  - {fileID: 1848562521}
+  - {fileID: 640609217}
+  - {fileID: 875456689}
+  - {fileID: 1421541816}
+  - {fileID: 2141287005}
 --- !u!1 &1155658559
 GameObject:
   m_ObjectHideFlags: 0

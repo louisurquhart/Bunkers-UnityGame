@@ -258,7 +258,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -758,7 +758,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1309,7 +1309,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1458,7 +1458,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1845,7 +1845,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3112,7 +3112,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3783,7 +3783,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4282,7 +4282,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4431,7 +4431,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5120,8 +5120,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OptionsButtons, Assembly-CSharp
+      - m_Target: {fileID: 1514742740}
+        m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
         m_MethodName: ExitButton
         m_Mode: 1
         m_Arguments:
@@ -6237,7 +6237,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1514742740}
         m_TargetAssemblyTypeName: OptionsMenuFunctionality, Assembly-CSharp
-        m_MethodName: changeSetting
+        m_MethodName: ChangeSetting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6297,7 +6297,7 @@ GameObject:
   - component: {fileID: 2084778548}
   - component: {fileID: 2084778547}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: OptionsEventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InstanceReferences : MonoBehaviour
 {
@@ -57,5 +58,19 @@ public class InstanceReferences : MonoBehaviour
     {
         get { return generalBackgroundLogicInstance; }
     }
-}
 
+    // GameScene event system reference
+
+    [SerializeField] private GameObject gameSceneEventSystemParent;
+    public GameObject GameSceneEventSystemParent // Read only property
+    {
+        get { return gameSceneEventSystemParent; }
+    }
+
+    [SerializeField] private AudioListener gameSceneAudioListener;
+
+    public AudioListener GameSceneAudioListener
+    {
+        get { return gameSceneAudioListener; }
+    }
+}
