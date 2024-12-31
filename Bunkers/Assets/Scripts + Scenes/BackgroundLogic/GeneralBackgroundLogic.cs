@@ -20,7 +20,8 @@ public class GeneralBackgroundLogic : MonoBehaviour
         CommonVariables.GameActive = true; // sets gameactive == true for other methods and functions to work properly (eg timers)
     }
 
-    public static bool HasGameEnded() // procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
+    // NEEDS WORK
+    public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
     {
         if (CommonVariables.PlayerBunkerCount == 0)
         {
@@ -41,22 +42,12 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
     }
 
-    public static void ChangeTurn() // procedure to switch turns between AI and the player
+    public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
-
-        if (CommonVariables.PlayerTurn) // If it's currently the player turn
-        {
-            CommonVariables.PlayerTurn = false; //  PlayerTurn is set to false making it the AI's turn
-            Debug.Log("Turn changed from AI's turn -> Players turn"); // outputs message to debug log that the turns changed (how its changed too) for debugging + testing
-                                                                      // Will need to call AITurn procedure when it's made
-        }
-        else // Otherwise if it's not the players turn it assumes it's the AI's turn
-        {
-            CommonVariables.PlayerTurn = true; // PlayerTurn is set to true making it the players turn.
-            Debug.Log("Turn changed from Players turn -> AI's turn"); // outputs message to debug log that the turns changed (how its changed too) for debugging + testing
-            // Will need to call PlayerTurn procedure when it's made
-        }
+        CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
+        Debug.Log($"PlayerTurn changed to: {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
     }
+
     public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic
     {
         CommonVariables.GameActive = false; // makes the gameactive variable false
@@ -71,7 +62,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         {
             CommonVariables.AIScore += 1;
 
-            AdditiveGameMenus.Instance.EnableEndScreen(); // enables end screen overlay after scores have been updated so they're updated on the end screen
+            AdditiveGameMenus.ToggleEndScreen(); // enables end screen overlay after scores have been updated so they're updated on the end screen
 
             // need to update statistics
         }
@@ -80,24 +71,42 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void ForceEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
     {
         // maybe update statistics for games quit
+        SceneNavigationFunctions.GoToMainMenu();
         ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
     }
 
     public static bool Rematch() // function to play another game (when one's lost)
     {
-        return false; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
+        ResetGame(false); // Calls ResetGame function to reset game state to default. Inputs false to not full reset so scores remain
+        SceneManager.LoadScene("Gamescene"); // Loads the gamescene again
+        return true; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
     }
 
     public static void ResetGame(bool fullReset)
     {
-        TimerScripts.Instance.ResetTime(); // Calls the ResetTime procedure to set times back to the default
+        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default 
+        CommonVariables.GameActive = false;
+        CommonVariables.Paused = false;
 
-        // need to either delete both grids 
-
-        if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after
+        if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {
             CommonVariables.AIScore = 0;
             CommonVariables.PlayerScore = 0;
+        }
+    }
+
+    public static void TogglePauseStatus() // Procedure to pause the game
+    {
+        CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
+        InstanceReferences.Instance.PauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
+
+        if (CommonVariables.Paused)
+        {
+            Time.timeScale = 0f; // Sets the speed of time to 0 stopping timers and pausing game 
+        }
+        else
+        {
+            Time.timeScale = 1f;
         }
     }
 
