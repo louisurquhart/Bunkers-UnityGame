@@ -77,7 +77,6 @@ public class GridManager : MonoBehaviour
         }
         //Debug.Log($"Calling random bunker generator. Class name: {this}");
 
-        
         _bunkerGenerator.RandomBunkerGenerator(); // After grid has been fully generated, it calls the RandomBunkerGenerator 
     }
 
@@ -134,21 +133,28 @@ public class GridManager : MonoBehaviour
         if (fullBunker.TotalBunkers <= 0) // If the bunker's completely destroyed (has no small bunkers left in it)
         {
             Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}DecrementBunkerCount: Full bunker destroyed");
-
-            // Decrements full bunker count
-            if(EntityNum == 0)
-            {
-                CommonVariables.PlayerAliveBunkerCount--;
-            }
-            else
-            {
-                CommonVariables.AIAliveBunkerCount--;
-            }
-
-            GeneralBackgroundLogic.HasGameEnded(); // Calls HasGameEnded function to check if this hit was gameending. It will deal with all outcomes
-
-            // Potentially change all bunker elements colour to signify it's completely destroyed
+            DestroyFullBunker(fullBunker);
         }
+    }
+
+    private void DestroyFullBunker(FullBunker fullBunker)
+    {
+        
+
+
+        // Decrements full bunker count
+        if (EntityNum == 0)
+        {
+            CommonVariables.PlayerAliveBunkerCount--;
+        }
+        else
+        {
+            CommonVariables.AIAliveBunkerCount--;
+        }
+
+        GeneralBackgroundLogic.HasGameEnded(); // Calls HasGameEnded function to check if this hit was gameending. It will deal with all outcomes
+
+        // Potentially change all bunker elements colour to signify it's completely destroyed
     }
 
     public void OnBunkerMiss(Tile tile)

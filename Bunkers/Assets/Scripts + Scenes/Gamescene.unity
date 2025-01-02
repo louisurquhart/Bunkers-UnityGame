@@ -2157,7 +2157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &328331171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2276,7 +2276,6 @@ GameObject:
   - component: {fileID: 374169909}
   - component: {fileID: 374169915}
   - component: {fileID: 374169914}
-  - component: {fileID: 374169913}
   - component: {fileID: 374169912}
   m_Layer: 0
   m_Name: EventSystem
@@ -2347,18 +2346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &374169913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374169908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c29f364fffa0945baa6a8097c3f3af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &374169914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2387,7 +2374,6 @@ MonoBehaviour:
   aiTimerText: {fileID: 581187464}
   pauseMenuUI: {fileID: 2011272633}
   timerScriptInstance: {fileID: 374169914}
-  generalBackgroundLogicInstance: {fileID: 374169913}
   gameSceneEventSystemParent: {fileID: 374169908}
   gameSceneAudioListener: {fileID: 906295471}
   additiveGameMenus: {fileID: 374169912}

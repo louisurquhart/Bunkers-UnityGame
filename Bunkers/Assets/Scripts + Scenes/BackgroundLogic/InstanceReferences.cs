@@ -48,12 +48,12 @@ public class InstanceReferences : MonoBehaviour
         get { return timerScriptInstance; }
     }
 
-    [SerializeField] private GeneralBackgroundLogic generalBackgroundLogicInstance;
+    //[SerializeField] private GeneralBackgroundLogic generalBackgroundLogicInstance;
 
-    public GeneralBackgroundLogic GeneralBackgroundLogicInstance // Read only property
-    {
-        get { return generalBackgroundLogicInstance; }
-    }
+    //public GeneralBackgroundLogic GeneralBackgroundLogicInstance // Read only property
+    //{
+    //    get { return generalBackgroundLogicInstance; }
+    //}
 
     // GameScene event system reference
 

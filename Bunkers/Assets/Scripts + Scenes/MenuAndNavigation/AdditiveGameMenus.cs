@@ -22,6 +22,11 @@ public class AdditiveGameMenus : MonoBehaviour
         }
     }
 
+    public static void PauseButton()
+    {
+        GeneralBackgroundLogic.TogglePauseStatus();
+    }
+
     // Both menu procedures
     public static void ExitToMenuButton() // Procedure to end the game + go to main menu
     {
@@ -49,7 +54,7 @@ public class AdditiveGameMenus : MonoBehaviour
 
     public static void Rematch() // function to play another game (when one's lost)
     {
-        GeneralBackgroundLogic.ResetGame(false); // Calls ResetGame function to reset game state to default. Inputs false to not full reset so scores remain
+        GeneralBackgroundLogic.ResetGame(false); // Calls ResetGame function to reset game state variables default. Inputs false to not full reset so scores remain
         GeneralBackgroundLogic.StartGame();
     }
 }

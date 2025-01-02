@@ -10,10 +10,8 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void StartGame()
     {
         Console.WriteLine("Attempting to start a singleplayer game");
-        ResetGame(false); // Soft resets the game for redundancy (should already be done)
-        SceneManager.LoadScene("Gamescene"); // loads the gamescene
-        CommonVariables.Paused = false; // makes sure the game's unpaused
         CommonVariables.GameActive = true; // sets gameactive == true for other methods and functions to work properly (eg timers)
+        SceneManager.LoadScene("Gamescene"); // loads the gamescene
     }
 
     public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
@@ -88,9 +86,9 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void ResetGame(bool fullReset)
     {
         // Sets common variables to default
-        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default 
         CommonVariables.GameActive = false;
         CommonVariables.Paused = false;
+        InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default 
 
         if (fullReset) // If full reset is initated it means another game isn't about to be played immediately after. Resets scores
         {
