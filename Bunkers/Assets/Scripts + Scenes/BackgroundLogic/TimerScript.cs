@@ -9,14 +9,10 @@ public class TimerScript : MonoBehaviour
     // Creates references to the TMP text objects in game for modification in an array
     TMP_Text[] timerTexts = new TMP_Text[2];
 
-    private void Awake()
+    void Start() // Start function to load the saved default times and 
     {
         timerTexts[0] = InstanceReferences.Instance.PlayerTimerText;
         timerTexts[1] = InstanceReferences.Instance.AITimerText;
-    }
-
-    void Start() // Start function to load the saved default times and 
-    {
         ResetTime();
         InvokeRepeating("UpdateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
     }
@@ -33,7 +29,7 @@ public class TimerScript : MonoBehaviour
             {
                 CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1;
                 UpdateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
-                Debug.Log($"New player time: {CommonVariables.PlayerTimeLeft}"); // outputs log for testing
+                //Debug.Log($"New player time: {CommonVariables.PlayerTimeLeft}"); // Outputs log for testing
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
@@ -45,7 +41,7 @@ public class TimerScript : MonoBehaviour
             {
                 CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1;
                 UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimer procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
-                Debug.Log($"New player time: {CommonVariables.AITimeLeft}"); // outputs log for testing
+                //Debug.Log($"New AI time: {CommonVariables.AITimeLeft}"); // outputs log for testing
 
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
@@ -95,8 +91,6 @@ public class TimerScript : MonoBehaviour
         // The Player and AI Time variables are set to either the saved times or a default time
         CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the Player time value set in options with playerprefs and sets PlayerTimeLeft variable to it (if no value the default's set to 450 seconds)
         CommonVariables.AITimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the AI time value set in options and sets the AITimeLeft variable to it (if no value the default's set to 450 seconds)
-        //Debug.Log("AI loaded time value: " + AITimeLeft);
-        //Debug.Log("Player loaded time value : " + PlayerTimeLeft);
 
         // UpdateTimerText functions then called to update the onscreen text to the values
         UpdateTimerText(CommonVariables.PlayerTimeLeft, 0);

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 848224403928630288}
   - component: {fileID: 3933329860192286820}
   - component: {fileID: -6726576991196744137}
-  - component: {fileID: 7347170177158362266}
+  - component: {fileID: -512042877975163458}
   m_Layer: 0
-  m_Name: PlayerTilePrefab
+  m_Name: StrikeTilePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.042363837, g: 0.5283019, b: 0.14196604, a: 1}
+  m_Color: {r: 0.003921569, g: 0.4862745, b: 0.6431373, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,7 +134,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7347170177158362266
+--- !u!114 &-512042877975163458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,13 +143,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8513388887282730065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45bff4a2952ae914e9eea3a4353d63c1, type: 3}
+  m_Script: {fileID: 11500000, guid: e84e90e44d7699a4aa7df1fb8c794e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TileSpriteRenderer: {fileID: 3933329860192286820}
+  row: 0
+  col: 0
   bunkerNumber: 0
   bunkerType: 0
   IsBunker: 0
   IsRotated: 0
-  _playerTileHitSprite: {fileID: 0}
-  _playerTileMissSprite: {fileID: 0}
+  isPreviouslyHit: 0
+  TileOwner: AI
+  _aiTileHitSprite: {fileID: 0}
+  _aiTileMissSprite: {fileID: 0}

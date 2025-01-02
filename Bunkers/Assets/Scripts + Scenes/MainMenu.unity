@@ -1037,9 +1037,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537632904}
-        m_TargetAssemblyTypeName: Buttonscripts, Assembly-CSharp
-        m_MethodName: SingleplayerButtonScript
+      - m_Target: {fileID: 1648924005}
+        m_TargetAssemblyTypeName: SceneNavigationFunctions, Assembly-CSharp
+        m_MethodName: GoToAIGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1194,9 +1194,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537632904}
-        m_TargetAssemblyTypeName: Buttonscripts, Assembly-CSharp
-        m_MethodName: StatisticsButtonScript
+      - m_Target: {fileID: 1648924005}
+        m_TargetAssemblyTypeName: SceneNavigationFunctions, Assembly-CSharp
+        m_MethodName: GoToStatisticsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1327,10 +1327,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537632904}
-        m_TargetAssemblyTypeName: Buttonscripts, Assembly-CSharp
-        m_MethodName: OptionsButtonScript
-        m_Mode: 1
+      - m_Target: {fileID: 1648924005}
+        m_TargetAssemblyTypeName: SceneNavigationFunctions, Assembly-CSharp
+        m_MethodName: GoToOptionsMenu
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Multiplayer
+  m_text: Information
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
@@ -1618,6 +1618,7 @@ GameObject:
   - component: {fileID: 1648924003}
   - component: {fileID: 1648924002}
   - component: {fileID: 1648924001}
+  - component: {fileID: 1648924005}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1708,6 +1709,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1648924005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648924000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6f426e40ad9e74d928cfa96de59c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2128246423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,7 +1735,7 @@ GameObject:
   - component: {fileID: 2128246425}
   - component: {fileID: 2128246428}
   m_Layer: 5
-  m_Name: Multiplayer button
+  m_Name: Information button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1792,9 +1805,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1537632904}
-        m_TargetAssemblyTypeName: Buttonscripts, Assembly-CSharp
-        m_MethodName: MultiplayerButtonScript
+      - m_Target: {fileID: 1648924005}
+        m_TargetAssemblyTypeName: SceneNavigationFunctions, Assembly-CSharp
+        m_MethodName: GoToInformationMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

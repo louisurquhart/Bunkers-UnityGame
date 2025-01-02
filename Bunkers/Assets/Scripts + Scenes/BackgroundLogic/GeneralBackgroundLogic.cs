@@ -10,80 +10,84 @@ public class GeneralBackgroundLogic : MonoBehaviour
     public static void StartGame()
     {
         Console.WriteLine("Attempting to start a singleplayer game");
+        ResetGame(false); // Soft resets the game for redundancy (should already be done)
         SceneManager.LoadScene("Gamescene"); // loads the gamescene
-
-        // Move grid generation function calls to here instead of them being done on start
-        // After grid generation
-
-
         CommonVariables.Paused = false; // makes sure the game's unpaused
         CommonVariables.GameActive = true; // sets gameactive == true for other methods and functions to work properly (eg timers)
     }
 
-    // NEEDS WORK
     public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
     {
-        if (CommonVariables.PlayerBunkerCount == 0)
+        if (CommonVariables.PlayerAliveBunkerCount <= 0)
         {
-            CommonVariables.PlayerScore += 1; // Updates the players win count in common variables
+            Debug.Log($"<b>{CommonVariables.DebugFormat[1]}HasGameEnded: Determined AI has won (PlayerAliveBunkerCount: {CommonVariables.PlayerAliveBunkerCount})");
+            EndGame(1); // End game function. 1 is passed in to signify the AI won
+            return true;
+
+        }
+        else if(CommonVariables.AIAliveBunkerCount <= 0)
+        {
+            Debug.Log($"<b>{CommonVariables.DebugFormat[0]}HasGameEnded: Determined player has won (AIAliveBunkerCount: {CommonVariables.AIAliveBunkerCount})");
             EndGame(0); // End game function. 0 is passed in to signify the player won
             return true;
 
         }
-        else if (CommonVariables.PlayerBunkerCount > 0)
+        else // If neither are true the game can't have ended so false is returned
         {
             return false;
-        }
-        else
-        {
-            Debug.LogError("ERROR - HasGameEnded: Player has less than 0 ships, Ending game"); // error message for testing for a case in which somehow the players ship count's negative
-            EndGame(1); // End game function. 1 is passed in to signify the AI won
-            return true;
         }
     }
 
     public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
         CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
-        Debug.Log($"PlayerTurn changed to: {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
+        //Debug.Log($"PlayerTurn changed to: {CommonVariables.PlayerTurn}"); // Outputs a message to the debug console for testing and debugging
+
+        // Change turn sound effect will be added in final iteration
+
+        if (CommonVariables.PlayerTurn) // If the new turn's the players turn
+        {
+            Debug.Log($"<b><color=white>PLAYER TURN:");
+            // Needs to prompt player it's their turn
+        }
+        else // If the new turn value's the AI turn
+        {
+            Debug.Log($"<b><color=white>AI TURN:");
+            AILogic.InitiateAITurn();
+        }
     }
 
-    public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic
+    public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic (0 = player, 1 = AI)
     {
-        CommonVariables.GameActive = false; // makes the gameactive variable false
-        Time.timeScale = 1f;
+        CommonVariables.GameActive = false; // Sets GameActive to false
 
-        if (winner == 0) // Checks if winner = 0. 0 signifies that the player won
+        // Statistics update
+        if(winner == 0) // If player won
         {
-            CommonVariables.PlayerScore += 1; // increments player score by 1 (as they won)
-
+            CommonVariables.PlayerScore++;
+            PlayerPrefs.SetInt("Wins", PlayerPrefs.GetInt("Wins") + 1); // Adds 1 to players win count in statistics
         }
-        else if (winner == 1)
+        else // If player lost
         {
-            CommonVariables.AIScore += 1;
-
-            AdditiveGameMenus.ToggleEndScreen(); // enables end screen overlay after scores have been updated so they're updated on the end screen
-
-            // need to update statistics
+            CommonVariables.AIScore++;
+            PlayerPrefs.SetInt("Losses", PlayerPrefs.GetInt("Losses") + 1); // Adds 1 to players loss count in statistics
         }
+
+        AdditiveGameMenus.EnableEndScreen(winner); // enables end screen overlay after scores have been updated so they're updated on the end screen
+
     } // End of EndGame method
 
-    public static void ForceEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
+    public static void FullyEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
     {
         // maybe update statistics for games quit
         SceneNavigationFunctions.GoToMainMenu();
         ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
     }
 
-    public static bool Rematch() // function to play another game (when one's lost)
-    {
-        ResetGame(false); // Calls ResetGame function to reset game state to default. Inputs false to not full reset so scores remain
-        SceneManager.LoadScene("Gamescene"); // Loads the gamescene again
-        return true; // returns false to say method was unsucessful at completing (important as menu's mustn't close if this fails).
-    }
 
     public static void ResetGame(bool fullReset)
     {
+        // Sets common variables to default
         InstanceReferences.Instance.TimerScriptInstance.ResetTime(); // Calls the ResetTime procedure to set times back to the default 
         CommonVariables.GameActive = false;
         CommonVariables.Paused = false;
@@ -110,14 +114,10 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
     }
 
-    public static Tile GenerateRandomTile(GridManager gridManager) // Method to return a random tile
-    {
-        int randomRow = UnityEngine.Random.Range(0, 10); // Generates a random row
-        int randomColumn = UnityEngine.Random.Range(0, 10); // Generates a random column
-        Tile randomTile = gridManager.Grid[randomRow, randomColumn]; // Finds the position of the random row + column combined and the tile located at it (through the referenced gridmanager)
 
-        return randomTile; // Returns the random tile
-    }
+
+
+
 
 } // ------------------ End of GeneralBackgroundGameLogic class ------------------
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +10,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
 {
     // ----------------- GAME STATE BOOLEAN VALUES ---------------
 
-    public static bool GameActive = true; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
+    public static bool GameActive = false; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
     public static bool PlayerTurn = true;  // Boolean property to signify it's currently the players turn (true by default as player starts by default)
     public static bool Paused = false; // Boolean property to signify if the game is paused or not
 
@@ -99,7 +100,32 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         }
     }
 
+
     // -------------- BUNKER COUNT PROPERTIES ---------------
-    static public int PlayerBunkerCount;
-    static public int AIBunkerCount;
+    static private int playerAliveBunkerCount;
+    static public int PlayerAliveBunkerCount
+    {
+        get { return playerAliveBunkerCount; }
+        set { playerAliveBunkerCount = value; }
+    }
+
+    static private int aiAliveBunkerCount;
+    static public int AIAliveBunkerCount
+    {
+        get { return aiAliveBunkerCount; }
+        set { aiAliveBunkerCount = value; }
+    }
+
+    public static readonly Dictionary<int, (Func<int> Get, Action<int> Set)> BunkerCountsDictionary = new Dictionary<int, (Func<int> Get, Action<int> Set)>
+    {
+        { 0, (() => PlayerAliveBunkerCount, value => PlayerAliveBunkerCount = value) },
+        { 1, (() => AIAliveBunkerCount, value => AIAliveBunkerCount = value) }
+    };
+
+    public static string[] DebugFormat = new string[2]
+    {
+        "<color=green>", // Player (Green)
+        "<color=#fd3a3a>" // AI (Light red)
+    };
 }
+

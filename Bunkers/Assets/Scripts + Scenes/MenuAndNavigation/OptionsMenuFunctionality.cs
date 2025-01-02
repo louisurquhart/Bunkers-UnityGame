@@ -39,7 +39,6 @@ public class OptionsMenuFunctionality : MonoBehaviour
         playerPrefName[0] = "Difficulty";
         currentButtonsArray[0] = _difficultyButtonReferences[0];
 
-
         gameObjectArrays[1] = _specialStrikeStatusButtonReferences;
         playerPrefName[1] = "SpecialStrikeStatus";
         currentButtonsArray[1] = _specialStrikeStatusButtonReferences[0];
@@ -62,7 +61,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     // Method to set the volumeslider + number next to it to the saved volume value.
     private void loadSavedSliderValues()
     {
-        Debug.Log("Loading saved volume value"); // Outputs that the start functions being executed for testing purposes
+        //Debug.Log("Loading saved volume value"); // Outputs that the start functions being executed for testing purposes
 
         // Creates references to the specific GameObjects needed
         Slider volSlider = _volumeSliderGameObjectReferences[0].GetComponent<Slider>();
@@ -129,6 +128,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
         PlayerPrefs.SetInt(setting, value); // Saves the chosen difficulty to player prefs (the difficulty variables passed via the onclick button function)
 
         changeOutline(settingNumberRef, (GameObject)gameObjectArrays[settingNumberRef].GetValue(value));
+
+        Debug.Log($"Setting: {setting} changed to: {value}.");
     }
 
     private int findFirstDigit(int number)

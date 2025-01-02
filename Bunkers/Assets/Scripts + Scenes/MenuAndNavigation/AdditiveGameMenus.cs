@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveGameMenus : MonoBehaviour
 {
+    static string[] winLossText = new string[2]
+    {
+        "You won", // pos 0 - player wins
+        "You lost" // pos 1 - ai wins
+    };
+
 
     void Update() // Update function runs every frame
     {
@@ -19,16 +25,21 @@ public class AdditiveGameMenus : MonoBehaviour
     // Both menu procedures
     public static void ExitToMenuButton() // Procedure to end the game + go to main menu
     {
-        GeneralBackgroundLogic.ResetGame(true); // calls the ResetGame function to put the game in a new state for if it's started again.                                   
-        // Passes in true to signify the reset will be full (completely resets the state of the game)
-        SceneNavigationFunctions.GoToMainMenu(); // returns user to main menu
+        GeneralBackgroundLogic.FullyEndGame();
     }
 
     // End menu prodecures
-    public static void ToggleEndScreen() // Procedure to toggle the end screen on/off
+    public static void EnableEndScreen(int winner) // (0 = Player, 1 = AI)
     {
-        GameObject endMenuUI = InstanceReferences.Instance.EndMenuUI; // Creates a reference to the EndMenuUI
-        InstanceReferences.Instance.EndMenuUI.SetActive(!(endMenuUI.activeSelf)); // Sets the EndMenuUI active state to whatever it isn't
+        InstanceReferences instanceReferences = InstanceReferences.Instance;
+
+        instanceReferences.EndMenuUI.SetActive(true); // Sets the EndMenuUI parent gameobject to active
+        instanceReferences.EndMenuGameOutcomeTMPObject.text = winLossText[winner]; // Sets the GameOutcome text to the corrosponding win text (If player wins it's "You won", AI wins it's "You lost")
+
+        // Sets the score TMP objects to the actual score values
+        instanceReferences.EndMenuPlayerScoreTMP.text = CommonVariables.PlayerScore.ToString();
+        instanceReferences.EndMenuAIScoreTMP.text = CommonVariables.AIScore.ToString();
+
     }
 
     public static void ExitToDesktop() // Procedure to exit to desktop 
@@ -36,8 +47,9 @@ public class AdditiveGameMenus : MonoBehaviour
         Application.Quit(); // Closes the game application down
     }
 
-    public static void RematchButton()
+    public static void Rematch() // function to play another game (when one's lost)
     {
-        GeneralBackgroundLogic.ResetGame(false); // Calls reset game function to reset the game for another round (not full as scores need to be kept)
+        GeneralBackgroundLogic.ResetGame(false); // Calls ResetGame function to reset game state to default. Inputs false to not full reset so scores remain
+        GeneralBackgroundLogic.StartGame();
     }
 }

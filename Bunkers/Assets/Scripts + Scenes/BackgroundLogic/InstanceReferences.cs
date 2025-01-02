@@ -28,15 +28,10 @@ public class InstanceReferences : MonoBehaviour
         get { return aiTimerText; }
     }
 
-    // Additive game menu references. They're encapsulated so they are read only except for by the inspector with the private encapsulated variables serialized meaning inspector can still modify them.
+    // Pause menu UI reference They're encapsulated so they are read only except for by the inspector with the private encapsulated variables serialized meaning inspector can still modify them.
 
-    [SerializeField] private GameObject endMenuUI;
+
     [SerializeField] private GameObject pauseMenuUI;
-
-    public GameObject EndMenuUI // Read only property
-    {
-        get { return endMenuUI; }
-    }
 
     public GameObject PauseMenuUI // Read only property
     {
@@ -47,12 +42,13 @@ public class InstanceReferences : MonoBehaviour
     // Class instance references. They're encapsulated so they are read only except for by the inspector with the private encapsulated variables serialized meaning inspector can still modify them.
 
     [SerializeField] private TimerScript timerScriptInstance;
-    [SerializeField] private GeneralBackgroundLogic generalBackgroundLogicInstance;
 
     public TimerScript TimerScriptInstance // Read only property
     {
         get { return timerScriptInstance; }
     }
+
+    [SerializeField] private GeneralBackgroundLogic generalBackgroundLogicInstance;
 
     public GeneralBackgroundLogic GeneralBackgroundLogicInstance // Read only property
     {
@@ -80,4 +76,33 @@ public class InstanceReferences : MonoBehaviour
     {
         get { return additiveGameMenus; }
     }
+
+    [SerializeField] private GridManager playerGridManager;
+
+    public GridManager PlayerGridManager
+    {
+        get { return playerGridManager; }
+    }
+
+
+    // ----------- END MENU GAMEOBJECT/TEXT REFERENCES ------------
+    [SerializeField] private GameObject endMenuUI;
+
+    public GameObject EndMenuUI // Read only property
+    {
+        get { return endMenuUI; }
+    }
+
+    public TMP_Text EndMenuPlayerScoreTMP;
+    public TMP_Text EndMenuAIScoreTMP;
+
+
+    [SerializeField] TMP_Text endMenuGameOutcomeTMPObject;
+
+    public TMP_Text EndMenuGameOutcomeTMPObject
+    {
+        get { return endMenuGameOutcomeTMPObject; }
+    }
+
+    
 }

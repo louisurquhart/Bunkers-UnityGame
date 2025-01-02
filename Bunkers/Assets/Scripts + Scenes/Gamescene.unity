@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 17222505}
   - component: {fileID: 17222504}
   m_Layer: 5
-  m_Name: WinLossBox
+  m_Name: GameOutcomeBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430966656}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIGameButtons, Assembly-CSharp
         m_MethodName: OptionsButtonScript
         m_Mode: 1
@@ -795,7 +795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: 'Current scores:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1851,7 +1851,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430966656}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIPauseMenu, Assembly-CSharp
         m_MethodName: UnPause
         m_Mode: 1
@@ -1945,7 +1945,7 @@ GameObject:
   - component: {fileID: 294954938}
   - component: {fileID: 294954939}
   m_Layer: 0
-  m_Name: bottom backboard
+  m_Name: Bottom backboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2064,6 +2064,7 @@ GameObject:
   - component: {fileID: 313703071}
   - component: {fileID: 313703073}
   - component: {fileID: 313703072}
+  - component: {fileID: 313703074}
   m_Layer: 5
   m_Name: PauseMenuFadedBackground
   m_TagString: Untagged
@@ -2129,6 +2130,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313703070}
   m_CullTransparentMesh: 1
+--- !u!225 &313703074
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313703070}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &328331170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2144,7 +2157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &328331171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2261,6 +2274,10 @@ GameObject:
   - component: {fileID: 374169911}
   - component: {fileID: 374169910}
   - component: {fileID: 374169909}
+  - component: {fileID: 374169915}
+  - component: {fileID: 374169914}
+  - component: {fileID: 374169913}
+  - component: {fileID: 374169912}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2318,6 +2335,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &374169912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374169913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c29f364fffa0945baa6a8097c3f3af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374169914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374169915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c6abc3106dcf149bcc0b32e7491141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTimerText: {fileID: 902294815}
+  aiTimerText: {fileID: 581187464}
+  pauseMenuUI: {fileID: 2011272633}
+  timerScriptInstance: {fileID: 374169914}
+  generalBackgroundLogicInstance: {fileID: 374169913}
+  gameSceneEventSystemParent: {fileID: 374169908}
+  gameSceneAudioListener: {fileID: 906295471}
+  additiveGameMenus: {fileID: 374169912}
+  playerGridManager: {fileID: 983897698}
+  endMenuUI: {fileID: 328331170}
+  EndMenuPlayerScoreTMP: {fileID: 1435417149}
+  EndMenuAIScoreTMP: {fileID: 716151787}
+  endMenuGameOutcomeTMPObject: {fileID: 1594217181}
 --- !u!1 &402883423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,7 +2685,7 @@ GameObject:
   - component: {fileID: 581187465}
   - component: {fileID: 581187464}
   m_Layer: 0
-  m_Name: Opponent time
+  m_Name: AITimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3253,7 +3331,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430966656}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIPauseMenu, Assembly-CSharp
         m_MethodName: ExitButtonScript
         m_Mode: 1
@@ -3623,7 +3701,7 @@ GameObject:
   - component: {fileID: 679577745}
   - component: {fileID: 679577744}
   m_Layer: 0
-  m_Name: Opponent score
+  m_Name: AIScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4406,9 +4484,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430966656}
+      - m_Target: {fileID: 374169908}
         m_TargetAssemblyTypeName: UIPauseMenu, Assembly-CSharp
-        m_MethodName: Pause
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4949,7 +5027,7 @@ GameObject:
   - component: {fileID: 902294816}
   - component: {fileID: 902294815}
   m_Layer: 0
-  m_Name: PlayerTime
+  m_Name: PlayerTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5388,7 +5466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921604547}
   m_Layer: 0
-  m_Name: Opponent scores + timers
+  m_Name: AI score, name and timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5635,6 +5713,7 @@ GameObject:
   m_Component:
   - component: {fileID: 983897697}
   - component: {fileID: 983897698}
+  - component: {fileID: 983897699}
   m_Layer: 0
   m_Name: PlayerGridCreator
   m_TagString: Untagged
@@ -5666,16 +5745,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 983897696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07aaa8dad7f40e9478b1a0d0e04e7843, type: 3}
+  m_Script: {fileID: 11500000, guid: fe5b5af597790884288298b6c35f44f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rows: 9
   _colums: 9
   isPlayer: 1
-  _missColour: {r: 0.043137256, g: 0.5294118, b: 0.14117648, a: 0.3882353}
-  _hitColour: {r: 0, g: 0, b: 0, a: 0.39607844}
+  EntityNum: 0
+  _missColour: {r: 0.2784314, g: 0.6431373, b: 0, a: 0.49019608}
+  _hitColour: {r: 1, g: 0.23137255, b: 0.41960785, a: 0.45490196}
+  _bunkerGenerator: {fileID: 983897699}
   _tileprefab: {fileID: 8513388887282730065, guid: a3a0b28b82c9d224eb041a64db567779, type: 3}
   _gridObject: {fileID: 983897697}
+--- !u!114 &983897699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983897696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f29c3a1d6a42044886fb186aeea620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 983897698}
+  entity: 0
 --- !u!1 &1004181912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5721,7 +5816,7 @@ GameObject:
   - component: {fileID: 1044650140}
   - component: {fileID: 1044650141}
   m_Layer: 0
-  m_Name: top backboard
+  m_Name: Top backboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5807,7 +5902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1049475879}
   m_Layer: 0
-  m_Name: Player scores + timers
+  m_Name: Player score, name and timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5913,7 +6008,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1056970342}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1430966656}
+        m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
+        m_MethodName: ExitToMenuButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1056970342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6941,6 +7048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1224810906}
   - component: {fileID: 1224810907}
+  - component: {fileID: 1224810908}
   m_Layer: 0
   m_Name: StrikeGridCreator
   m_TagString: Untagged
@@ -6972,16 +7080,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1224810905}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 798bb45755f11cc4481c543bbe4d0453, type: 3}
+  m_Script: {fileID: 11500000, guid: fe5b5af597790884288298b6c35f44f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rows: 9
   _colums: 9
   isPlayer: 0
-  _missColour: {r: 0.19001423, g: 0.41972658, b: 0.6603774, a: 0}
-  _hitColour: {r: 0.7169812, g: 0.21306516, b: 0.21306516, a: 0}
+  EntityNum: 0
+  _missColour: {r: 0, g: 0.654902, b: 0.86666673, a: 0.5019608}
+  _hitColour: {r: 1, g: 0.23113209, b: 0.41842017, a: 0.56078434}
+  _bunkerGenerator: {fileID: 1224810908}
   _tileprefab: {fileID: 8513388887282730065, guid: bd13868268af49d49a933ff1ddb1f22e, type: 3}
   _gridObject: {fileID: 1224810906}
+--- !u!114 &1224810908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224810905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f29c3a1d6a42044886fb186aeea620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1224810907}
+  entity: 1
 --- !u!1 &1243746844
 GameObject:
   m_ObjectHideFlags: 0
@@ -7335,10 +7459,8 @@ GameObject:
   - component: {fileID: 1430966654}
   - component: {fileID: 1430966653}
   - component: {fileID: 1430966652}
-  - component: {fileID: 1430966656}
   - component: {fileID: 1430966657}
-  - component: {fileID: 1430966659}
-  - component: {fileID: 1430966660}
+  - component: {fileID: 1430966656}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7444,8 +7566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndMenuUI: {fileID: 328331170}
-  PauseMenuUI: {fileID: 2011272633}
 --- !u!114 &1430966657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7455,35 +7575,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1430966651}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a922155a9e6d4945a5fc9d528a8ab54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  consolePanelUI: {fileID: 1699786382}
-  consoleInputField: {fileID: 402883423}
---- !u!114 &1430966659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430966651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EndMenuUI: {fileID: 328331170}
-  PauseMenuUI: {fileID: 2011272633}
---- !u!114 &1430966660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430966651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfcdee753b95b33429fd021547450d14, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f6f426e40ad9e74d928cfa96de59c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1435417147
@@ -7704,7 +7796,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1447473081}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1430966656}
+        m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
+        m_MethodName: ExitToDesktop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1447473081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7825,7 +7929,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1449058641}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1430966656}
+        m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
+        m_MethodName: RematchButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1449058641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8050,7 +8166,7 @@ GameObject:
   - component: {fileID: 1594217182}
   - component: {fileID: 1594217181}
   m_Layer: 5
-  m_Name: WinLossText
+  m_Name: GameOutcomeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8408,6 +8524,7 @@ GameObject:
   - component: {fileID: 1651731006}
   - component: {fileID: 1651731008}
   - component: {fileID: 1651731007}
+  - component: {fileID: 1651731009}
   m_Layer: 5
   m_Name: EndMenuFadedBackground
   m_TagString: Untagged
@@ -8473,6 +8590,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651731005}
   m_CullTransparentMesh: 1
+--- !u!225 &1651731009
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651731005}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1661401414
 GameObject:
   m_ObjectHideFlags: 0
@@ -8482,7 +8611,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1661401415}
-  - component: {fileID: 1661401416}
   m_Layer: 0
   m_Name: Scores + Timers
   m_TagString: Untagged
@@ -8507,21 +8635,6 @@ Transform:
   - {fileID: 1049475879}
   m_Father: {fileID: 1044650140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1661401416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1661401414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerTexts:
-  - {fileID: 902294815}
-  - {fileID: 581187464}
 --- !u!1 &1686202798
 GameObject:
   m_ObjectHideFlags: 0
@@ -8643,7 +8756,7 @@ GameObject:
   - component: {fileID: 1709789909}
   - component: {fileID: 1709789908}
   m_Layer: 0
-  m_Name: AI name
+  m_Name: AINameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9444,7 +9557,7 @@ GameObject:
   - component: {fileID: 1982600922}
   - component: {fileID: 1982600921}
   m_Layer: 0
-  m_Name: PlayerScore
+  m_Name: PlayerScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
