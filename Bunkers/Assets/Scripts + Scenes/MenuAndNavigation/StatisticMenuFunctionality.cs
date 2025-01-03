@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StatisticsMenuFunctionality : MonoBehaviour
@@ -51,6 +52,18 @@ public class StatisticsMenuFunctionality : MonoBehaviour
 
     private void Start()
     {
+        // Updates statistic values which are dependent on other values
+
+        // Calculating hitrate%
+        int hits = PlayerPrefs.GetInt("TotalNumberOfHits", 0);
+        int misses = PlayerPrefs.GetInt("TotalNumberOfMisses", 0);
+        PlayerPrefs.SetInt("HitRate%", hits / hits + misses * 100);
+
+        // Calculating winrate%
+        int wins = PlayerPrefs.GetInt("Wins");
+        int losses = PlayerPrefs.GetInt("Losses");
+        PlayerPrefs.SetInt("WinRate%", wins / wins + losses);
+
         loadStatisticValues(); // Saved statistics are loaded 
     }
 

@@ -102,24 +102,24 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
 
 
     // -------------- BUNKER COUNT PROPERTIES ---------------
-    static private int playerAliveBunkerCount;
-    static public int PlayerAliveBunkerCount
+    static private int playerAliveFullBunkerCount;
+    static public int PlayerAliveFullBunkerCount
     {
-        get { return playerAliveBunkerCount; }
-        set { playerAliveBunkerCount = value; }
+        get { return playerAliveFullBunkerCount; }
+        set { playerAliveFullBunkerCount = value; }
     }
 
-    static private int aiAliveBunkerCount;
-    static public int AIAliveBunkerCount
+    static private int aiAliveFullBunkerCount;
+    static public int AIAliveFullBunkerCount
     {
-        get { return aiAliveBunkerCount; }
-        set { aiAliveBunkerCount = value; }
+        get { return aiAliveFullBunkerCount; }
+        set { aiAliveFullBunkerCount = value; }
     }
 
     public static readonly Dictionary<int, (Func<int> Get, Action<int> Set)> BunkerCountsDictionary = new Dictionary<int, (Func<int> Get, Action<int> Set)>
     {
-        { 0, (() => PlayerAliveBunkerCount, value => PlayerAliveBunkerCount = value) },
-        { 1, (() => AIAliveBunkerCount, value => AIAliveBunkerCount = value) }
+        { 0, (() => PlayerAliveFullBunkerCount, value => PlayerAliveFullBunkerCount = value) },
+        { 1, (() => AIAliveFullBunkerCount, value => AIAliveFullBunkerCount = value) }
     };
 
     public static string[] DebugFormat = new string[2]

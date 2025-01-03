@@ -2,20 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Tile : MonoBehaviour
 { // ----------- START OF TILE CLASS -----------
 
-    // need a box colider or something for click detection
+    // Variables - (private variables have _ infront to follow naming convention)
+    public int row; // row position of tile
+    public int col; // column position of the tile
+
+    // Tile state variables
+    public bool IsBunker = false;  // checks if the tile has a bunker
+    public bool IsRotated = false; // sets the rotation status of the tile (false by default)
 
     // References
     public GridManager GridManager;  // creates a reference to the gridmanager script
     public SpriteRenderer TileSpriteRenderer; // reference to the tiles sprite renderer to change its colour and stuff when hit
 
-    // Variables - (private variables have _ infront to follow naming convention)
-    public int row; // row position of tile
-    public int col; // column position of the tile
+    private Color tileColour;
+    public Color TileColour
+    {
+        get{ return tileColour; }
+
+        set
+        {
+            if (value == TileSpriteRenderer.color)
+            {
+                tileColour = value;
+            }
+            else
+            {
+                Debug.LogWarning("Given tileColour not synchronized with actual tile colour. (tileColour = {tileColour} actualTileColour = {TileSpriteRenderer.color ");
+            }
+        }
+
+    }
 
     private FullBunker fullBunkerReference;
     public FullBunker FullBunkerReference 
@@ -28,17 +50,15 @@ public class Tile : MonoBehaviour
             } 
             else
             {
-                Debug.LogError($"FullBunkerReference not returned as isBunker == {IsBunker}");
+                Debug.LogError($"FullBunkerReference not returned. isBunker == {IsBunker}");
                 return null;
             }
         }
         set { fullBunkerReference = value; }
     }
 
-    public bool IsBunker = false;  // checks if the tile has a bunker
-    public bool IsRotated = false; // sets the rotation status of the tile (false by default)
 
-    [SerializeField] private bool isPreviouslyHit;
+    private bool isPreviouslyHit;
     public bool IsPreviouslyHit
     {
         get { return isPreviouslyHit; }
@@ -49,20 +69,27 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public string TileOwner; // who owns the tile (AI/Player)
-
-
-    protected void OnMouseOver() // Automatically called by unity if tile's hovered over
+    protected void Start()
     {
-        Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
-        newColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
-        TileSpriteRenderer.color = newColor; // Commits the new sprite colour with modified alpha (transparency)
+        TileColour = TileSpriteRenderer.color;
     }
-    protected void OnMouseExit() // Automatically called if tile's no longer being hovered over
+
+    protected void OnMouseOver() // Automatically called by unity if tile's hovered over. Temporaraly makes the tile more transparent
     {
-        Color newColor = TileSpriteRenderer.color; // Gets the sprites current colour
-        newColor.a = 1f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
-        TileSpriteRenderer.color = newColor; // Commits the new sprite colour with modified alpha (transparency)
+        Color tempColor = TileColour;  // Gets the sprites current colour
+        tempColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
+        TileSpriteRenderer.color = tempColor; // Commits the new sprite colour with modified alpha (transparency)
+    }
+
+    protected void OnMouseExit() // Automatically called if tile's no longer being hovered over. Sets the tile back to its regular colour
+    {
+        TileSpriteRenderer.color = TileColour;
+    }
+
+    public void UpdateTileColour(Color color)
+    {
+        tileColour = color;
+        TileSpriteRenderer.color = color;
     }
 
     // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)

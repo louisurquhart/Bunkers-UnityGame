@@ -18,11 +18,11 @@ public class BunkerGenerator : MonoBehaviour
 
     private void Awake()
     {
-        Bunkers[0] = new FullBunker(2, 2, Color.green, 1, gridManager); // 0th position in array
-        Bunkers[1] = new FullBunker(4, 1, Color.red, 2, gridManager); // 1st position in array
-        Bunkers[2] = new FullBunker(3, 1, Color.magenta, 3, gridManager); // 2nd position in array
-        Bunkers[3] = new FullBunker(2, 1, Color.gray, 4, gridManager); // 3rd position in array
-        Bunkers[4] = new FullBunker(5, 1, Color.black, 5, gridManager); // 4th position in array
+        Bunkers[0] = new FullBunker(2, 1, Color.green, 1, gridManager); // 0th position in array
+        Bunkers[1] = new FullBunker(3, 1, Color.red, 2, gridManager); // 1st position in array
+        Bunkers[2] = new FullBunker(4, 1, Color.magenta, 3, gridManager); // 2nd position in array
+        Bunkers[3] = new FullBunker(2, 2, Color.gray, 4, gridManager); // 3rd position in array
+        Bunkers[4] = new FullBunker(5, 1, Color.yellow, 5, gridManager); // 4th position in array
     }
 
 
@@ -47,7 +47,7 @@ public class BunkerGenerator : MonoBehaviour
         }
 
         Debug.Log($"{CommonVariables.DebugFormat[entity]}Final bunker count - PlayerBunkerCount: {CommonVariables.BunkerCountsDictionary[0].Get()}, AIBunkerCount: {CommonVariables.BunkerCountsDictionary[1].Get()}. (Should be {Bunkers.Length} each)");
-        Debug.Log($"{CommonVariables.DebugFormat[entity]}Variables set to - PlayerBunkerCount: {CommonVariables.PlayerAliveBunkerCount}, AIBunkerCount: {CommonVariables.AIAliveBunkerCount}");
+        Debug.Log($"{CommonVariables.DebugFormat[entity]}Variables set to - PlayerBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount}, AIBunkerCount: {CommonVariables.AIAliveFullBunkerCount}");
 
     }
 
@@ -107,31 +107,31 @@ public class BunkerGenerator : MonoBehaviour
         int finalRow = row + bunkerType.Rows;
         int finalColumn = column + bunkerType.Columns;
 
-        // -- Initiates the bunkers tile array so tiles can be added in the for loop --
-        bunkerType.bunkerTiles = new Tile[finalRow * finalColumn];
+        // -- Initializes the bunkers tile array so tiles can be added in the for loop --
+        bunkerType.bunkerTilesArray = new Tile[bunkerType.Rows * bunkerType.Columns];
+
+        int iterations = 0;
 
         // -- Code for testing --
-        int iterations = 1;
         int totalBunkersPlaced = bunkerType.Rows * bunkerType.Columns; // TotalBunkersPlaced calculated for debug log (testing)
         Debug.Log($"<b>{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing full bunker (Number: {bunkerType.NumberIdentifier}). Total bunkers placed should be {totalBunkersPlaced}"); // Debug log output for testing
 
+        
         // -- 2 for loops to go through every tile the bunker occupies and sets them to bunker tiles --
         for (int r = row; r < finalRow ; r++) // Goes over every row the bunker needs to occupy
         {
             for (int c = column; c <  finalColumn ; c++) // For every row it gom es through every column on that row that the bunker needs to occupy.
             {
                 // Code for testing
-                Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing bunker. Iteration: {iterations}"); // Debug log output for testing
-                iterations++; // Increments iterations for testing
+                Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing bunker. Iteration: {iterations + 1}"); // Debug log output for testing
 
+                Tile tile = gridManager.Grid[r, c]; // Finds the tile in the position through the grid manager array
 
-                Tile tile = gridManager.Grid[r, c];
+                tile.SetBunker(bunkerType); // Sets the tile as a bunker
 
-                tile.SetBunker(bunkerType);
+                bunkerType.bunkerTilesArray[iterations] = tile; // Adds this tile to the bunkers tile array
 
-                bunkerType.bunkerTiles[r*c] = tile;
-
-
+                iterations++; // Increments iterations 
             }
         }
 
@@ -148,22 +148,22 @@ public class FullBunker
     public int Rows
     { 
         get { return rows; }
-        set { rows = value; TotalBunkers = Rows * Columns; } 
+        set { rows = value; TotalAliveBunkers = Rows * Columns; } 
     }
 
     private int columns;
     public int Columns
     {
         get { return columns; }
-        set { columns = value; TotalBunkers = Rows * Columns; }
+        set { columns = value; TotalAliveBunkers = Rows * Columns; }
     }
 
-    public int TotalBunkers;
+    public int TotalAliveBunkers;
     public int NumberIdentifier;
     public Color BunkerColor;
     public GridManager GridManagerRef;
 
-    public Tile[] bunkerTiles;
+    public Tile[] bunkerTilesArray;
 
     public FullBunker(int givenRows, int givenColumns, Color givenColor, int givenIdentifier, GridManager givenGridManager) // Constructor to instantiate a bunker
     {
@@ -173,7 +173,7 @@ public class FullBunker
         NumberIdentifier = givenIdentifier;
         GridManagerRef = givenGridManager;
         
-        TotalBunkers = Rows * Columns; // Calculates total amount of bunker grid squares it takes up
+        TotalAliveBunkers = Rows * Columns; // Calculates total amount of bunker grid squares it takes up
         // will have bunker image in final iteration
     }
 }

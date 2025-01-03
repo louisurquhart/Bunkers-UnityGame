@@ -13,6 +13,6 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
     {
         FullBunkerReference = givenBunkerType;
         IsBunker = true; // Sets IsBunker to true to designate the tile as a bunker tile
-        TileSpriteRenderer.color = FullBunkerReference.BunkerColor; // Changes the colour of the tile to whatever the colour of the whole bunker is
+        UpdateTileColour(FullBunkerReference.BunkerColor); // Changes the colour of the tile to whatever the colour of the whole bunker is
     }
 }

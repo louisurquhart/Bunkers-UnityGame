@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Xml;
 using Unity.VisualScripting;
 using UnityEditor.U2D.Aseprite;
@@ -19,8 +18,8 @@ public class GridManager : MonoBehaviour
     public int EntityNum;
 
     // Hit + Miss color values. Will be replaced with images in final iteration
-    [SerializeField] protected UnityEngine.Color _missColour;
-    [SerializeField] protected UnityEngine.Color _hitColour;
+    [SerializeField] protected Color _missColour;
+    [SerializeField] protected Color _hitColour;
 
     [SerializeField] protected BunkerGenerator _bunkerGenerator;
     [SerializeField] protected GameObject _tileprefab;  // tile prefab (editable copy of a tile) linked
@@ -118,7 +117,7 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
-        tile.TileSpriteRenderer.color = _hitColour; // Changes the tiles colour to red (will be a sprite in final iteration just for prototype & testing)
+        tile.UpdateTileColour(_hitColour); // Changes the tiles colour to red (will be a sprite in final iteration just for prototype & testing)
 
         DecrementBunkerCount(tile);
     }
@@ -127,34 +126,48 @@ public class GridManager : MonoBehaviour
     {
         FullBunker fullBunker = tile.FullBunkerReference;
 
-        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}DecrementBunkerCount: Bunker: {tile.FullBunkerReference.NumberIdentifier} count decremented from: {fullBunker.TotalBunkers} to: {fullBunker.TotalBunkers-1}.");
-        fullBunker.TotalBunkers--;
+        fullBunker.TotalAliveBunkers--; // Decrements the fullBunkers total bunker count
+        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}DecrementBunkerCount: FullBunkers total bunker count decreased to: {fullBunker.TotalAliveBunkers}");
 
-        if (fullBunker.TotalBunkers <= 0) // If the bunker's completely destroyed (has no small bunkers left in it)
+        // Checks if bunker's completely destroyed
+        if (fullBunker.TotalAliveBunkers <= 0) // If the bunker's completely destroyed (has no small bunkers left in it)
         {
-            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}DecrementBunkerCount: Full bunker destroyed");
-            DestroyFullBunker(fullBunker);
+            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}DecrementBunkerCount: Full bunker completely destroyed");
+            DestroyFullBunker(fullBunker); // If so it calls DestroyFullBunker
         }
     }
 
-    private void DestroyFullBunker(FullBunker fullBunker)
+    private void DestroyFullBunker(FullBunker fullBunker) // Method called if a fullBunker has no bunkers left, changes colour of all tiles in it + decrements entities global bunker count
     {
-        
-
-
-        // Decrements full bunker count
+        // Decrements entities full bunker count
         if (EntityNum == 0)
         {
-            CommonVariables.PlayerAliveBunkerCount--;
+            CommonVariables.PlayerAliveFullBunkerCount--;
+            Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}DestroyFullBunker: Players fullBunker count decremented to {CommonVariables.PlayerAliveFullBunkerCount}.");
         }
         else
         {
-            CommonVariables.AIAliveBunkerCount--;
+            CommonVariables.AIAliveFullBunkerCount--;
+            Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}DestroyFullBunker: AI's fullBunker count decremented to {CommonVariables.AIAliveFullBunkerCount}.");
         }
 
-        GeneralBackgroundLogic.HasGameEnded(); // Calls HasGameEnded function to check if this hit was gameending. It will deal with all outcomes
 
-        // Potentially change all bunker elements colour to signify it's completely destroyed
+        // Changes all bunker elements colours
+        Color newColor = fullBunker.BunkerColor; // Gets the sprites current colour
+        newColor.a = 0.8f; // Changes the alpha of the sprites colour colour to 80% (transparenter)
+        updateFullBunkerTilesColour(newColor, fullBunker);
+        
+
+        GeneralBackgroundLogic.HasGameEnded(); // Calls HasGameEnded function to check if this hit was gameending. It will deal with all outcomes
+    }
+
+    private void updateFullBunkerTilesColour(Color newColor, FullBunker fullBunker)
+    {
+        for(int i = 0; i < fullBunker.Rows * fullBunker.Columns; i++) // Goes through every tile in the full bunker
+        {
+            Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}updateFullBunkerTilesColour: Iteration: {i} Updating tile: {fullBunker.bunkerTilesArray[i]}");
+            fullBunker.bunkerTilesArray[i].UpdateTileColour(newColor); // Calls UpdateTileColour with the colour
+        }
     }
 
     public void OnBunkerMiss(Tile tile)
@@ -163,7 +176,7 @@ public class GridManager : MonoBehaviour
 
         // In future will need to check if the tile's a special bunker here (special bunkers will be implemented in final prototype)
 
-        tile.TileSpriteRenderer.color = _missColour; // changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
+        tile.UpdateTileColour(_missColour); // changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
 
         // Hit animation will be added in the final iteration
         // Sound effect will be added in final iteration

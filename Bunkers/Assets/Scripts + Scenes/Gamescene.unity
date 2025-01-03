@@ -4470,9 +4470,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 374169908}
-        m_TargetAssemblyTypeName: UIPauseMenu, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 374169912}
+        m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
+        m_MethodName: PauseButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5739,7 +5739,7 @@ MonoBehaviour:
   isPlayer: 1
   EntityNum: 0
   _missColour: {r: 0.2784314, g: 0.6431373, b: 0, a: 0.49019608}
-  _hitColour: {r: 1, g: 0.23137255, b: 0.41960785, a: 0.45490196}
+  _hitColour: {r: 0, g: 0, b: 0, a: 1}
   _bunkerGenerator: {fileID: 983897699}
   _tileprefab: {fileID: 8513388887282730065, guid: a3a0b28b82c9d224eb041a64db567779, type: 3}
   _gridObject: {fileID: 983897697}
@@ -7074,7 +7074,7 @@ MonoBehaviour:
   isPlayer: 0
   EntityNum: 0
   _missColour: {r: 0, g: 0.654902, b: 0.86666673, a: 0.5019608}
-  _hitColour: {r: 1, g: 0.23113209, b: 0.41842017, a: 0.56078434}
+  _hitColour: {r: 1, g: 0.23113209, b: 0.41842017, a: 1}
   _bunkerGenerator: {fileID: 1224810908}
   _tileprefab: {fileID: 8513388887282730065, guid: bd13868268af49d49a933ff1ddb1f22e, type: 3}
   _gridObject: {fileID: 1224810906}
@@ -7918,7 +7918,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1430966656}
         m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
-        m_MethodName: RematchButton
+        m_MethodName: Rematch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

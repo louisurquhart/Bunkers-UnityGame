@@ -16,16 +16,16 @@ public class GeneralBackgroundLogic : MonoBehaviour
 
     public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
     {
-        if (CommonVariables.PlayerAliveBunkerCount <= 0)
+        if (CommonVariables.PlayerAliveFullBunkerCount <= 0)
         {
-            Debug.Log($"<b>{CommonVariables.DebugFormat[1]}HasGameEnded: Determined AI has won (PlayerAliveBunkerCount: {CommonVariables.PlayerAliveBunkerCount})");
+            Debug.Log($"<b>{CommonVariables.DebugFormat[1]}HasGameEnded: Determined AI has won (PlayerAliveBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount} (should be 0))");
             EndGame(1); // End game function. 1 is passed in to signify the AI won
             return true;
 
         }
-        else if(CommonVariables.AIAliveBunkerCount <= 0)
+        else if(CommonVariables.AIAliveFullBunkerCount <= 0)
         {
-            Debug.Log($"<b>{CommonVariables.DebugFormat[0]}HasGameEnded: Determined player has won (AIAliveBunkerCount: {CommonVariables.AIAliveBunkerCount})");
+            Debug.Log($"<b>{CommonVariables.DebugFormat[0]}HasGameEnded: Determined player has won (AIAliveBunkerCount: {CommonVariables.AIAliveFullBunkerCount} (should be 0)");
             EndGame(0); // End game function. 0 is passed in to signify the player won
             return true;
 

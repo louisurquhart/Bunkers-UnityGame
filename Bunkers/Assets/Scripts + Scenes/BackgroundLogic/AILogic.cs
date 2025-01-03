@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -21,7 +22,6 @@ public class AILogic : MonoBehaviour
     public static void InitiateAITurn()
     { 
         int difficultyKeyInt = PlayerPrefs.GetInt("Difficulty", 0); // Finds the saved difficulty key in PlayerPrefs
-        Task.Delay(1500); // Delays thread execution for 1.5s to add suspense
         difficultyDictionary[difficultyKeyInt](); // Calls the method associated with the saved difficulty key
     }
 
