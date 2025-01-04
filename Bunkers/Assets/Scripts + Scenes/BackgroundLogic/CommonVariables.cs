@@ -8,13 +8,16 @@ using UnityEngine;
 
 public class CommonVariables : MonoBehaviour // a class for public static variables which need to remain consistant while a game's active and there can't be multiple instances of them
 {
-    // ----------------- GAME STATE BOOLEAN VALUES ---------------
+    // ------------------------------ GAME STATE BOOLEAN VALUES -------------------------------------
 
     public static bool GameActive = false; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
     public static bool PlayerTurn = true;  // Boolean property to signify it's currently the players turn (true by default as player starts by default)
     public static bool Paused = false; // Boolean property to signify if the game is paused or not
 
-    // --------------------- TIME PROPERTIES ---------------------
+
+    // ----------------- INTEGER PROPERTIES FOR CALCULATION (ENCAPSULATED + VALIDATED) ---------------
+
+    // --- TIME PROPERTIES    
 
     // Player timer property
     private static int playerTimeLeft;
@@ -61,7 +64,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         }
     }
 
-    // --------------------- SCORE PROPERTIES ---------------------
+    // --- SCORE PROPERTIES
 
     // Player score property (encapsulated + validated) 
     private static int playerScore;
@@ -70,7 +73,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         get { return playerScore; }
         set
         {
-            if (value == playerScore + 1 || value == 0) // Validates new value's either incremented or reset
+            if (value == playerScore + 1 || value == 0) // Validates that the given value's either incrementing or reseting the score + range validation
             {
                 playerScore = value; // If so the encapsulated value's set to the input
             }
@@ -101,14 +104,21 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
     }
 
 
-    // -------------- BUNKER COUNT PROPERTIES ---------------
+    // --- BUNKER COUNT PROPERTIES + DICTIONARY
+
+    // Player alive bunker count property (encapsulated + validated) 
     static private int playerAliveFullBunkerCount;
     static public int PlayerAliveFullBunkerCount
     {
         get { return playerAliveFullBunkerCount; }
-        set { playerAliveFullBunkerCount = value; }
+        set 
+        { 
+
+            playerAliveFullBunkerCount = value; 
+        }
     }
 
+    // AI alive bunker count property (encapsulated + validated) 
     static private int aiAliveFullBunkerCount;
     static public int AIAliveFullBunkerCount
     {
@@ -116,11 +126,18 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
         set { aiAliveFullBunkerCount = value; }
     }
 
+
+    // Dictionary to return corrosponding bunker count property reference depending on a int entity reference (0 = PLAYER, 1 = AI)
     public static readonly Dictionary<int, (Func<int> Get, Action<int> Set)> BunkerCountsDictionary = new Dictionary<int, (Func<int> Get, Action<int> Set)>
     {
         { 0, (() => PlayerAliveFullBunkerCount, value => PlayerAliveFullBunkerCount = value) },
         { 1, (() => AIAliveFullBunkerCount, value => AIAliveFullBunkerCount = value) }
     };
+
+
+    // ------------------------------ STRING FORMATTING VARIABLES -------------------------------------
+
+    // -- DEBUG MESSAGE FORMAT
 
     public static string[] DebugFormat = new string[2]
     {

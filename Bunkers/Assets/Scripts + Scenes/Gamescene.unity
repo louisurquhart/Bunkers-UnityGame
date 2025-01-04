@@ -2276,7 +2276,6 @@ GameObject:
   - component: {fileID: 374169909}
   - component: {fileID: 374169915}
   - component: {fileID: 374169914}
-  - component: {fileID: 374169912}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2334,18 +2333,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &374169912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374169908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &374169914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2376,7 +2363,6 @@ MonoBehaviour:
   timerScriptInstance: {fileID: 374169914}
   gameSceneEventSystemParent: {fileID: 374169908}
   gameSceneAudioListener: {fileID: 906295471}
-  additiveGameMenus: {fileID: 374169912}
   playerGridManager: {fileID: 983897698}
   endMenuUI: {fileID: 328331170}
   EndMenuPlayerScoreTMP: {fileID: 1435417149}
@@ -4470,7 +4456,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 374169912}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AdditiveGameMenus, Assembly-CSharp
         m_MethodName: PauseButton
         m_Mode: 1

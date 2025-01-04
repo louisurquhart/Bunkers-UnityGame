@@ -49,7 +49,7 @@ public class GridManager : MonoBehaviour
     // (not AI's might need a different script or to repurpose this one to make it work for it)
     public void CreateGrid()
     {
-        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}CreateGrid has been called");
+        Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}CreateGrid has been called");
 
         Grid = new Tile[_rows, _colums]; // creates an array for the grid to store the tiles
 
@@ -64,14 +64,13 @@ public class GridManager : MonoBehaviour
                                                                                          // relative to its parent by its column * number + row * number to make sure it's
                                                                                         // spaced and alligned in its row and relative to other tiles
       
-                Tile tileScript = newTile.GetComponent<Tile>(); // Creates a new variable (tilescript) to reference the script attached to the new tile
-                                                                // GetComponent gets the tilescript which is on the tile
+                Tile tileScript = newTile.GetComponent<Tile>(); // Creates a reference to the tile's script attached to it
 
-                tileScript.Initalise(row,column,this); // Calls the initialise function inside the tilescript
-                                                        // and inputs the row + column it is located + this class
+                tileScript.Initalise(row,column,this); // Initializes the tileScript with its row + column
 
                 Grid[row, column] = tileScript; // stores the tilescript into the grid array
-                                               // for working with later (identifying if bunker, setting if hit, ect)
+                                                // for working with later (identifying if bunker, setting if hit, ect)
+                Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}New tile added at row: {row}, column: {column}. GridArray tile value: {Grid[row, column]}");
             }
         }
         //Debug.Log($"Calling random bunker generator. Class name: {this}");
@@ -83,7 +82,7 @@ public class GridManager : MonoBehaviour
     {
         if (!tile.IsPreviouslyHit) // makes sure the tile hasn't been hit before + validating it's the entities turn
         {
-            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile hit at: Row: {tile.row} Column: {tile.col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
+            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile: {tile} hit at: Row: {tile.row} Column: {tile.col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
 
             tile.IsPreviouslyHit = true; // sets the isHit variable to true to signifiy it has already been clicked
 
@@ -184,12 +183,4 @@ public class GridManager : MonoBehaviour
 
         // Update statistics when they're implemented (enemy bunkers hit + maybe special bunker hit too)
     }
-
-    public void DestroyGrid()
-    {
-        Destroy(_gridObject.gameObject);
-    }
-
-
-
 }

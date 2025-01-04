@@ -17,9 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scripts + Scenes/StatisticsMenu.unity
     guid: 5aed2221e46f0ae4da68efb103593dac
-  - enabled: 0
-    path: Assets/Scripts + Scenes/Scenes/Common scene.unity
-    guid: e27a2c4f07d42ef4791415961d917cab
+  - enabled: 1
+    path: Assets/Scripts + Scenes/InformationMenu.unity
+    guid: 844c4813bcea2de47a9b5220e7cab951
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 72d3a46f032556149b95359d670dcd82, type: 2}
   m_UseUCBPForAssetBundles: 0

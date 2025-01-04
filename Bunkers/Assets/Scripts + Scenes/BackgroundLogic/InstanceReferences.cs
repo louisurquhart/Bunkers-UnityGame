@@ -70,13 +70,6 @@ public class InstanceReferences : MonoBehaviour
         get { return gameSceneAudioListener; }
     }
 
-    [SerializeField] private AdditiveGameMenus additiveGameMenus;
-
-    public AdditiveGameMenus AdditiveGameMenus
-    {
-        get { return additiveGameMenus; }
-    }
-
     [SerializeField] private GridManager playerGridManager;
 
     public GridManager PlayerGridManager

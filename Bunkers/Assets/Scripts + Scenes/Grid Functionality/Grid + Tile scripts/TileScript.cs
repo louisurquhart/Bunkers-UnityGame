@@ -18,7 +18,13 @@ public class Tile : MonoBehaviour
 
     // References
     public GridManager GridManager;  // creates a reference to the gridmanager script
-    public SpriteRenderer TileSpriteRenderer; // reference to the tiles sprite renderer to change its colour and stuff when hit
+
+    private SpriteRenderer tileSpriteRenderer;
+    public SpriteRenderer TileSpriteRenderer // reference to the tiles sprite renderer to change its colour and stuff when hit
+    {
+        get { return tileSpriteRenderer; }
+    }
+
 
     private Color tileColour;
     public Color TileColour
@@ -56,8 +62,6 @@ public class Tile : MonoBehaviour
         }
         set { fullBunkerReference = value; }
     }
-
-
     private bool isPreviouslyHit;
     public bool IsPreviouslyHit
     {
@@ -69,9 +73,25 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // Method called by GridManager to initialize the tile with its row + column
+    public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
+    // with the tiles position inputted row and collumn + a reference to the original grid manager script 
+    {
+        row = rowRef; // sets the classes row varaible to equal the inputted row from when called
+        col = colRef; // sets the classes col variable to equal the inputted row from when called
+        GridManager = gridManagerRef; // sets the gridmanager variable == the inputted grid manager script
+        tileSpriteRenderer = GetComponent<SpriteRenderer>(); // Sets the tiles sprite renderer to the one attached to it
+        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {row}, Columns == {col}, TileSpriteRenderer == {TileSpriteRenderer}");
+    }
+
     protected void Start()
     {
         TileColour = TileSpriteRenderer.color;
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("<b>{CommonVariables.DebugFormat[GridManager.EntityNum]}Tile destroyed");
     }
 
     protected void OnMouseOver() // Automatically called by unity if tile's hovered over. Temporaraly makes the tile more transparent
@@ -89,17 +109,11 @@ public class Tile : MonoBehaviour
     public void UpdateTileColour(Color color)
     {
         tileColour = color;
+        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}UpdateTileColour: Updating tile: {this} at row: {row}, column: {col} colour to: {color}");
         TileSpriteRenderer.color = color;
     }
 
     // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)
-    public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
-    // with the tiles position inputted row and collumn + a reference to the original grid manager script 
-    {
-        row = rowRef; // sets the classes row varaible to equal the inputted row from when called
-        col = colRef; // sets the classes col variable to equal the inputted row from when called
-        GridManager = gridManagerRef; // sets the gridmanager variable == the inputted grid manager script
-    }
 
     public virtual void SetBunker(FullBunker givenBunkerType)
     {

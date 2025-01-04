@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GeneralBackgroundLogic : MonoBehaviour
 {
+    // ------------- START GAME FUNCTIONALITY -----------------
     public static void StartGame()
     {
         Console.WriteLine("Attempting to start a singleplayer game");
@@ -14,28 +15,25 @@ public class GeneralBackgroundLogic : MonoBehaviour
         SceneManager.LoadScene("Gamescene"); // loads the gamescene
     }
 
-    public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
+
+    // ----------------- CHANGE PAUSE STATUS ------------------
+    public static void TogglePauseStatus() // Procedure to pause the game
     {
-        if (CommonVariables.PlayerAliveFullBunkerCount <= 0)
-        {
-            Debug.Log($"<b>{CommonVariables.DebugFormat[1]}HasGameEnded: Determined AI has won (PlayerAliveBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount} (should be 0))");
-            EndGame(1); // End game function. 1 is passed in to signify the AI won
-            return true;
+        CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
+        InstanceReferences.Instance.PauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
 
-        }
-        else if(CommonVariables.AIAliveFullBunkerCount <= 0)
+        if (CommonVariables.Paused)
         {
-            Debug.Log($"<b>{CommonVariables.DebugFormat[0]}HasGameEnded: Determined player has won (AIAliveBunkerCount: {CommonVariables.AIAliveFullBunkerCount} (should be 0)");
-            EndGame(0); // End game function. 0 is passed in to signify the player won
-            return true;
-
+            Time.timeScale = 0f; // Sets the speed of time to 0 stopping timers and pausing game 
         }
-        else // If neither are true the game can't have ended so false is returned
+        else
         {
-            return false;
+            Time.timeScale = 1f;
         }
     }
 
+
+    // -------------------- CHANGE TURN ---------------------
     public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
         CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
@@ -55,12 +53,37 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
     }
 
+
+    // --------------------- END GAME FUNCTIONALITY + WIN/LOSS CHECKS ------------------------
+
+    public static bool HasGameEnded() // Procedure to check if a game has ended and the entity type inputted (0 = player, 1 = AI)
+    {
+        if (CommonVariables.PlayerAliveFullBunkerCount <= 0)
+        {
+            Debug.Log($"<b>{CommonVariables.DebugFormat[1]}HasGameEnded: Determined AI has won (PlayerAliveBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount} (should be 0))");
+            EndGame(1); // End game function. 1 is passed in to signify the AI won
+            return true;
+
+        }
+        else if (CommonVariables.AIAliveFullBunkerCount <= 0)
+        {
+            Debug.Log($"<b>{CommonVariables.DebugFormat[0]}HasGameEnded: Determined player has won (AIAliveBunkerCount: {CommonVariables.AIAliveFullBunkerCount} (should be 0)");
+            EndGame(0); // End game function. 0 is passed in to signify the player won
+            return true;
+
+        }
+        else // If neither are true the game can't have ended so false is returned
+        {
+            return false;
+        }
+    }
+
     public static void EndGame(int winner) // Procedure to end a game due to someone winning through game logic (0 = player, 1 = AI)
     {
-        CommonVariables.GameActive = false; // Sets GameActive to false
+        ResetGame(false);
 
         // Statistics update
-        if(winner == 0) // If player won
+        if (winner == 0) // If player won
         {
             CommonVariables.PlayerScore++;
             PlayerPrefs.SetInt("Wins", PlayerPrefs.GetInt("Wins") + 1); // Adds 1 to players win count in statistics
@@ -72,16 +95,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
 
         AdditiveGameMenus.EnableEndScreen(winner); // enables end screen overlay after scores have been updated so they're updated on the end screen
-
     } // End of EndGame method
-
-    public static void FullyEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
-    {
-        // maybe update statistics for games quit
-        SceneNavigationFunctions.GoToMainMenu();
-        ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
-    }
-
 
     public static void ResetGame(bool fullReset)
     {
@@ -97,21 +111,12 @@ public class GeneralBackgroundLogic : MonoBehaviour
         }
     }
 
-    public static void TogglePauseStatus() // Procedure to pause the game
+    public static void FullyEndGame() // Procedure to end a game due to the player exiting either through the pause menu or end game screen. 
     {
-        CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
-        InstanceReferences.Instance.PauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
-
-        if (CommonVariables.Paused)
-        {
-            Time.timeScale = 0f; // Sets the speed of time to 0 stopping timers and pausing game 
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
+        // maybe update statistics for games quit
+        SceneNavigationFunctions.GoToMainMenu();
+        ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
     }
-
 
 
 

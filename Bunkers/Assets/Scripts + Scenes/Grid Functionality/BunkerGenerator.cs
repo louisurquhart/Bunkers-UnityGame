@@ -25,7 +25,6 @@ public class BunkerGenerator : MonoBehaviour
         Bunkers[4] = new FullBunker(5, 1, Color.yellow, 5, gridManager); // 4th position in array
     }
 
-
     public void RandomBunkerGenerator() // random bunker generator. Will be used for the AI's grid + potentially the players if selected in options. Input 0 = Player, Input 1 = AI
     {
         for (int i = 0; i < Bunkers.Length; i++) // Executes loop for the length of the bunker array (creates 1 of each bunkers)
