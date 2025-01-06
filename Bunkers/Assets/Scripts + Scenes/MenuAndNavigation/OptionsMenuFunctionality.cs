@@ -85,7 +85,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
             int savedValue = PlayerPrefs.GetInt(playerPrefName[i], -1); // Sets savedValue to the saved value stored in playerprefs (loads default of -1 if no saved value)
 
-            if (savedValue == -1) // If there's no saved value (default of 0 has been loaded), it will skip this iteration of the loop as nothing needs changing
+            if (savedValue == -1) // If there's no saved value (default of -1 has been loaded), it will skip this iteration of the loop as nothing needs changing
             {
                 continue; // Skips the rest of the code and reloops as nothing needs changing because value's already default
             }

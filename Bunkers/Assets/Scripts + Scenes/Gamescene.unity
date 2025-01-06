@@ -2345,6 +2345,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b27f23051e1dbcf41a75be1d84ea331b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerTexts:
+  - {fileID: 902294815}
+  - {fileID: 581187464}
 --- !u!114 &374169915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2357,17 +2360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c6abc3106dcf149bcc0b32e7491141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTimerText: {fileID: 902294815}
-  aiTimerText: {fileID: 581187464}
-  pauseMenuUI: {fileID: 2011272633}
   timerScriptInstance: {fileID: 374169914}
+  additiveGameMenusInstance: {fileID: 1430966656}
   gameSceneEventSystemParent: {fileID: 374169908}
   gameSceneAudioListener: {fileID: 906295471}
   playerGridManager: {fileID: 983897698}
-  endMenuUI: {fileID: 328331170}
-  EndMenuPlayerScoreTMP: {fileID: 1435417149}
-  EndMenuAIScoreTMP: {fileID: 716151787}
-  endMenuGameOutcomeTMPObject: {fileID: 1594217181}
 --- !u!1 &402883423
 GameObject:
   m_ObjectHideFlags: 0
@@ -7538,6 +7535,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 2011272633}
+  endMenuUI: {fileID: 328331170}
+  endMenuGameOutcomeTMPObject: {fileID: 1594217181}
+  endMenuPlayerScoreTMP: {fileID: 1435417149}
+  endMenuAIScoreTMP: {fileID: 716151787}
 --- !u!114 &1430966657
 MonoBehaviour:
   m_ObjectHideFlags: 0

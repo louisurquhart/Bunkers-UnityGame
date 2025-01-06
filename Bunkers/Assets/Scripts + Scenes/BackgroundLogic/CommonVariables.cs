@@ -17,7 +17,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
 
     // ----------------- INTEGER PROPERTIES FOR CALCULATION (ENCAPSULATED + VALIDATED) ---------------
 
-    // --- TIME PROPERTIES    
+    // --- TIME PROPERTIES ---
 
     // Player timer property
     private static int playerTimeLeft;
@@ -33,15 +33,9 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
                 {
                     playerTimeLeft = value;
                 }
-                else
-                {
-                    Debug.LogError($"Invalid value inputted for PlayerTimeLeft. Value given == {value}. No changes applied"); // If validation fails an errors outputted for testing
-                }
+                else { Debug.LogError($"Invalid value inputted for PlayerTimeLeft. Value given == {value}. No changes applied"); }// If validation fails an errors outputted for testing}
             }
-            else
-            {
-                playerTimeLeft = value;
-            }
+            else { playerTimeLeft = value; }
         }
     }
 
@@ -57,14 +51,11 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
             {
                 aiTimeLeft = value;
             }
-            else
-            {
-                Debug.LogError($"Invalid value inputted for AITimeLeft. Value given == {value}. No changes applied"); // If validation fails an errors outputted for testing
-            }
+            else { Debug.LogError($"Invalid value inputted for AITimeLeft. Value given == {value}. No changes applied"); } // If validation fails an errors outputted for testing}
         }
     }
 
-    // --- SCORE PROPERTIES
+    // --- SCORE PROPERTIES ---
 
     // Player score property (encapsulated + validated) 
     private static int playerScore;
@@ -104,21 +95,17 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
     }
 
 
-    // --- BUNKER COUNT PROPERTIES + DICTIONARY
+    // --- BUNKER COUNT PROPERTIES + DICTIONARY ---
 
-    // Player alive bunker count property (encapsulated + validated) 
+    // Player alive bunker count property (encapsulated in case of future validation requirements) 
     static private int playerAliveFullBunkerCount;
     static public int PlayerAliveFullBunkerCount
     {
         get { return playerAliveFullBunkerCount; }
-        set 
-        { 
-
-            playerAliveFullBunkerCount = value; 
-        }
+        set { playerAliveFullBunkerCount = value; } 
     }
 
-    // AI alive bunker count property (encapsulated + validated) 
+    // AI alive bunker count property (encapsulated in case of future validation requirements) 
     static private int aiAliveFullBunkerCount;
     static public int AIAliveFullBunkerCount
     {

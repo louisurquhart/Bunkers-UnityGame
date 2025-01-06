@@ -6,9 +6,9 @@ using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Tile : MonoBehaviour
-{ // ----------- START OF TILE CLASS -----------
+{ 
 
-    // Variables - (private variables have _ infront to follow naming convention)
+    // ------- Variables --------
     public int row; // row position of tile
     public int col; // column position of the tile
 
@@ -16,52 +16,49 @@ public class Tile : MonoBehaviour
     public bool IsBunker = false;  // checks if the tile has a bunker
     public bool IsRotated = false; // sets the rotation status of the tile (false by default)
 
-    // References
-    public GridManager GridManager;  // creates a reference to the gridmanager script
 
-    private SpriteRenderer tileSpriteRenderer;
-    public SpriteRenderer TileSpriteRenderer // reference to the tiles sprite renderer to change its colour and stuff when hit
+    // ------- Encapsulated properties for the tiles attributes --------
+
+    // GridManager property
+    private GridManager gridManager;
+    public GridManager GridManager
     {
-        get { return tileSpriteRenderer; }
+        get { return gridManager; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
     }
 
+    // TileSpriteRenderer property 
+    [SerializeField] private SpriteRenderer tileSpriteRenderer;
+    public SpriteRenderer TileSpriteRenderer
+    {
+        get { return tileSpriteRenderer; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
+    }
 
+    // TileColour property
     private Color tileColour;
     public Color TileColour
     {
         get{ return tileColour; }
-
-        set
-        {
-            if (value == TileSpriteRenderer.color)
-            {
-                tileColour = value;
-            }
-            else
-            {
-                Debug.LogWarning("Given tileColour not synchronized with actual tile colour. (tileColour = {tileColour} actualTileColour = {TileSpriteRenderer.color ");
-            }
+        set 
+        { 
+            if (value == TileSpriteRenderer.color) {tileColour = value;} // If the value TileColour is being to set to is actually the tile's colour it sets it
+            else{ Debug.LogWarning("Given tileColour not synchronized with actual tile colour. (tileColour = {tileColour} actualTileColour = {TileSpriteRenderer.color. No changes made "); } // Otherwise it outputs a warning saying that the input wasn't accepted
         }
 
     }
 
+    // FullBunkerReference property
     private FullBunker fullBunkerReference;
     public FullBunker FullBunkerReference 
     {
         get 
-        { 
-            if (IsBunker) 
-            { 
-                return fullBunkerReference; 
-            } 
-            else
-            {
-                Debug.LogError($"FullBunkerReference not returned. isBunker == {IsBunker}");
-                return null;
-            }
+        {
+            if (IsBunker) { return fullBunkerReference; } // If the tile is a bunker it returns the reference to the fullBunker
+            else { Debug.LogError($"FullBunkerReference not returned. isBunker == {IsBunker}"); return null; }// Otherwise it returns null as if the tile isn't a bunker it can't have a fullBunker reference + outputs error to signify this} 
         }
         set { fullBunkerReference = value; }
     }
+
+    // IsPreviouslyHit property
     private bool isPreviouslyHit;
     public bool IsPreviouslyHit
     {
@@ -73,27 +70,14 @@ public class Tile : MonoBehaviour
         }
     }
 
-    // Method called by GridManager to initialize the tile with its row + column
-    public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
-    // with the tiles position inputted row and collumn + a reference to the original grid manager script 
+    protected void Awake() // Called immediately after class is created
     {
-        row = rowRef; // sets the classes row varaible to equal the inputted row from when called
-        col = colRef; // sets the classes col variable to equal the inputted row from when called
-        GridManager = gridManagerRef; // sets the gridmanager variable == the inputted grid manager script
-        tileSpriteRenderer = GetComponent<SpriteRenderer>(); // Sets the tiles sprite renderer to the one attached to it
-        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {row}, Columns == {col}, TileSpriteRenderer == {TileSpriteRenderer}");
-    }
-
-    protected void Start()
-    {
+        // Syncronises the TileColour variable with the tile's actual colour
         TileColour = TileSpriteRenderer.color;
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("<b>{CommonVariables.DebugFormat[GridManager.EntityNum]}Tile destroyed");
-    }
 
+    // --- Procedures to highlight tile when it's hovered over ---
     protected void OnMouseOver() // Automatically called by unity if tile's hovered over. Temporaraly makes the tile more transparent
     {
         Color tempColor = TileColour;  // Gets the sprites current colour
@@ -106,6 +90,28 @@ public class Tile : MonoBehaviour
         TileSpriteRenderer.color = TileColour;
     }
 
+
+    // Initialise method called by gridManager to create + set the properties of the tile
+    public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
+    {
+        // Sets corrosponding variables to the given ones
+        row = rowRef; 
+        col = colRef; 
+        gridManager = gridManagerRef; 
+        tileSpriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Outputs log for testing
+        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {row}, Columns == {col}, TileSpriteRenderer == {TileSpriteRenderer}");
+    }
+
+    // Method to set the tile as bunker (should be overrided by tile subclasses as it depends on which entities tile it is)
+    public virtual void SetBunker(FullBunker givenBunkerType)
+    {
+        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method");
+    }
+
+
+    // Method to change the tiles colour (should change tileColour value + the actual tiles colour)
     public void UpdateTileColour(Color color)
     {
         tileColour = color;
@@ -115,10 +121,6 @@ public class Tile : MonoBehaviour
 
     // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)
 
-    public virtual void SetBunker(FullBunker givenBunkerType)
-    {
-        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method");
-    }
 
 } // ---------------------- END OF TILE CLASS -----------------------------
 

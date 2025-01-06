@@ -7,17 +7,13 @@ using TMPro;
 public class TimerScript : MonoBehaviour
 {
     // Creates references to the TMP text objects in game for modification in an array
-    TMP_Text[] timerTexts = new TMP_Text[2];
+    [SerializeField] TMP_Text[] timerTexts = new TMP_Text[2];
 
     void Start() // Start function to load the saved default times and 
     {
-        timerTexts[0] = InstanceReferences.Instance.PlayerTimerText;
-        timerTexts[1] = InstanceReferences.Instance.AITimerText;
         ResetTime();
         InvokeRepeating("UpdateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
     }
-
-
 
     void UpdateTime() // Update time function is called by InvokeRepeating every second. Updates time
     {
@@ -25,11 +21,12 @@ public class TimerScript : MonoBehaviour
 
         if (_validated) // Checks validation before executing
         {
+            PlayerPrefs.SetInt("TimeSpentInGame", PlayerPrefs.GetInt("TimeSpentInGame" + 1)); // Increments the PlayerPref statistic "TimeSpentInGame" 
+
             if (CommonVariables.PlayerTurn) // If it's the players turn (signified by playerturn varaible == true)
             {
-                CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1;
+                CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1; // Decrements players timeleft
                 UpdateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
-                //Debug.Log($"New player time: {CommonVariables.PlayerTimeLeft}"); // Outputs log for testing
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
@@ -39,9 +36,8 @@ public class TimerScript : MonoBehaviour
 
             else // If it isn't the players turn it's assumed to be the AI's turn. 
             {
-                CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1;
-                UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimer procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
-                //Debug.Log($"New AI time: {CommonVariables.AITimeLeft}"); // outputs log for testing
+                CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1; // Decrements the AI's time left
+                UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimerText procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
 
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
@@ -51,9 +47,8 @@ public class TimerScript : MonoBehaviour
         }
 
     }
-    // End of UpdateTime procedure
 
-    // Function to update the onscreen timer. 
+    // Procedure to update the onscreen timer. 
     private void UpdateTimerText(int seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
     {
         if (entity >= 0 && entity <= 1) // Validation for entity input to make sure it's within bounds (either 0 or 1 /player or AI)

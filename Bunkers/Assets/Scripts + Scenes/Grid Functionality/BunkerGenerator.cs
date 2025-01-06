@@ -11,18 +11,22 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BunkerGenerator : MonoBehaviour
 {
+    // Reference to gridManager
     [SerializeField] GridManager gridManager;
+
+    // Entity value of the instance (0 = Player, 1 = AI)
     [SerializeField] int entity;
 
     public FullBunker[] Bunkers = new FullBunker[5]; // makes an array storing different types of bunkers
 
-    private void Awake()
+    private void Awake() // Called immediately after class instantiation
     {
-        Bunkers[0] = new FullBunker(2, 1, Color.green, 1, gridManager); // 0th position in array
-        Bunkers[1] = new FullBunker(3, 1, Color.red, 2, gridManager); // 1st position in array
-        Bunkers[2] = new FullBunker(4, 1, Color.magenta, 3, gridManager); // 2nd position in array
+        // FullBunker classes are instantiated with given values (so they can be generated easily using a for loop + their properties are easily modifiable)
+        Bunkers[0] = new FullBunker(3, 1, Color.green, 1, gridManager); // 0th position in array
+        Bunkers[1] = new FullBunker(4, 1, Color.red, 2, gridManager); // 1st position in array
+        Bunkers[2] = new FullBunker(5, 1, Color.magenta, 3, gridManager); // 2nd position in array
         Bunkers[3] = new FullBunker(2, 2, Color.gray, 4, gridManager); // 3rd position in array
-        Bunkers[4] = new FullBunker(5, 1, Color.yellow, 5, gridManager); // 4th position in array
+        Bunkers[4] = new FullBunker(6, 1, Color.yellow, 5, gridManager); // 4th position in array
     }
 
     public void RandomBunkerGenerator() // random bunker generator. Will be used for the AI's grid + potentially the players if selected in options. Input 0 = Player, Input 1 = AI
@@ -45,22 +49,24 @@ public class BunkerGenerator : MonoBehaviour
             }
         }
 
+        // Outputs logs for testing to check that the correct amount of bunkers have been made + the values for these have been updated:
         Debug.Log($"{CommonVariables.DebugFormat[entity]}Final bunker count - PlayerBunkerCount: {CommonVariables.BunkerCountsDictionary[0].Get()}, AIBunkerCount: {CommonVariables.BunkerCountsDictionary[1].Get()}. (Should be {Bunkers.Length} each)");
         Debug.Log($"{CommonVariables.DebugFormat[entity]}Variables set to - PlayerBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount}, AIBunkerCount: {CommonVariables.AIAliveFullBunkerCount}");
 
     }
 
+    // RandomBunkerGenerator sub methods (it's been refactored into smaller submethods for easier maintainability)
     private static (int, int, bool) generateRandomValidatedBunkerPosition(FullBunker bunker, GridManager gridManager)
     {
-        int iterations = 0;
+        int iterations = 0; // Iterations added for testing
 
-        while (iterations < 10000) // Loop repeats until a position has been found or if it has repeated 10,000 times which means that there's an issue with the code                                         // (iteration check is done for testing to prevent infinite loop + softlock)
+        while (iterations < 10000) // Loop repeats until a position has been found or if it has repeated 10,000 times which means that there's an issue with the code  (iteration check is done for testing to prevent infinite loop + softlock for testing)
         {
             // Generates random bunker position
             int randomRow = UnityEngine.Random.Range(0, 10 - bunker.Rows); // Generates a random row number
             int randomColumn = UnityEngine.Random.Range(0, 10 - bunker.Columns); // Generates a random column number
 
-            if (!doesBunkerOverlap(randomRow, randomColumn, bunker.Rows, bunker.Columns, gridManager)) // V                                                                                                                      // alidates that the bunker won't overlap with any other bunkers
+            if (!doesBunkerOverlap(randomRow, randomColumn, bunker.Rows, bunker.Columns, gridManager)) // Validates that the bunker won't overlap with any other bunkers
             {
                 //Debug.Log("Bunker doesn't overlap so generating a bunker");
                 return (randomRow, randomColumn, true); // sets external variable randomrow to the randomly generated row
@@ -71,9 +77,9 @@ public class BunkerGenerator : MonoBehaviour
         return (0, 0, false); // If no position could be generated in 10000 iterations 0, 0 + false is returned to signify failiure
     }
 
-    private static bool doesBunkerOverlap(int row, int column, int bunkerRows, int bunkerColumns, GridManager gridManager)
+    // Method to check if a bunker will overlap if placed at a specific position (row + column)
+    private static bool doesBunkerOverlap(int row, int column, int bunkerRows, int bunkerColumns, GridManager gridManager) 
     {
-        //Debug.Log("Checking if bunker overlaps");
         for (int r = row; r < row + bunkerRows; r++)
         {
             for (int c = column; c < column + bunkerColumns; c++)
@@ -88,16 +94,20 @@ public class BunkerGenerator : MonoBehaviour
         return false; // If the for loops go through all the bunker positons and finds no bunkers in the way, false is returned to signify there's no overlap
     }
 
+    // Method to randomly rotate a bunker to a random rotation (either horizontal or vertical)
     private static void randomlyRotateBunker(FullBunker bunker)
     {
         int randomRotation = UnityEngine.Random.Range(0, 2); // Generates a random rotation for the bunker. 0 = horizontal, 1 = vertical
 
-        if (randomRotation == 0) // If the rotation is horizontal (0) it switches the rows + columns around. By default they're vertical so no changing needs to be done then
+        
+        if (randomRotation == 0) // If the rotation is horizontal (0) it switches the rows + columns around. 
         {
             int temprows = bunker.Rows; // sets a temporary variable to == rows so rows can be set to columns and the value isn't lost
             bunker.Rows = bunker.Columns; // rows are set equal to columns
             bunker.Columns = temprows; // columns are set equal to rows
         }
+
+        // Bunkers rotation's vertical by default so no need to change rows + columns around if it's vertical
     }
 
     private static void placeFullBunker(int row, int column, GridManager gridManager, FullBunker bunkerType)
@@ -116,7 +126,7 @@ public class BunkerGenerator : MonoBehaviour
         Debug.Log($"<b>{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing full bunker (Number: {bunkerType.NumberIdentifier}). Total bunkers placed should be {totalBunkersPlaced}"); // Debug log output for testing
 
         
-        // -- 2 for loops to go through every tile the bunker occupies and sets them to bunker tiles --
+        // -- Nested for loops go through every tile the bunker occupies and designated them as bunker tiles:
         for (int r = row; r < finalRow ; r++) // Goes over every row the bunker needs to occupy
         {
             for (int c = column; c <  finalColumn ; c++) // For every row it gom es through every column on that row that the bunker needs to occupy.
@@ -140,39 +150,59 @@ public class BunkerGenerator : MonoBehaviour
 
 } // End of class
 
+
+// FullBunker class
 public class FullBunker
 {
-    // defines the attributes of a bunker
+    // Row, column and total bunker properties (need to be encapsulated and made properties as TotalAliveBunker count needs recalculating when set and totalAliveBunkers needs validation)
+
+    // Rows property
     private int rows;
     public int Rows
     { 
         get { return rows; }
-        set { rows = value; TotalAliveBunkers = Rows * Columns; } 
+        set { rows = value; totalAliveBunkers = Rows * Columns; } 
     }
 
+    // Columns property
     private int columns;
     public int Columns
     {
         get { return columns; }
-        set { columns = value; TotalAliveBunkers = Rows * Columns; }
+        set { columns = value; totalAliveBunkers = Rows * Columns; }
+    }
+    
+    // TotalBunkers property
+    private int totalAliveBunkers;
+    public int TotalAliveBunkers
+    {
+        get { return totalAliveBunkers; }
+        set 
+        { 
+            if (value == totalAliveBunkers - 1) { totalAliveBunkers = value; }
+            else { Debug.LogWarning($"TotalALiveBunker validation failiure. (Value given: {value}). No value set."); } // If validation fails a warning's output
+        } // Validates that it's decremeneting total bunkers before setting
     }
 
-    public int TotalAliveBunkers;
+    // Array to store all tiles which are apart of the full bunker
+    public Tile[] bunkerTilesArray;
+
+    // Other attributes of the bunker
     public int NumberIdentifier;
     public Color BunkerColor;
     public GridManager GridManagerRef;
 
-    public Tile[] bunkerTilesArray;
 
     public FullBunker(int givenRows, int givenColumns, Color givenColor, int givenIdentifier, GridManager givenGridManager) // Constructor to instantiate a bunker
     {
+        // Sets variables to corrosponding given values
         Rows = givenRows;
         Columns = givenColumns;
         BunkerColor = givenColor;
         NumberIdentifier = givenIdentifier;
         GridManagerRef = givenGridManager;
         
-        TotalAliveBunkers = Rows * Columns; // Calculates total amount of bunker grid squares it takes up
-        // will have bunker image in final iteration
+        // Calculates TotalAliveBunker value off rows + columns inputted
+        totalAliveBunkers = Rows * Columns; 
     }
 }
