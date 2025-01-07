@@ -98,6 +98,5 @@ public class GeneralBackgroundLogic : MonoBehaviour
         ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
         SceneNavigationFunctions.GoToMainMenu(); // Loads the main menu scene
     }
-
 }
 

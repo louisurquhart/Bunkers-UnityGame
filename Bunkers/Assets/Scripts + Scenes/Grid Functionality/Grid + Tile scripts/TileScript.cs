@@ -7,7 +7,6 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Tile : MonoBehaviour
 { 
-
     // ------- Variables --------
     public int row; // row position of tile
     public int col; // column position of the tile
@@ -107,7 +106,7 @@ public class Tile : MonoBehaviour
     // Method to set the tile as bunker (should be overrided by tile subclasses as it depends on which entities tile it is)
     public virtual void SetBunker(FullBunker givenBunkerType)
     {
-        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method");
+        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method"); // If method's not overrided it outputs error
     }
 
 
@@ -118,18 +117,10 @@ public class Tile : MonoBehaviour
         Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}UpdateTileColour: Updating tile: {this} at row: {row}, column: {col} colour to: {color}");
         TileSpriteRenderer.color = color;
     }
-
-    // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)
-
-
-} // ---------------------- END OF TILE CLASS -----------------------------
+}
 
 
 
-
-
-
-// ----------- end of class -----------
 
 
 
