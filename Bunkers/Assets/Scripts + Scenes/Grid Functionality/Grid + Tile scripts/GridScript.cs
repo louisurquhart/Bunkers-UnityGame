@@ -120,7 +120,7 @@ public class GridManager : MonoBehaviour
         tile.UpdateTileColour(_missColour); // Changes the tiles colour to blue to indicate miss (will be a sprite in final iteration just for prototype & testing)
 
         // Statistic incrementation
-        if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfHits"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
+        if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfMisses"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
     }
 
 
@@ -142,18 +142,18 @@ public class GridManager : MonoBehaviour
 
     private void destroyFullBunker(FullBunker fullBunker) // Method called if a fullBunker has no bunkers left, changes colour of all tiles in it + decrements entities global bunker count
     {
-        // --- Decrements entities full bunker count:
-
+        // Decrements entities full bunker count:
         CommonVariables.BunkerCountsDictionary[EntityNum].Set(CommonVariables.BunkerCountsDictionary[EntityNum].Get() - 1);
 
         // --- Changes all bunker elements colours to the fullBunkers colour + more transparent (To show the player that they've destroyed a full bunker or their full bunkers been destroyed):
-
         Color newColor = fullBunker.BunkerColor; // Gets the sprites current colour
         newColor.a = 0.8f; // Changes the alpha of the sprites colour colour to 80% (more transparent)
         updateFullBunkerTilesColour(newColor, fullBunker); // Sets all the tiles colour to their fullBunkers colour
 
-        //---  Checks if game has ended (as this could be a game ending change):
+        // Updates statistics:
+        StatisticsMenuFunctionality.IncrementStatisticValue("FullBunkersDestroyed");
 
+        // Checks if game has ended (as this could be a game ending change):
         GeneralBackgroundLogic.HasGameEnded(); 
     }
 

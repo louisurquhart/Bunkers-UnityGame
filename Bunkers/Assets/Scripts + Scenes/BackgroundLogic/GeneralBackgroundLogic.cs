@@ -13,6 +13,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         Debug.Log("Attempting to start a singleplayer game"); // Outputs a debug log for testing purposes 
         CommonVariables.GameActive = true; // Sets gameactive = true 
         SceneManager.LoadScene("Gamescene"); // Loads the gamescene
+        StatisticsMenuFunctionality.IncrementStatisticValue("TotalGamesLaunched");
     }
 
 

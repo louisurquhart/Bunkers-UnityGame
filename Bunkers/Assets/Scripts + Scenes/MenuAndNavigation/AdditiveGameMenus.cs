@@ -43,7 +43,7 @@ public class AdditiveGameMenus : MonoBehaviour
     // ------------ BOTH MENU PROCEDURES: ------------
     public static void ExitToMenuButton() // Procedure to end the game + go to main menu
     {
-        GeneralBackgroundLogic.FullyEndGame();
+        GeneralBackgroundLogic.FullyEndGame(); // 
     }
 
     // ------------ END MENU PROCEDURES: -------------
@@ -63,8 +63,10 @@ public class AdditiveGameMenus : MonoBehaviour
     }
 
     // Procedure to exit the game
-    public static void ExitToDesktop() 
+    public void ExitToDesktop() 
     {
+        StatisticsMenuFunctionality.IncrementStatisticValue("MidgameQuits"); // Updates statistics
+
         Application.Quit(); // Closes the game application down
     }
 

@@ -1,5 +1,7 @@
 using System;
 using TMPro;
+using Unity.Burst.Intrinsics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -54,8 +56,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
     private void Start() // Called by unity when scene is loaded
     {
-        loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences
-        loadSavedSliderValues();
+        loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences (if there are any)
+        loadSavedSliderValues(); // Calls LoadSavedSliderValues to change the slider/s + slider value/s next to it to the stored saved value (if there are any)
     }
 
     // Method to set the volumeslider + number next to it to the saved volume value.

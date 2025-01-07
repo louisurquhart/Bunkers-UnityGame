@@ -11,13 +11,15 @@ public class TimerScript : MonoBehaviour
 
     void Start() // Start function to load the saved default times and 
     {
-        ResetTime();
-        InvokeRepeating("UpdateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
+        ResetTime(); // Resets time just incase it hasn't already been done (redundant)
+        InvokeRepeating("updateTime", 1, 1); // Invoke repeating method will call the UpdateTime method every second (starts 1 second after called)
     }
 
-    void UpdateTime() // Update time function is called by InvokeRepeating every second. Updates time
+    private void updateTime() // Update time function is called by InvokeRepeating every second. Updates time
     {
         bool _validated = CommonVariables.GameActive & !CommonVariables.Paused; // Validation to check if game's active and not paused before executing
+
+        StatisticsMenuFunctionality.IncrementStatisticValue("MinutesSpentInGame");
 
         if (_validated) // Checks validation before executing
         {
@@ -26,7 +28,7 @@ public class TimerScript : MonoBehaviour
             if (CommonVariables.PlayerTurn) // If it's the players turn (signified by playerturn varaible == true)
             {
                 CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1; // Decrements players timeleft
-                UpdateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
+                updateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
@@ -37,7 +39,7 @@ public class TimerScript : MonoBehaviour
             else // If it isn't the players turn it's assumed to be the AI's turn. 
             {
                 CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1; // Decrements the AI's time left
-                UpdateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimerText procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
+                updateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimerText procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
 
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
@@ -45,11 +47,10 @@ public class TimerScript : MonoBehaviour
                 }
             }
         }
-
     }
 
     // Procedure to update the onscreen timer. 
-    private void UpdateTimerText(int seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
+    private void updateTimerText(int seconds, int entity) // Takes in how many seconds the timer should have + The entity which timers being updated (0 = Player, 1 = AI)
     {
         if (entity >= 0 && entity <= 1) // Validation for entity input to make sure it's within bounds (either 0 or 1 /player or AI)
         {
@@ -88,7 +89,7 @@ public class TimerScript : MonoBehaviour
         CommonVariables.AITimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the AI time value set in options and sets the AITimeLeft variable to it (if no value the default's set to 450 seconds)
 
         // UpdateTimerText functions then called to update the onscreen text to the values
-        UpdateTimerText(CommonVariables.PlayerTimeLeft, 0);
-        UpdateTimerText(CommonVariables.AITimeLeft, 1);
+        updateTimerText(CommonVariables.PlayerTimeLeft, 0);
+        updateTimerText(CommonVariables.AITimeLeft, 1);
     }
 } // ------------------------------------------ END OF CLASS ------------------------------------------------------------------

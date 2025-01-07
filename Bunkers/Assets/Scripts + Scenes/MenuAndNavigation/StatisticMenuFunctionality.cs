@@ -30,9 +30,9 @@ public class StatisticsMenuFunctionality : MonoBehaviour
     static String[] _funPlayerPrefNames = new string[_funArrayCount] // Array to store the keys for the fun playerpref statistics
     {
         "SpecialStrikesUsed",
-        "TimeSpentInGame",
-        "BunkersDestroyed",
-        "GamesPlayed",
+        "MinutesSpentInGame",
+        "FullBunkersDestroyed",
+        "MidgameQuits",
         "TotalGamesLaunched"
     };
 
@@ -84,6 +84,9 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         int totalGames = wins + losses; // Calculates total games played (wins + losses)
         int winRate = wins / totalGames; // Divides wins / total games played to get winrate % (as decimal 0-1)
         PlayerPrefs.SetInt("WinRate%", winRate * 100); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+
+        // ---- Calculate minutes spent in game (by default they're seconds) -----
+        PlayerPrefs.SetInt("MinutesSpentInGame", PlayerPrefs.GetInt("MinutesSpentInGame", 0) / 60); // Sets minutes spent in game to minutes spent in game /60 (as by default they're seconds, need converting to minutes)
     }
 
 
@@ -107,6 +110,27 @@ public class StatisticsMenuFunctionality : MonoBehaviour
             }
         }
     }
+
+    public void ResetStatisticValues()
+    {
+        for (int i = 0; i < _arrayCount; i++) // Loops through the sub arrays in the main array
+        {
+            Array currentPlayerPrefArray = _playerPrefArrays[i]; // Creates a reference to the current PlayerPrefName array (for maintainability + easy referencing)
+            Array currentGameObjectArray = _tmpTextArrays[i]; // Creates a reference to the current GameObject array (for maintainability + easy referencing)
+
+            for (int k = 0; k < currentGameObjectArray.Length; k++) // Loops through for each value in the array to reset each statistic value
+            {
+                // Log for testing:
+                Debug.Log($"ResetStatisticsValues: Resetting PlayerPref: {(string)currentPlayerPrefArray.GetValue(k)}");
+
+                // Sets the playerpref value at the current key to 0
+                PlayerPrefs.SetInt((string)currentPlayerPrefArray.GetValue(k), 0); // Sets the saved statistic value to 0
+            }
+        }
+
+        loadStatisticValues(); // After all statistics are reset, it reloads the values displayed on screen with them
+    }
+
 
     // Public static method to update a statistic value - to be called when an event in game occurs requiring statistic update
     public static void IncrementStatisticValue(string statisticKey)
