@@ -18,7 +18,7 @@ public class StrikeTile : Tile
     public override void SetBunker(FullBunker givenBunkerType)
     {
         FullBunkerReference = givenBunkerType; // Sets FullBunkerReference to the given fullBunker
-        IsBunker = true; 
+        IsBunker = true;
     }
 }
 

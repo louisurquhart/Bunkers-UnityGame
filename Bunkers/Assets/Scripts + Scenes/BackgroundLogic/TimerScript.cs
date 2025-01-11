@@ -29,6 +29,7 @@ public class TimerScript : MonoBehaviour
             {
                 CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1; // Decrements players timeleft
                 updateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
+              
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
@@ -40,7 +41,7 @@ public class TimerScript : MonoBehaviour
             {
                 CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1; // Decrements the AI's time left
                 updateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimerText procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
-
+                
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
                     GeneralBackgroundLogic.EndGame(0); // Calls EndGame function passing in 0 to signify it was the player who won

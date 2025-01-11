@@ -102,9 +102,9 @@ public class BunkerGenerator : MonoBehaviour
         
         if (randomRotation == 0) // If the rotation is horizontal (0) it switches the rows + columns around. 
         {
-            int temprows = bunker.Rows; // sets a temporary variable to == rows so rows can be set to columns and the value isn't lost
+            int tempRows = bunker.Rows;
             bunker.Rows = bunker.Columns; // rows are set equal to columns
-            bunker.Columns = temprows; // columns are set equal to rows
+            bunker.Columns = tempRows; // columns are set equal to rows
         }
 
         // Bunkers rotation's vertical by default so no need to change rows + columns around if it's vertical
@@ -122,8 +122,8 @@ public class BunkerGenerator : MonoBehaviour
         int iterations = 0;
 
         // -- Code for testing --
-        int totalBunkersPlaced = bunkerType.Rows * bunkerType.Columns; // TotalBunkersPlaced calculated for debug log (testing)
-        Debug.Log($"<b>{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing full bunker (Number: {bunkerType.NumberIdentifier}). Total bunkers placed should be {totalBunkersPlaced}"); // Debug log output for testing
+        //int totalBunkersPlaced = bunkerType.Rows * bunkerType.Columns; // TotalBunkersPlaced calculated for debug log (testing)
+        //Debug.Log($"<b>{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing full bunker (Number: {bunkerType.NumberIdentifier}). Total bunkers placed should be {totalBunkersPlaced}"); // Debug log output for testing
 
         
         // -- Nested for loops go through every tile the bunker occupies and designated them as bunker tiles:
@@ -132,7 +132,7 @@ public class BunkerGenerator : MonoBehaviour
             for (int c = column; c <  finalColumn ; c++) // For every row it gom es through every column on that row that the bunker needs to occupy.
             {
                 // Code for testing
-                Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing bunker. Iteration: {iterations + 1}"); // Debug log output for testing
+                //Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing bunker. Iteration: {iterations + 1}"); // Debug log output for testing
 
                 Tile tile = gridManager.Grid[r, c]; // Finds the tile in the position through the grid manager array
 
@@ -154,9 +154,9 @@ public class BunkerGenerator : MonoBehaviour
 // FullBunker class
 public class FullBunker
 {
-    // Row, column and total bunker properties (need to be encapsulated and made properties as TotalAliveBunker count needs recalculating when set and totalAliveBunkers needs validation)
+    // Bunker properties. All encapsulated as they are either read only to external classes, require validation or for rows + columns totalAliveBunkers needs recalculating when set.
 
-    // Rows property
+    // Rows property. Recalculates totalAliveBunkers when set
     private int rows;
     public int Rows
     { 
@@ -164,7 +164,7 @@ public class FullBunker
         set { rows = value; totalAliveBunkers = Rows * Columns; } 
     }
 
-    // Columns property
+    // Columns property. Recalculates totalAliveBunkers when set
     private int columns;
     public int Columns
     {
@@ -172,7 +172,7 @@ public class FullBunker
         set { columns = value; totalAliveBunkers = Rows * Columns; }
     }
     
-    // TotalBunkers property
+    // TotalBunkers property. Validates that any external modification is decrementing it.
     private int totalAliveBunkers;
     public int TotalAliveBunkers
     {
@@ -184,13 +184,29 @@ public class FullBunker
         } // Validates that it's decremeneting total bunkers before setting
     }
 
+    // NumberIdentifer property. Read only to external classes
+    private int numberIdentifier;
+    public int NumberIdentifier
+    {
+        get { return numberIdentifier; }
+    }
+
+    // BunkerColor property. Read only to external classes
+    private Color bunkerColor;
+    public Color BunkerColor
+    {
+        get { return bunkerColor; }
+    }
+
+    // GridManager property. Read only to external classes
+    private GridManager gridManagerRef;
+    public GridManager GridManagerRef
+    {
+        get { return gridManagerRef; }
+    }
+
     // Array to store all tiles which are apart of the full bunker
     public Tile[] bunkerTilesArray;
-
-    // Other attributes of the bunker
-    public int NumberIdentifier;
-    public Color BunkerColor;
-    public GridManager GridManagerRef;
 
 
     public FullBunker(int givenRows, int givenColumns, Color givenColor, int givenIdentifier, GridManager givenGridManager) // Constructor to instantiate a bunker
@@ -198,11 +214,8 @@ public class FullBunker
         // Sets variables to corrosponding given values
         Rows = givenRows;
         Columns = givenColumns;
-        BunkerColor = givenColor;
-        NumberIdentifier = givenIdentifier;
-        GridManagerRef = givenGridManager;
-        
-        // Calculates TotalAliveBunker value off rows + columns inputted
-        totalAliveBunkers = Rows * Columns; 
+        bunkerColor = givenColor;
+        numberIdentifier = givenIdentifier;
+        gridManagerRef = givenGridManager;
     }
 }

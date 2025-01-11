@@ -9,13 +9,13 @@ using UnityEngine.SceneManagement;
 public class AdditiveGameMenus : MonoBehaviour
 {
     // UI Parent GameObject references
-    [SerializeField] GameObject pauseMenuUI;
-    [SerializeField] GameObject endMenuUI;
+    [SerializeField] GameObject _pauseMenuUI;
+    [SerializeField] GameObject _endMenuUI;
 
     // End menu TMP component references
-    [SerializeField] TMP_Text endMenuGameOutcomeTMPObject;
-    [SerializeField] TMP_Text endMenuPlayerScoreTMP;
-    [SerializeField] TMP_Text endMenuAIScoreTMP;
+    [SerializeField] TMP_Text _endMenuGameOutcomeTMPObject;
+    [SerializeField] TMP_Text _endMenuPlayerScoreTMP;
+    [SerializeField] TMP_Text _endMenuAIScoreTMP;
 
     // Array containing win/loss texts 
     private static string[] winLossText = new string[2]
@@ -37,7 +37,7 @@ public class AdditiveGameMenus : MonoBehaviour
     public void TogglePauseStatus()
     {
         CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
-        pauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
+        _pauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
     }
 
     // ------------ BOTH MENU PROCEDURES: ------------
@@ -53,12 +53,12 @@ public class AdditiveGameMenus : MonoBehaviour
     {
         InstanceReferences instanceReferences = InstanceReferences.Instance;
 
-        endMenuUI.SetActive(true); // Sets the EndMenuUI parent gameobject to active
-        endMenuGameOutcomeTMPObject.text = winLossText[winner]; // Sets the GameOutcome text to the corrosponding win text (If player wins it's "You won", AI wins it's "You lost")
+        _endMenuUI.SetActive(true); // Sets the EndMenuUI parent gameobject to active
+        _endMenuGameOutcomeTMPObject.text = winLossText[winner]; // Sets the GameOutcome text to the corrosponding win text (If player wins it's "You won", AI wins it's "You lost")
 
         // Sets the score TMP objects to the actual score values
-        endMenuPlayerScoreTMP.text = CommonVariables.PlayerScore.ToString();
-        endMenuAIScoreTMP.text = CommonVariables.AIScore.ToString();
+        _endMenuPlayerScoreTMP.text = CommonVariables.PlayerScore.ToString();
+        _endMenuAIScoreTMP.text = CommonVariables.AIScore.ToString();
 
     }
 

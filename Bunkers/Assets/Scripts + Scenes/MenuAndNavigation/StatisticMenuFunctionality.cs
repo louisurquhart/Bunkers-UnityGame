@@ -66,24 +66,28 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         // ---- Calculate hitrate% ----
 
         // Gets values of hits + misses from playerprefs for calculation
-        int hits = PlayerPrefs.GetInt("TotalNumberOfHits");
-        int misses = PlayerPrefs.GetInt("TotalNumberOfMisses");
+        float hits = PlayerPrefs.GetInt("TotalNumberOfHits");
+        float misses = PlayerPrefs.GetInt("TotalNumberOfMisses");
 
-        // Calculates  + sets hit rate using these values
-        int totalShots = hits + misses; // Calculates total games played (wins + losses)
-        int hitRate = hits / totalShots; // Divides wins / total games played to get winrate % (as decimal 0-1)
-        PlayerPrefs.SetInt("WinRate%", totalShots * 100); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+        // Calculates + sets hit rate using these values
+        float totalStrikes = hits + misses;
+        float hitRate = hits / totalStrikes;
+        float hitRatePercent = hitRate * 100;
+        PlayerPrefs.SetInt("HitRate%", (int)hitRatePercent);
+
 
         // ---- Calculating winrate% ----
 
         // Gets values of wins + losses from playerprefs for calculation
-        int wins = PlayerPrefs.GetInt("Wins");
-        int losses = PlayerPrefs.GetInt("Losses");
+        float wins = PlayerPrefs.GetInt("Wins");
+        float losses = PlayerPrefs.GetInt("Losses");
 
         // Calculates + sets win rate using these values
-        int totalGames = wins + losses; // Calculates total games played (wins + losses)
-        int winRate = wins / totalGames; // Divides wins / total games played to get winrate % (as decimal 0-1)
-        PlayerPrefs.SetInt("WinRate%", winRate * 100); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+        float totalGames = wins + losses; // Calculates total games played (wins + losses)
+        float winRate = wins / totalGames; // Divides wins / total games played to get winrate % (as decimal 0-1
+        float winRatePercent = winRate * 100;
+        PlayerPrefs.SetInt("WinRate%", (int)winRatePercent); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+
 
         // ---- Calculate minutes spent in game (by default they're seconds) -----
         PlayerPrefs.SetInt("MinutesSpentInGame", PlayerPrefs.GetInt("MinutesSpentInGame", 0) / 60); // Sets minutes spent in game to minutes spent in game /60 (as by default they're seconds, need converting to minutes)
@@ -100,8 +104,8 @@ public class StatisticsMenuFunctionality : MonoBehaviour
 
             for (int k = 0; k < currentGameObjectArray.Length; k++) // Loops through for each value in the array to load each statistic value for each in game text value
             {
-                Debug.Log($"Loading values from array: {i} at position: {k}");
-                Debug.Log($"loadStatisticsValues: Loading PlayerPrefName: {(string)currentPlayerPrefArray.GetValue(k)} with value: PlayerPrefValue: {PlayerPrefs.GetInt((string)currentPlayerPrefArray.GetValue(k), 0)} ");
+                //Debug.Log($"Loading values from array: {i} at position: {k}");
+                //Debug.Log($"loadStatisticsValues: Loading PlayerPrefName: {(string)currentPlayerPrefArray.GetValue(k)} with value: PlayerPrefValue: {PlayerPrefs.GetInt((string)currentPlayerPrefArray.GetValue(k), 0)} ");
                 int loadedValue = PlayerPrefs.GetInt((string)currentPlayerPrefArray.GetValue(k), 0); // Finds the saved statistic value (if no saved value, default of 0's loaded)
 
                 TMP_Text tmpText = (TMP_Text)currentGameObjectArray.GetValue(k); // Finds the TMP component in the array
@@ -121,7 +125,7 @@ public class StatisticsMenuFunctionality : MonoBehaviour
             for (int k = 0; k < currentGameObjectArray.Length; k++) // Loops through for each value in the array to reset each statistic value
             {
                 // Log for testing:
-                Debug.Log($"ResetStatisticsValues: Resetting PlayerPref: {(string)currentPlayerPrefArray.GetValue(k)}");
+                //Debug.Log($"ResetStatisticsValues: Resetting PlayerPref: {(string)currentPlayerPrefArray.GetValue(k)}");
 
                 // Sets the playerpref value at the current key to 0
                 PlayerPrefs.SetInt((string)currentPlayerPrefArray.GetValue(k), 0); // Sets the saved statistic value to 0

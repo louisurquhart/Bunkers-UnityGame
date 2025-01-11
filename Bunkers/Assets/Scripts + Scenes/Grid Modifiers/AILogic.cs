@@ -12,9 +12,9 @@ public class AILogic : MonoBehaviour
 
     static Dictionary<int, Action> difficultyDictionary = new Dictionary<int, Action>(3) // Dictionary to convert int difficulty values to their corrosponding methods (1 = Easy, 2 = Medium, 3 = Hard)
     {
-        {1 , EasyAI },
-        {2 , MediumAI },
-        {3 , HardAI }
+        {1 , easyAI },
+        {2 , mediumAI },
+        {3 , hardAI }
     };
 
     // Initiate AI turn called when it's the AI's turn. Determines which AI method to call depending on difficulty
@@ -26,9 +26,10 @@ public class AILogic : MonoBehaviour
 
 
     // ------------------ EASY AI ------------------
-    public static void EasyAI() // Easy AI is very basic and only guesses random board positions
+    private static void easyAI() // Easy AI is very basic and only guesses random board positions
     {
-        Debug.Log($"{CommonVariables.DebugFormat[0]}Executing EasyAI turn");
+        // Test code
+        Debug.Log($"Executing EasyAI turn");
 
         // Validates it's the AI's turn
         if (CommonVariables.PlayerTurn)
@@ -94,17 +95,17 @@ public class AILogic : MonoBehaviour
 
 
     // ------------------ MEDIUM AI ------------------
-    public static void MediumAI() // Medium AI is a moderately advanced AI which guesses around where previous bunkers have been hit but not fully destroyed until its destroyed the whole bunker.
+    private static void mediumAI() // Medium AI is a moderately advanced AI which guesses around where previous bunkers have been hit but not fully destroyed until its destroyed the whole bunker.
     {
-        EasyAI(); // Medium difficulty will be added in final iteration. Calls EasyAI in the meantime
+        easyAI(); // Medium difficulty will be added in final iteration. Calls EasyAI in the meantime
     }
 
 
 
     // ------------------ HARD AI ------------------
-    public static void HardAI() // Hard AI is a very advanced AI which guesses around where previous bunkers + countinues lines until a bunker has been fully destroyed.
+    private static void hardAI() // Hard AI is a very advanced AI which guesses around where previous bunkers + countinues lines until a bunker has been fully destroyed.
     {
-        EasyAI(); // Hard difficulty will be added in final iteration. Calls EasyAI in the meantime
+        easyAI(); // Hard difficulty will be added in final iteration. Calls EasyAI in the meantime
     }
 
 }
