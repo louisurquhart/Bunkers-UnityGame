@@ -12,9 +12,9 @@ public class OptionsMenuFunctionality : MonoBehaviour
 {
     private static int _arrayCount = 5;
 
-    Array[] gameObjectArrays = new Array[_arrayCount];
-    String[] playerPrefName = new string[_arrayCount];
-    GameObject[] currentButtonsArray = new GameObject[_arrayCount];
+    Array[] _gameObjectArrays = new Array[_arrayCount];
+    String[] _playerPrefName = new string[_arrayCount];
+    GameObject[] _currentButtonsArray = new GameObject[_arrayCount];
 
     // References to the button/slider GameObjects for modification
 
@@ -37,21 +37,21 @@ public class OptionsMenuFunctionality : MonoBehaviour
     private void Awake() // Awake method is called immediately after class initiailization
     {
         // Adds all the sub arrays to the array of arrays + the playerprefs string value reference to the other array (can't be multidimensional as different types)
-        gameObjectArrays[0] = _difficultyButtonReferences;
-        playerPrefName[0] = "Difficulty";
-        currentButtonsArray[0] = _difficultyButtonReferences[0];
+        _gameObjectArrays[0] = _difficultyButtonReferences;
+        _playerPrefName[0] = "Difficulty";
+        _currentButtonsArray[0] = _difficultyButtonReferences[0];
 
-        gameObjectArrays[1] = _specialStrikeStatusButtonReferences;
-        playerPrefName[1] = "SpecialStrikeStatus";
-        currentButtonsArray[1] = _specialStrikeStatusButtonReferences[0];
+        _gameObjectArrays[1] = _specialStrikeStatusButtonReferences;
+        _playerPrefName[1] = "SpecialStrikeStatus";
+        _currentButtonsArray[1] = _specialStrikeStatusButtonReferences[0];
 
-        gameObjectArrays[2] = _statisticRecordingStatusButtonReferences;
-        playerPrefName[2] = "StatisticRecordingStatus";
-        currentButtonsArray[2] = _statisticRecordingStatusButtonReferences[0];
+        _gameObjectArrays[2] = _statisticRecordingStatusButtonReferences;
+        _playerPrefName[2] = "StatisticRecordingStatus";
+        _currentButtonsArray[2] = _statisticRecordingStatusButtonReferences[0];
 
-        gameObjectArrays[3] = _statisticRecordingTypeButtonReferences;
-        playerPrefName[3] = "StatisticRecordingType";
-        currentButtonsArray[3] = _statisticRecordingTypeButtonReferences[0];
+        _gameObjectArrays[3] = _statisticRecordingTypeButtonReferences;
+        _playerPrefName[3] = "StatisticRecordingType";
+        _currentButtonsArray[3] = _statisticRecordingTypeButtonReferences[0];
     }
 
     private void Start() // Called by unity when scene is loaded
@@ -82,10 +82,10 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         for (int i = 0; i < _arrayCount; i++) // For loop goes through all the items in gameObjectArray
         {
-            Array currentArray = gameObjectArrays[i]; // Reference is created for current array in question for easier maintainability + readability
+            Array currentArray = _gameObjectArrays[i]; // Reference is created for current array in question for easier maintainability + readability
             Debug.Log($"currentArray is now set to array {i}");
 
-            int savedValue = PlayerPrefs.GetInt(playerPrefName[i], -1); // Sets savedValue to the saved value stored in playerprefs (loads default of -1 if no saved value)
+            int savedValue = PlayerPrefs.GetInt(_playerPrefName[i], -1); // Sets savedValue to the saved value stored in playerprefs (loads default of -1 if no saved value)
 
             if (savedValue == -1) // If there's no saved value (default of -1 has been loaded), it will skip this iteration of the loop as nothing needs changing
             {
@@ -107,12 +107,12 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
     private void changeOutline(int settingRef, GameObject newButton) // Method to change the thickness of a gameObject
     {
-        GameObject currentButtonValue = currentButtonsArray[settingRef];
+        GameObject currentButtonValue = _currentButtonsArray[settingRef];
 
         Outline obOutlineComponent = currentButtonValue.GetComponent<Outline>();
         obOutlineComponent.effectDistance = new Vector2(-3, -3);
 
-        currentButtonsArray[settingRef] = newButton;
+        _currentButtonsArray[settingRef] = newButton;
 
         Outline nbOutlineComponent = newButton.GetComponent<Outline>();
         nbOutlineComponent.effectDistance = new Vector2(-5, -5);
@@ -125,11 +125,11 @@ public class OptionsMenuFunctionality : MonoBehaviour
         int settingNumberRef = findFirstDigit(settingAndValueRef) - 1;
         int value = findLastDigit(settingAndValueRef) - 1;
 
-        string setting = playerPrefName[settingNumberRef];
+        string setting = _playerPrefName[settingNumberRef];
 
         PlayerPrefs.SetInt(setting, value); // Saves the chosen difficulty to player prefs (the difficulty variables passed via the onclick button function)
 
-        changeOutline(settingNumberRef, (GameObject)gameObjectArrays[settingNumberRef].GetValue(value));
+        changeOutline(settingNumberRef, (GameObject)_gameObjectArrays[settingNumberRef].GetValue(value));
 
         Debug.Log($"Setting: {setting} changed to: {value}.");
     }

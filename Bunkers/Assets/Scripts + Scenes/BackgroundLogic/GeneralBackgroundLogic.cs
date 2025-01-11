@@ -22,6 +22,9 @@ public class GeneralBackgroundLogic : MonoBehaviour
     {
         CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't
 
+        // Testing code:
+        Debug.Log($"PlayerTurn: {CommonVariables.PlayerTurn}");
+
         if (CommonVariables.PlayerTurn) // If the new turn's the players turn
         {
             Debug.Log($"<b><color=white>PLAYER TURN:"); // Debug log for identifying which turn changes happened in testing
@@ -98,6 +101,5 @@ public class GeneralBackgroundLogic : MonoBehaviour
         ResetGame(true); // Calls the reset game function and passes in true to signify it's a full reset
         SceneNavigationFunctions.GoToMainMenu(); // Loads the main menu scene
     }
-
 }
 

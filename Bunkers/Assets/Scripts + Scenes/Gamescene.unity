@@ -2276,6 +2276,7 @@ GameObject:
   - component: {fileID: 374169909}
   - component: {fileID: 374169915}
   - component: {fileID: 374169914}
+  - component: {fileID: 374169916}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2365,6 +2366,18 @@ MonoBehaviour:
   gameSceneEventSystemParent: {fileID: 374169908}
   gameSceneAudioListener: {fileID: 906295471}
   playerGridManager: {fileID: 983897698}
+--- !u!114 &374169916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374169908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15871690fda79447bd317aaab3ef6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &402883423
 GameObject:
   m_ObjectHideFlags: 0
@@ -5717,9 +5730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5b5af597790884288298b6c35f44f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rows: 9
-  _colums: 9
-  isPlayer: 1
+  IsPlayer: 0
   EntityNum: 0
   _missColour: {r: 0.2784314, g: 0.6431373, b: 0, a: 0.49019608}
   _hitColour: {r: 0, g: 0, b: 0, a: 1}
@@ -7052,10 +7063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5b5af597790884288298b6c35f44f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rows: 9
-  _colums: 9
-  isPlayer: 0
-  EntityNum: 0
+  IsPlayer: 0
+  EntityNum: 1
   _missColour: {r: 0, g: 0.654902, b: 0.86666673, a: 0.5019608}
   _hitColour: {r: 1, g: 0.23113209, b: 0.41842017, a: 1}
   _bunkerGenerator: {fileID: 1224810908}
@@ -7535,11 +7544,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde1c3020c144d4b928e5b6f9e1f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 2011272633}
-  endMenuUI: {fileID: 328331170}
-  endMenuGameOutcomeTMPObject: {fileID: 1594217181}
-  endMenuPlayerScoreTMP: {fileID: 1435417149}
-  endMenuAIScoreTMP: {fileID: 716151787}
+  _pauseMenuUI: {fileID: 2011272633}
+  _endMenuUI: {fileID: 328331170}
+  _endMenuGameOutcomeTMPObject: {fileID: 1594217181}
+  _endMenuPlayerScoreTMP: {fileID: 1435417149}
+  _endMenuAIScoreTMP: {fileID: 716151787}
 --- !u!114 &1430966657
 MonoBehaviour:
   m_ObjectHideFlags: 0

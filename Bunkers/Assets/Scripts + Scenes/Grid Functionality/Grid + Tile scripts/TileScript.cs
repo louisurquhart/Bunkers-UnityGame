@@ -7,15 +7,12 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Tile : MonoBehaviour
 { 
-
     // ------- Variables --------
-    public int row; // row position of tile
-    public int col; // column position of the tile
+    public int Row; // Row position of tile
+    public int Col; // Column position of the tile
 
     // Tile state variables
-    public bool IsBunker = false;  // checks if the tile has a bunker
-    public bool IsRotated = false; // sets the rotation status of the tile (false by default)
-
+    public bool IsBunker = false;  // Value to show if tile's a bunker
 
     // ------- Encapsulated properties for the tiles attributes --------
 
@@ -65,7 +62,7 @@ public class Tile : MonoBehaviour
         get { return isPreviouslyHit; }
         set 
         {
-            Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}isPreviouslyHit on tile row: {row} column: {col} set to: {value}");
+            Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}isPreviouslyHit on tile row: {Row} column: {Col} set to: {value}");
             isPreviouslyHit = value;
         }
     }
@@ -95,19 +92,19 @@ public class Tile : MonoBehaviour
     public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
     {
         // Sets corrosponding variables to the given ones
-        row = rowRef; 
-        col = colRef; 
+        Row = rowRef; 
+        Col = colRef; 
         gridManager = gridManagerRef; 
         tileSpriteRenderer = GetComponent<SpriteRenderer>();
 
         // Outputs log for testing
-        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {row}, Columns == {col}, TileSpriteRenderer == {TileSpriteRenderer}");
+        //Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {Row}, Columns == {Col}, TileSpriteRenderer == {TileSpriteRenderer}");
     }
 
     // Method to set the tile as bunker (should be overrided by tile subclasses as it depends on which entities tile it is)
     public virtual void SetBunker(FullBunker givenBunkerType)
     {
-        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method");
+        Debug.LogError($"{CommonVariables.DebugFormat[GridManager.EntityNum]}SetBunker: Failiure to override SetBunker method"); // If method's not overrided it outputs error
     }
 
 
@@ -115,21 +112,13 @@ public class Tile : MonoBehaviour
     public void UpdateTileColour(Color color)
     {
         tileColour = color;
-        Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}UpdateTileColour: Updating tile: {this} at row: {row}, column: {col} colour to: {color}");
+        //Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}UpdateTileColour: Updating tile: {this} at row: {Row}, column: {Col} colour to: {color}");
         TileSpriteRenderer.color = color;
     }
-
-    // Initalise method to be called by the grid manager script when the grid's being created (creates an instance of this class per tile)
-
-
-} // ---------------------- END OF TILE CLASS -----------------------------
+}
 
 
 
-
-
-
-// ----------- end of class -----------
 
 
 

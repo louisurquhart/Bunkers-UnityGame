@@ -12,9 +12,9 @@ using static UnityEngine.Rendering.DebugUI.Table;
 public class GridManager : MonoBehaviour
 {
     // Variables - (private variables have _ infront to follow naming convention)
-    public int _rows = 9; // number of rows for the grid
-    public int _colums = 9;  // number of columns for the grid 
-    public bool isPlayer;
+    private int _rows = 9; // number of rows for the grid
+    private int _colums = 9;  // number of columns for the grid 
+    public bool IsPlayer;
     public int EntityNum;
 
     // Hit + Miss color values. Will be replaced with images in final iteration
@@ -31,7 +31,7 @@ public class GridManager : MonoBehaviour
     private void Awake() // Called immediately after class instantiation
     {
         // Sets entityNum to its value (based on isPlayer)
-        if(isPlayer) {EntityNum = 0;}
+        if(IsPlayer) {EntityNum = 0;}
         else {EntityNum = 1;}
     }
 
@@ -61,7 +61,7 @@ public class GridManager : MonoBehaviour
 
                 Grid[row, column] = tileScript; // Stores the tilescript into the grid array
                                                 // for working with later (identifying if bunker, setting if hit, ect)
-                Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}New tile added at row: {row}, column: {column}. GridArray tile value: {Grid[row, column]}"); // Debug log for testing
+                //Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}New tile added at row: {row}, column: {column}. GridArray tile value: {Grid[row, column]}"); // Debug log for testing
             }
         }
 
@@ -73,7 +73,7 @@ public class GridManager : MonoBehaviour
     {
         if (!tile.IsPreviouslyHit) // makes sure the tile hasn't been hit before + validating it's the entities turn
         {
-            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile: {tile} hit at: Row: {tile.row} Column: {tile.col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
+            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile: {tile} hit at: Row: {tile.Row} Column: {tile.Col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
 
             tile.IsPreviouslyHit = true; // sets the isHit variable to true to signifiy it has already been clicked
 
@@ -154,7 +154,7 @@ public class GridManager : MonoBehaviour
         StatisticsMenuFunctionality.IncrementStatisticValue("FullBunkersDestroyed");
 
         // Checks if game has ended (as this could be a game ending change):
-        GeneralBackgroundLogic.HasGameEnded(); 
+        //GeneralBackgroundLogic.HasGameEnded(); 
     }
 
     private void updateFullBunkerTilesColour(Color newColor, FullBunker fullBunker)
