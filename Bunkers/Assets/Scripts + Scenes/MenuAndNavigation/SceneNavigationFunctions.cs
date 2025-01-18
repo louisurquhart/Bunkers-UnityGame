@@ -21,8 +21,8 @@ public class SceneNavigationFunctions : MonoBehaviour
     {
         if (additive) // If scene's loaded additively 
         {
-            GameObject.Find("MainCamera").GetComponent<AudioListener>().enabled = false; // Sets the previous scenes audio system to inactive
-            GameObject.Find("EventSystem").SetActive(false); // Sets the previous scenes event system to inactive
+            InstanceReferences.Instance.GameSceneAudioListener.enabled = false;
+            InstanceReferences.Instance.GameSceneEventSystemParent.SetActive(false);
             SceneManager.LoadScene("OptionsMenu", LoadSceneMode.Additive); // Loads the new scene additively
         }
         else

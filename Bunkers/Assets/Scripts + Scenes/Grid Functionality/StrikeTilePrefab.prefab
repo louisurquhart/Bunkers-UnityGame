@@ -146,10 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84e90e44d7699a4aa7df1fb8c794e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  row: 0
-  col: 0
+  Row: 0
+  Col: 0
   IsBunker: 0
-  IsRotated: 0
   tileSpriteRenderer: {fileID: 3933329860192286820}
   _aiTileHitSprite: {fileID: 0}
   _aiTileMissSprite: {fileID: 0}

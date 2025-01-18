@@ -146,10 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45bff4a2952ae914e9eea3a4353d63c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  row: 0
-  col: 0
+  Row: 0
+  Col: 0
   IsBunker: 0
-  IsRotated: 0
   tileSpriteRenderer: {fileID: 3933329860192286820}
   _playerTileHitSprite: {fileID: 0}
   _playerTileMissSprite: {fileID: 0}
+  defaultColour: {r: 0.043137256, g: 0.5294118, b: 0.14117648, a: 1}

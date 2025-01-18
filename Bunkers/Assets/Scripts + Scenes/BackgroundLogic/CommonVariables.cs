@@ -13,6 +13,7 @@ public class CommonVariables : MonoBehaviour // a class for public static variab
     public static bool GameActive = false; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
     public static bool PlayerTurn = true;  // Boolean property to signify it's currently the players turn (true by default as player starts by default)
     public static bool Paused = false; // Boolean property to signify if the game is paused or not
+    public static bool ManualBunkerPlacementActive = true;
 
     // ----------------- INTEGER PROPERTIES FOR CALCULATION (ENCAPSULATED + VALIDATED) ---------------
 

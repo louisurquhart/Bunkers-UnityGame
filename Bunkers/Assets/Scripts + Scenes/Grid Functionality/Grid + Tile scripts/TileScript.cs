@@ -17,8 +17,8 @@ public class Tile : MonoBehaviour
     // ------- Encapsulated properties for the tiles attributes --------
 
     // GridManager property
-    private GridManager gridManager;
-    public GridManager GridManager
+    protected GridManager gridManager;
+    virtual public GridManager GridManager
     {
         get { return gridManager; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
     }
@@ -29,7 +29,6 @@ public class Tile : MonoBehaviour
     {
         get { return tileSpriteRenderer; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
     }
-
     // TileColour property
     private Color tileColour;
     public Color TileColour
@@ -42,7 +41,6 @@ public class Tile : MonoBehaviour
         }
 
     }
-
     // FullBunkerReference property
     private FullBunker fullBunkerReference;
     public FullBunker FullBunkerReference 
@@ -62,7 +60,6 @@ public class Tile : MonoBehaviour
         get { return isPreviouslyHit; }
         set 
         {
-            Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}isPreviouslyHit on tile row: {Row} column: {Col} set to: {value}");
             isPreviouslyHit = value;
         }
     }
@@ -73,21 +70,6 @@ public class Tile : MonoBehaviour
         TileColour = TileSpriteRenderer.color;
     }
 
-
-    // --- Procedures to highlight tile when it's hovered over ---
-    protected void OnMouseOver() // Automatically called by unity if tile's hovered over. Temporaraly makes the tile more transparent
-    {
-        Color tempColor = TileColour;  // Gets the sprites current colour
-        tempColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
-        TileSpriteRenderer.color = tempColor; // Commits the new sprite colour with modified alpha (transparency)
-    }
-
-    protected void OnMouseExit() // Automatically called if tile's no longer being hovered over. Sets the tile back to its regular colour
-    {
-        TileSpriteRenderer.color = TileColour;
-    }
-
-
     // Initialise method called by gridManager to create + set the properties of the tile
     public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
     {
@@ -96,7 +78,7 @@ public class Tile : MonoBehaviour
         Col = colRef; 
         gridManager = gridManagerRef; 
         tileSpriteRenderer = GetComponent<SpriteRenderer>();
-
+        Debug.Log($"Instantiated: gridManager = {gridManager}");
         // Outputs log for testing
         //Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {Row}, Columns == {Col}, TileSpriteRenderer == {TileSpriteRenderer}");
     }
@@ -109,10 +91,13 @@ public class Tile : MonoBehaviour
 
 
     // Method to change the tiles colour (should change tileColour value + the actual tiles colour)
-    public void UpdateTileColour(Color color)
+    public void UpdateTileColour(Color color, bool temporary)
     {
-        tileColour = color;
-        //Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}UpdateTileColour: Updating tile: {this} at row: {Row}, column: {Col} colour to: {color}");
+        if (!temporary)
+        {
+           tileColour = color;
+            Debug.Log($"NewTileColour: {tileColour} at row {Row}, column {Col}");
+        }
         TileSpriteRenderer.color = color;
     }
 }
