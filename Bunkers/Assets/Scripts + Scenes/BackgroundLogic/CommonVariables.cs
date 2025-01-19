@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 
-public class CommonVariables : MonoBehaviour // a class for public static variables which need to remain consistant while a game's active and there can't be multiple instances of them
+public class CommonVariables : ScriptableObject // a class for public static variables which need to remain consistant while a game's active and there can't be multiple instances of them
 {
     // ------------------------------ GAME STATE BOOLEAN VALUES -------------------------------------
 

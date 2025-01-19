@@ -44,7 +44,7 @@ public class AILogic : MonoBehaviour
         while (true) // Executes for as long as an unhit position hasn't been found
         {
             // ------------ Generates random tile: ---------------
-            Tile randomTile = GenerateRandomTile(gridManager); // Uses GenerateRandomTile function to find a random tile 
+            Tile randomTile = GeneralBackgroundLogic.GenerateRandomTile(gridManager); // Uses GenerateRandomTile function to find a random tile 
 
             // ----- Checks if random tile's previously hit: ----
             if (!randomTile.IsPreviouslyHit) // If the tile isn't previously hit
@@ -196,18 +196,8 @@ public class AILogic : MonoBehaviour
         Debug.LogError($"isTileHitSuccess: tileHitSuccess out of bounds (tileHitSuccess == {tileHitSuccess}"); // Outputs error
         return false; // Returns false to signify it was unsucessful
     }
-    // Generate random tile method made from reactoring of EasyAI (returns a random tile)
-    private static Tile GenerateRandomTile(GridManager gridManager)
-    {
-        // Generates a random row + column (position)
-        int randomRow = UnityEngine.Random.Range(0, 9); // Generates a random row
-        int randomColumn = UnityEngine.Random.Range(0, 9); // Generates a random column
+    
 
-        // Finds the tile located at the randomly generated position through the grid managers Grid array which stores all the tiles 
-        Tile randomTile = gridManager.Grid[randomRow, randomColumn];
-
-        return randomTile; // Returns the random tile
-    }
 
     private static void addAliveBunkerTile(Tile hitAliveBunkerTile)
     {

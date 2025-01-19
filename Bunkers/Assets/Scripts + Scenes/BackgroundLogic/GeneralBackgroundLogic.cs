@@ -16,6 +16,18 @@ public class GeneralBackgroundLogic : MonoBehaviour
         StatisticsMenuFunctionality.IncrementStatisticValue("TotalGamesLaunched");
     }
 
+    // Generate random tile method
+    public static Tile GenerateRandomTile(GridManager gridManager)
+    {
+        // Generates a random row + column (position)
+        int randomRow = UnityEngine.Random.Range(0, 9); // Generates a random row
+        int randomColumn = UnityEngine.Random.Range(0, 9); // Generates a random column
+
+        // Finds the tile located at the randomly generated position through the grid managers Grid array which stores all the tiles 
+        Tile randomTile = gridManager.Grid[randomRow, randomColumn];
+
+        return randomTile; // Returns the random tile
+    }
 
     // -------------------- CHANGE TURN ---------------------
     public static void ChangeTurn() // Procedure to switch turns between AI and the player
