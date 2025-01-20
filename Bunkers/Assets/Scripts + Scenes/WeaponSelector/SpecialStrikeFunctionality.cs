@@ -21,7 +21,46 @@ public class SpecialStrikeFunctionality : MonoBehaviour
     // Reference to current active weapon
     SpecialStrikeWeapon currentWeapon;
 
+
+    public void UseWeapon(SpecialStrikeWeapon givenWeapon, int row, int col)
+    {
+        if(givenWeapon.TotalUsesLeft > 0) // If the weapon has uses left (validation)
+        {
+            givenWeapon.Activate(row, col); // The weapon's activated at the given row + column
+
+            weapon.TotalUsesLeft--; // Total uses left of the weapon's decremented
+            UpdateWeaponStatus(givenWeapon) // The weapons status is updated
+        }
+        else // If weapon has been used with no uses left (shouldn't be possible, validation failiure)
+        {
+            Debug.LogError("Weapon has no uses left. No action performed") // An error is outputted
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------- //
+    // PLAYER SPECIFIC CODE BELOW FOR THEIR WEAPON SELECTOR - NEEDS MOVING TO POLYMORBISM SUBCLASS:
+
     // ChangeWeapon is called by a weapon button (via unity inspector) to change the players current weapon
+    void Start()
+    {
+        // Loads the weapon status (uses + activeness) onto the players buttons
+        LoadSavedWeaponUses();
+    }
+
+    // Procedure to load the weapons uses left + status onto the players buttons
+    public void LoadSavedWeaponUses()
+    {
+        // Sets different special strikes uses left to their saved values. If there's no saved values a default value of 1 is set
+        RandomStrike.TotalUsesLeft = PlayerPrefs.GetInt("TotalRandomStrikes", 1);
+        QuadrupleStrike.TotalUsesLeft = PlayerPrefs.GetInt("TotalQuadrupleStrikes", 1);
+        OctaStrike.TotalUsesLeft = PlayerPrefs.GetInt("TotalOctaStrikes", 1);
+
+        // The status of these weapons is then updated
+        UpdateWeaponStatus(RandomStrike);
+        UpdateWeaponStatus(QuadrupleStrike);
+        UpdateWeaponStatus(OctaStrike);
+    }
+
     public void ChangeWeapon(SpecialStrikeWeapon newWeapon)
     {
         if (newWeapon.TotalUsesLeft > 0)
@@ -38,11 +77,25 @@ public class SpecialStrikeFunctionality : MonoBehaviour
         {
             Debug.Log("Weapon has no uses left. No action performed");
         }
-
     }
-    public void UseWeapon(SpecialStrikeWeapon weapon)
-    {
 
+    public void UpdateWeaponStatus(SpecialStrikeWeapon givenWeapon)
+    {
+        if(givenWeapon.TotalUsesLeft <= 0) // If the weapon no longer has any uses left:
+        {
+            // needs to change transparency of weapon to more transparent to show it's inactive
+            //givenWeapon.WeaponButton.Color;
+
+            // Changes current weapon back to default as this weapon no longer has any uses left
+            ChangeWeapon(DefaultStrike);
+        }
+        else // If the weapon has uses left
+        {
+            // Change weapon transparency to normal
+        }
+
+        // Updates uses left text on the buttons:
+        //givenWeapon.WeaponButton.text = givenWeapon.TotalUsesLeft; // probably something like this
     }
 }
 
