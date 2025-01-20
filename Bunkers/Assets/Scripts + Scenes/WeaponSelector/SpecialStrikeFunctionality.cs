@@ -22,18 +22,16 @@ public class SpecialStrikeFunctionality : MonoBehaviour
     SpecialStrikeWeapon currentWeapon;
 
 
-    public void UseWeapon(SpecialStrikeWeapon givenWeapon, int row, int col)
+    virtual public void UseWeapon(SpecialStrikeWeapon givenWeapon, int row, int col)
     {
         if(givenWeapon.TotalUsesLeft > 0) // If the weapon has uses left (validation)
         {
             givenWeapon.Activate(row, col); // The weapon's activated at the given row + column
-
             weapon.TotalUsesLeft--; // Total uses left of the weapon's decremented
-            UpdateWeaponStatus(givenWeapon) // The weapons status is updated
         }
         else // If weapon has been used with no uses left (shouldn't be possible, validation failiure)
         {
-            Debug.LogError("Weapon has no uses left. No action performed") // An error is outputted
+            Debug.LogError("Weapon has no uses left. No action performed") // An error is outputted for debugging
         }
     }
 
@@ -46,6 +44,21 @@ public class SpecialStrikeFunctionality : MonoBehaviour
         // Loads the weapon status (uses + activeness) onto the players buttons
         LoadSavedWeaponUses();
     }
+
+    //override public void UseWeapon(SpecialStrikeWeapon givenWeapon, int row, int col)
+    //{
+    //    if (givenWeapon.TotalUsesLeft > 0) // If the weapon has uses left (validation)
+    //    {
+    //        givenWeapon.Activate(row, col); // The weapon's activated at the given row + column
+
+    //        weapon.TotalUsesLeft--; // Total uses left of the weapon's decremented
+    //        UpdateWeaponStatus(givenWeapon) // The weapons status is updated
+    //    }
+    //    else // If weapon has been used with no uses left (shouldn't be possible, validation failiure)
+    //    {
+    //        Debug.LogError("Weapon has no uses left. No action performed") // An error is outputted
+    //    }
+    //}
 
     // Procedure to load the weapons uses left + status onto the players buttons
     public void LoadSavedWeaponUses()
@@ -99,7 +112,7 @@ public class SpecialStrikeFunctionality : MonoBehaviour
     }
 }
 
-public abstract class SpecialStrikeWeapon : MonoBehaviour
+protected abstract class SpecialStrikeWeapon : MonoBehaviour
 {
     public GameObject WeaponButton;
     public int TotalUsesLeft;
@@ -128,14 +141,14 @@ public abstract class SpecialStrikeWeapon : MonoBehaviour
     }
 }
 
-public class DefaultStrike : SpecialStrikeWeapon
+internal class DefaultStrike : SpecialStrikeWeapon
 {
     override public void Activate(int row, int col, GridManager gridManager)
     {
         gridManager.OnTileHit(GeneralBackgroundLogic.GenerateRandomTile(gridManager));
     }
 }
-public class RandomStrike : SpecialStrikeWeapon
+internal class RandomStrike : SpecialStrikeWeapon
 {
     override public void Activate(int row, int col, GridManager gridManager)
     {
@@ -146,7 +159,7 @@ public class RandomStrike : SpecialStrikeWeapon
     }
 }
 
-public class QuadrupleStrike : SpecialStrikeWeapon
+internal class QuadrupleStrike : SpecialStrikeWeapon
 {
     override public void Activate(int row, int col, GridManager gridManager)
     {
@@ -157,7 +170,7 @@ public class QuadrupleStrike : SpecialStrikeWeapon
         hitAdjacentTiles(row, col, gridManager);
     }
 }
-public class OctaStrike : SpecialStrikeWeapon
+internal class OctaStrike : SpecialStrikeWeapon
 {
     override public void Activate(int row, int col, GridManager gridManager)
     {
