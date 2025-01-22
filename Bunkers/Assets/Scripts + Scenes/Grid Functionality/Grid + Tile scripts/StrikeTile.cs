@@ -6,16 +6,24 @@ using UnityEngine;
 // Subclass of tile with specialised proceudres for strike grid tiles
 public class StrikeTile : Tile 
 {
-    [SerializeField] Sprite _aiTileHitSprite; // reference to the sprite a bunker tile will change to when hit
-    [SerializeField] Sprite _aiTileMissSprite; // reference to the sprite a grass tile will change to when hit
-
     // Automatically called by unity if tile's clicked
     protected void OnMouseDown() 
     {
-        if (!CommonVariables.ManualBunkerPlacementActive)
+        if (CommonVariables.ManualBunkerPlacementActive)
         {
-            GridManager.OnTileHit(this); // Calls OnTileClicked function as tile has been clicked
+            Debug.Log("Player hit enemy board when manual bunker placement's active. No action performed");
         }
+        else if (PlayerPrefs.GetInt("SpecialStrikeStatus", 0) == 0 && GridManager.SpecialStrikeFunctionality is PlayerSpecialStrikeFunctionality playerSpecialStrikeFunctionality) // If special strikes are enabled (0 == enabled)
+        {
+            Debug.Log($"SpecialStrikesEnabled (Status: {PlayerPrefs.GetInt("SpecialStrikeStatus", 0)}). Activating special weapon");
+            GridManager.SpecialStrikeFunctionality.UseSpecialWeapon(null, Row, Col, GridManager);
+        }
+        else
+        {
+            Debug.Log($"SpecialStrikes not enabled (PlayerPrefs Status: {PlayerPrefs.GetInt("SpecialStrikeStatus", 0)}, SpecialStrikeFunctionality: {GridManager.SpecialStrikeFunctionality}). Performing regular strike");
+            gridManager.OnTileHit(this, true);
+        }
+
     }
 
     // Procedure to be called when a tile is designated as a bunker (when bunker generation is happening)

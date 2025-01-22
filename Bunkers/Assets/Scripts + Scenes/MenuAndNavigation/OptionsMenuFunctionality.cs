@@ -1,167 +1,177 @@
 using System;
 using TMPro;
-using Unity.Burst.Intrinsics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
+[Serializable]
+public class ButtonSetting 
+{
+    [SerializeField] public GameObject[] ButtonGameObjects;
+    [SerializeField] public int CurrentButtonRef;
+    [SerializeField] public string PlayerPrefName;
+}
+[Serializable]
+public class SliderSetting
+{
+    [SerializeField] public Slider SliderObject;
+    [SerializeField] public TextMeshProUGUI SliderValueText;
+    [SerializeField] public int MaxBound;
+    [SerializeField] public int MinBound;
+    [SerializeField] public string PlayerPrefName;
+}
+[Serializable]
+public class InputFieldSetting
+{
+    [SerializeField] public TMP_InputField InputFieldObject;
+    [SerializeField] public int MaxBound;
+    [SerializeField] public int MinBound;
+    [SerializeField] public string PlayerPrefName;
+}
 
 public class OptionsMenuFunctionality : MonoBehaviour
 {
-    private static int _arrayCount = 5;
-
-    Array[] _gameObjectArrays = new Array[_arrayCount];
-    String[] _playerPrefName = new string[_arrayCount];
-    GameObject[] _currentButtonsArray = new GameObject[_arrayCount];
-
-    // References to the button/slider GameObjects for modification
-
-    // Difficulty button references
-    [SerializeField] GameObject[] _difficultyButtonReferences = new GameObject[3];
-
-    // Special strike button references:
-    [SerializeField] GameObject[] _specialStrikeStatusButtonReferences = new GameObject[2];
-
-    // Statistic recording button references:
-    [SerializeField] GameObject[] _statisticRecordingStatusButtonReferences = new GameObject[2];
-
-    // Type of statistics recorded button references:
-    [SerializeField] GameObject[] _statisticRecordingTypeButtonReferences = new GameObject[3];
-
-    // Volume slider references:
-    [SerializeField] GameObject[] _volumeSliderGameObjectReferences = new GameObject[2];
-
-    // Awake method adds all the arrays to the main array in runtime
-    private void Awake() // Awake method is called immediately after class initiailization
-    {
-        // Adds all the sub arrays to the array of arrays + the playerprefs string value reference to the other array (can't be multidimensional as different types)
-        _gameObjectArrays[0] = _difficultyButtonReferences;
-        _playerPrefName[0] = "Difficulty";
-        _currentButtonsArray[0] = _difficultyButtonReferences[0];
-
-        _gameObjectArrays[1] = _specialStrikeStatusButtonReferences;
-        _playerPrefName[1] = "SpecialStrikeStatus";
-        _currentButtonsArray[1] = _specialStrikeStatusButtonReferences[0];
-
-        _gameObjectArrays[2] = _statisticRecordingStatusButtonReferences;
-        _playerPrefName[2] = "StatisticRecordingStatus";
-        _currentButtonsArray[2] = _statisticRecordingStatusButtonReferences[0];
-
-        _gameObjectArrays[3] = _statisticRecordingTypeButtonReferences;
-        _playerPrefName[3] = "StatisticRecordingType";
-        _currentButtonsArray[3] = _statisticRecordingTypeButtonReferences[0];
-    }
+    // Arrays to hold references to different setting objects (buttons, sliders and input fields)
+    [SerializeField] private ButtonSetting[] buttonSettings;
+    [SerializeField] private SliderSetting[] sliderSettings;
+    [SerializeField] private InputFieldSetting[] inputFieldSettings;
 
     private void Start() // Called by unity when scene is loaded
     {
         loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences (if there are any)
         loadSavedSliderValues(); // Calls LoadSavedSliderValues to change the slider/s + slider value/s next to it to the stored saved value (if there are any)
+        loadSavedInputFieldValues(); // Calls LoadSavedInputFieldValues to load the input fields with saved values
     }
 
-    // Method to set the volumeslider + number next to it to the saved volume value.
-    private void loadSavedSliderValues()
+
+    // ----------------- PROCEDURES TO LOAD SAVED SETTING VALUES + DISPLAY THEM ON SCREEN: -----------------------
+
+   // Procedure to set bold outlined button to the loaded saved button ref
+    private void loadSavedButtonValues()
     {
-        //Debug.Log("Loading saved volume value"); // Outputs that the start functions being executed for testing purposes
-
-        // Creates references to the specific GameObjects needed
-        Slider volSlider = _volumeSliderGameObjectReferences[0].GetComponent<Slider>();
-        TMP_Text volNumber = _volumeSliderGameObjectReferences[1].GetComponent<TMP_Text>();
-
-        // Loads the saved value from playerprefs (if no saved value, 50 is loaded as default
-        float loadedVolume = PlayerPrefs.GetFloat("GameVolume", 50); // Sets volume value to player saved value, if no value it sets it to default of 50
-
-        // Sets the volume slider + number to the loaded value
-        volNumber.text = loadedVolume.ToString();  // Sets the text next to the slider to the loaded volume value
-        volSlider.value = loadedVolume; // Sets the actual slider to the loaded volume value
-    }
-
-    // ------------------------------ HIGHLIGHT SAVED BUTTONS PROCEDURE (called on start) -----------------------------------------
-    private void loadSavedButtonValues()  // Called to highlight the option buttons which values were loaded from the users saved playerpreferences (if no values saved, the default value is highlighted)
-    {
-        for (int i = 0; i < _arrayCount; i++) // For loop goes through all the items in gameObjectArray
+        foreach (ButtonSetting buttonSetting in buttonSettings) // Goes through every button
         {
-            Array currentArray = _gameObjectArrays[i]; // Reference is created for current array in question for easier maintainability + readability
-            Debug.Log($"currentArray is now set to array {i}");
-
-            int savedValue = PlayerPrefs.GetInt(_playerPrefName[i], -1); // Sets savedValue to the saved value stored in playerprefs (loads default of -1 if no saved value)
-
-            if (savedValue == -1) // If there's no saved value (default of -1 has been loaded), it will skip this iteration of the loop as nothing needs changing
-            {
-                continue; // Skips the rest of the code and reloops as nothing needs changing because value's already default
-            }
-            else if (savedValue <= 3) // Otherwise if value isn't default + is within bounds (<= 3) it will change the visual properties of the corrosponding button
-            {
-                Debug.Log($"Changing setting reference: {i} to value: {savedValue}");
-                // ---- Changes outline width of the designated button: ----
-                GameObject newButton = (GameObject)currentArray.GetValue(savedValue); // Finds the corropsonding button to the loaded value and casts it to a gameobject and sets a reference to it
-                changeOutline(i, newButton);
-            }
-            else // If value's out of bounds
-            {
-                Debug.LogError($"Validation failiure for loadSavedButtonValues. Loaded saved value is out of bounds. Loaded value == {savedValue}"); // Outputs an error to the debug log that the code couldn't executed due to out of bounds value
-            }
+            // Changes current button to saved button (if no saved button, 0 is default):
+            changeActiveButton(buttonSetting, PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, 0));
         }
     }
 
-    private void changeOutline(int settingRef, GameObject newButton) // Method to change the thickness of a gameObject
+    // Procedure to set the slider + slider value next to it to saved value
+    private void loadSavedSliderValues()
     {
-        GameObject currentButtonValue = _currentButtonsArray[settingRef];
+        Debug.Log("Loading saved slider values"); // Outputs that the start functions being executed for testing purposes
 
-        Outline obOutlineComponent = currentButtonValue.GetComponent<Outline>();
+        foreach (SliderSetting sliderSetting in sliderSettings) // Goes through every slider
+        {
+            int newSliderValue = PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, sliderSetting.MaxBound / 2); // Sets slider value to player saved value, if no value it sets it to default max value / 2
+            sliderSetting.SliderObject.value = newSliderValue;
+            sliderSetting.SliderValueText.text = newSliderValue.ToString();
+        }
+    }
+
+    // Procedure to load input fields with their saved player value
+    private void loadSavedInputFieldValues()
+    {
+        foreach (InputFieldSetting inputFieldSetting in inputFieldSettings)
+        {
+            inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName, 1).ToString(); // Sets input fields text to saved value (1 as default if none saved)
+        }
+    }
+
+    // ----------------------------------- CHANGE SETTING PROCEDURES -----------------------------------------
+
+    // --- Change button procedures
+
+    // Procedure to change the active setting (called via unities OnButtonClick for UI buttons)
+    public void ChangeButton(int settingAndValueRef) // Has combined setting + value ref due to unity inspector limited to only 1 value passable through a method
+    {
+        int settingIndexRef = findFirstDigit(settingAndValueRef); // Finds buttonSetting array index through first digit of setting + value ref
+        ButtonSetting buttonSetting = buttonSettings[settingIndexRef]; // Finds the referenced button setting 
+        GameObject newButton = buttonSetting.ButtonGameObjects[findLastDigit(settingAndValueRef)]; // Finds the referenced button setting (by finding array index by getting last digit of ref)
+
+        PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, settingIndexRef); // Saves the chosen difficulty to player prefs (the difficulty variables passed via the onclick button function)
+
+        Debug.Log($"Setting: {buttonSetting.PlayerPrefName} changed to: {newButton}."); // Log for debugging
+    }
+
+    // Procedure to change the active outlined button 
+    private void changeActiveButton(ButtonSetting buttonSetting, int newButtonRef)
+    {
+        // Creates references to the new and old buttons
+        GameObject currentButton = buttonSetting.ButtonGameObjects[buttonSetting.CurrentButtonRef];
+        GameObject newButton = buttonSetting.ButtonGameObjects[newButtonRef];
+
+        // Changes outline of current button to thin
+        Outline obOutlineComponent = currentButton.GetComponent<Outline>();
         obOutlineComponent.effectDistance = new Vector2(-3, -3);
 
-        _currentButtonsArray[settingRef] = newButton;
-
+        // Changes outline of new button to thick
         Outline nbOutlineComponent = newButton.GetComponent<Outline>();
         nbOutlineComponent.effectDistance = new Vector2(-5, -5);
+
+        // Sets current button to new button:
+        buttonSetting.CurrentButtonRef = newButtonRef;
     }
 
+    // --- Change slider value procedure
 
-    // -------------------------------------- CHANGE BUTTON PROCEDURE -----------------------------------------
-    public void ChangeSetting(int settingAndValueRef)
+    // Procedure to update the slider value saved to what's dispalyed (called by unity slider when updated)
+    public void UpdateSliderValue(int sliderRef) // Method called when volume sliders value's changed (by unity slider)
     {
-        int settingNumberRef = findFirstDigit(settingAndValueRef) - 1;
-        int value = findLastDigit(settingAndValueRef) - 1;
+        SliderSetting sliderSetting = sliderSettings[sliderRef];
 
-        string setting = _playerPrefName[settingNumberRef];
+        // Updates saved playerpref value
+        PlayerPrefs.SetInt(sliderSetting.PlayerPrefName, (int)sliderSetting.SliderObject.value);
 
-        PlayerPrefs.SetInt(setting, value); // Saves the chosen difficulty to player prefs (the difficulty variables passed via the onclick button function)
-
-        changeOutline(settingNumberRef, (GameObject)_gameObjectArrays[settingNumberRef].GetValue(value));
-
-        Debug.Log($"Setting: {setting} changed to: {value}.");
     }
 
-    private int findFirstDigit(int number)
+    public void UpdateInputFieldValue(int inputFieldRef)
+    {
+        InputFieldSetting inputFieldSetting = inputFieldSettings[inputFieldRef];
+        TMP_InputField inputFieldObject = inputFieldSetting.InputFieldObject;
+
+        if(int.TryParse(inputFieldObject.text, out int value) && value >= 0 && value <= 9) // Trys to parse from the string input to an int and set it to value + validates it's within bounds 0-9 (although bit redundant as input field has 1 char limit)
+        {
+            PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, value);
+            
+        }
+        else // If validation fails
+        {
+            inputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName).ToString(); // Sets text back to saved value to show no value saved
+        }
+
+
+    }
+    // Called when text's modified to show if the input's valid or not
+    public void ValidateInputFieldValue(int inputFieldRef)
+    {
+        InputFieldSetting inputFieldSetting = inputFieldSettings[inputFieldRef];
+        TMP_InputField inputFieldObject = inputFieldSetting.InputFieldObject;
+
+        if (int.TryParse(inputFieldObject.text, out int value) && value >= 0 && value <= 9) // Trys to parse from the string input to an int and set it to value + validates it's within bounds 0-9 (although bit redundant as input field has 1 char limit)
+        {
+            inputFieldObject.textComponent.color = Color.green; // Changes text colour to green to show the input is valid
+        }
+        else // If validation fails
+        {
+            inputFieldObject.textComponent.color = Color.red; // Changes text colour to red to show the input is invalid
+        }
+    }
+
+    // Procedure to find first digit of a number
+    private int findFirstDigit(int number) 
     {
         while (number >= 10)
         {
-            number /= 10;
+            number /= 10; 
         }
-        return number;
+        return number - 1; // -1 due to int's not allowing 00/01 so 11/12 is used instead as input (then subtracted here)
     }
-    private int findLastDigit(int number)
+    // Procedure to find last digit of a number
+    private int findLastDigit(int number) 
     {
-        return (number % 10);
+        return (number % 10 - 1); // -1 due int's not allowing 00/01 so 11/12 is used instead as input (then subtracted here)
     }
 
-    // -------------------------------------- CHANGE SLIDER PRODCEDURE -----------------------------------------
-
-    // Change the volume
-    public void ChangeVolume() // Method called when volume sliders value's changed
-    {
-        // Creates references to the specific components needed
-        Slider volSlider = _volumeSliderGameObjectReferences[0].GetComponent<Slider>();
-        TMP_Text volNumber = _volumeSliderGameObjectReferences[1].GetComponent<TMP_Text>();
-
-        // Changes the volume + text next to the volume slided to the value of the volume slider. (called when volume slider is moved)
-        volNumber.text = volSlider.value.ToString(); // Changes text next to volume slider to the value of the volume slider
-        AudioListener.volume = volSlider.value / 100; // Sets the ingame volume to the saved value
-        PlayerPrefs.SetFloat("GameVolume", volSlider.value); // Saves this volume to playerprefs so it can be loaded next time the game's opened
-        Debug.Log($"Current volume is: {volSlider.value}"); // Outputs the new volume value to the debug log for testing
-    }
 
     // ------------------------------------ BACK BUTTON --------------------------------------------
 
@@ -182,3 +192,5 @@ public class OptionsMenuFunctionality : MonoBehaviour
     }
 
 } // ---------------------------------- END OF CLASS ------------------------------------------
+
+

@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class PlayerTile : Tile // SubClass of Tile class with on clicked method specialised for player tiles
 {
-    [SerializeField] Sprite _playerTileHitSprite; // reference to the sprite a bunker tile will change to when hit
-    [SerializeField] Sprite _playerTileMissSprite; // reference to the sprite a grass tile will change to when hit
     override public GridManager GridManager
     {
         get { return gridManager; }
@@ -32,7 +30,7 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
 
         if (CommonVariables.ManualBunkerPlacementActive && GridManager is PlayerGridManager playerGridManager)
         { 
-            playerGridManager.UpdateFullBunkerTilesColour(GridManager._defaultColour, playerGridManager.CurrentFullBunker, Row, Col, true);
+            playerGridManager.UpdateFullBunkerTilesColour(GridManager.DefaultColour, playerGridManager.CurrentFullBunker, Row, Col, true);
         }
     }
 

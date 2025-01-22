@@ -78,7 +78,7 @@ public class Tile : MonoBehaviour
         Col = colRef; 
         gridManager = gridManagerRef; 
         tileSpriteRenderer = GetComponent<SpriteRenderer>();
-        Debug.Log($"Instantiated: gridManager = {gridManager}");
+        //Debug.Log($"Instantiated: gridManager = {gridManager}");
         // Outputs log for testing
         //Debug.Log($"{CommonVariables.DebugFormat[GridManager.EntityNum]}Initialise: Tile {this} at row: {rowRef}, {colRef} initialized. Rows == {Row}, Columns == {Col}, TileSpriteRenderer == {TileSpriteRenderer}");
     }
@@ -96,7 +96,7 @@ public class Tile : MonoBehaviour
         if (!temporary)
         {
            tileColour = color;
-            Debug.Log($"NewTileColour: {tileColour} at row {Row}, column {Col}");
+           //Debug.Log($"NewTileColour: {tileColour} at row {Row}, column {Col}");
         }
         TileSpriteRenderer.color = color;
     }

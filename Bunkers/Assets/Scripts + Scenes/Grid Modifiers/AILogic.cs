@@ -49,7 +49,7 @@ public class AILogic : MonoBehaviour
             // ----- Checks if random tile's previously hit: ----
             if (!randomTile.IsPreviouslyHit) // If the tile isn't previously hit
             {
-                int tileHitSuccess = gridManager.OnTileHit(randomTile); // It calls OnTileHit
+                int tileHitSuccess = gridManager.OnTileHit(randomTile, true); // It calls OnTileHit
 
                 // And then evaluates its success:
                 if (isTileHitSuccess(tileHitSuccess) && randomTile.IsBunker)
@@ -86,7 +86,7 @@ public class AILogic : MonoBehaviour
                 addAliveBunkerTile(_randomNearbyBunkerTile); // It adds it to the hitAliveBunkerTiles array for future turns to guess around this position
             }
 
-            gridManager.OnTileHit(_randomNearbyBunkerTile); // Hits the tile generated
+            gridManager.OnTileHit(_randomNearbyBunkerTile, true); // Hits the tile generated
         }
     }
 
@@ -203,36 +203,35 @@ public class AILogic : MonoBehaviour
     {
         // --- Adds it to the hitaliveBunkerTile array
         hitAliveBunkerTiles.Add(hitAliveBunkerTile);
+        //// --- Evaluates if it's a string of bunkers or just on its own. If it is it adds it to the aliveBunkerTile array ---
+        //Tile nearbyBunkerTile;
+        //bool vertical;
+        //int _anchorTileRow = hitAliveBunkerTile.Row;
+        //int _anchorTileCol = hitAliveBunkerTile.Col;
 
-        // --- Evaluates if it's a string of bunkers or just on its own. If it is it adds it to the aliveBunkerTile array ---
-        Tile nearbyBunkerTile;
-        bool vertical;
-        int _anchorTileRow = hitAliveBunkerTile.Row;
-        int _anchorTileCol = hitAliveBunkerTile.Col;
-
-        // Checks left + right columns (horizonal)
-        if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
-        {
-            nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
-            vertical = false;
-        }
-        else if (_anchorTileCol != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
-        {
-            nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
-            vertical = false;
-        }
-        // Checks up + down rows (vertical)
-        else if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
-        {
-            nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
-            vertical = true;
-        }
-        else if (_anchorTileRow != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
-        {
-            nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
-            vertical = true;
-        }
-        else { return; } // Otherwise if there's no nearby bunker tiles 
+        //// Checks left + right columns (horizonal)
+        //if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
+        //{
+        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
+        //    vertical = false;
+        //}
+        //else if (_anchorTileCol != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
+        //{
+        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
+        //    vertical = false;
+        //}
+        //// Checks up + down rows (vertical)
+        //else if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
+        //{
+        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
+        //    vertical = true;
+        //}
+        //else if (_anchorTileRow != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
+        //{
+        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
+        //    vertical = true;
+        //}
+        //else { return; } // Otherwise if there's no nearby bunker tiles 
 
 
 

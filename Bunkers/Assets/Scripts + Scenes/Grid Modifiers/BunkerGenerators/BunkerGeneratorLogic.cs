@@ -164,7 +164,7 @@ public class BunkerGenerator : MonoBehaviour
 
         // Increments the player or ai full bunker count
         CommonVariables.BunkerCountsDictionary[gridManager.EntityNum].Set(CommonVariables.BunkerCountsDictionary[gridManager.EntityNum].Get() + 1); // Increments the corropsonding entities bunker count
-        Debug.Log($"AI TotalFullBunkerCount: {CommonVariables.AIAliveFullBunkerCount}, Player TotalFullBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount}");
+        //Debug.Log($"AI TotalFullBunkerCount: {CommonVariables.AIAliveFullBunkerCount}, Player TotalFullBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount}");
     }
 
 } // End of class

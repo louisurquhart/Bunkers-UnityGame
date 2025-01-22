@@ -21,12 +21,13 @@ public class GridManager : MonoBehaviour
     // Hit + Miss color values. Will be replaced with images in final iteration
     [SerializeField] protected Color _missColour;
     [SerializeField] protected Color _hitColour;
-    [SerializeField] public Color _defaultColour;
+    [SerializeField] public Color DefaultColour;
 
     // References to gameobject/component/other script instance set in inspector:
     [SerializeField] protected GameObject _tileprefab; // Reference to the corrosponding tile prefab for the entity
     [SerializeField] protected Transform _gridObject; // Reference to GridManagers parent GameObject (where the tiles positon will be based off)
-    [SerializeField] protected BunkerGenerator BunkerGenerator;
+    [SerializeField] protected BunkerGenerator _bunkerGenerator;
+    public SpecialStrikeFunctionality SpecialStrikeFunctionality;
 
     public Tile[,] Grid;  // Array to store the tiles in the grid (referenced by position [row, column])
 
@@ -79,7 +80,7 @@ public class GridManager : MonoBehaviour
     }
 
     // OnTileHit function called when the AI chooses a tile to hit or a player clicks on a tile
-    public int OnTileHit(Tile tile) 
+    public int OnTileHit(Tile tile, bool changeTurn) 
     {
         // Validates bunker placement isn't active
         if (CommonVariables.ManualBunkerPlacementActive)
@@ -93,17 +94,18 @@ public class GridManager : MonoBehaviour
 
             if (tile.IsBunker) // If tile's a bunker 
             {
-                OnBunkerHit(tile); // it calls the onhit function in the gridmanager script inputting its row and column as variables
-                GeneralBackgroundLogic.ChangeTurn();
-                return 0; // returns true to signify that the method completed successfully 
+                onBunkerHit(tile); // it calls the onhit function in the gridmanager script inputting its row and column as variables
             }
             else // if tile's not a bunker 
             {
-                OnBunkerMiss(tile); // it calls the onmiss function in the gridmanager script inputting its row and column as variables
-                GeneralBackgroundLogic.ChangeTurn();
-                return 0; // returns true to signify that the method completed successfully
+                onBunkerMiss(tile); // it calls the onmiss function in the gridmanager script inputting its row and column as variables
             }
-            
+            if (changeTurn)
+            {
+                GeneralBackgroundLogic.ChangeTurn();
+            }
+            return 0; // returns true to signify that the method completed successfully 
+
         }
         else if (tile.IsPreviouslyHit) // If the tile has already been hit
         {
@@ -115,7 +117,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void OnBunkerHit(Tile tile) // function called when a tile with a bunkers been hit (validation already done)
+    private void onBunkerHit(Tile tile) // function called when a tile with a bunkers been hit (validation already done)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
@@ -127,7 +129,7 @@ public class GridManager : MonoBehaviour
         if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfHits"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
     }
 
-    public void OnBunkerMiss(Tile tile)
+    private void onBunkerMiss(Tile tile)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]} OnBunkerMiss: Determined tile wasn't a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
@@ -189,7 +191,7 @@ public class GridManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log($"UpdateFullBunker: Updating tile to its default colour: {Grid[r, c].TileColour}");
+                        //Debug.Log($"UpdateFullBunker: Updating tile to its default colour: {Grid[r, c].TileColour}");
                         Grid[r, c].UpdateTileColour(Grid[r, c].TileColour, temporary);
                     }
                 }
