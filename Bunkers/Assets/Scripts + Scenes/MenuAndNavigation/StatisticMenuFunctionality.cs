@@ -69,11 +69,14 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         float hits = PlayerPrefs.GetInt("TotalNumberOfHits");
         float misses = PlayerPrefs.GetInt("TotalNumberOfMisses");
 
-        // Calculates + sets hit rate using these values
-        float totalStrikes = hits + misses;
-        float hitRate = hits / totalStrikes;
-        float hitRatePercent = hitRate * 100;
-        PlayerPrefs.SetInt("HitRate%", (int)hitRatePercent);
+        if (hits != 0 && misses != 0)
+        {
+            // Calculates + sets hit rate using these values
+            float totalStrikes = hits + misses;
+            float hitRate = hits / totalStrikes;
+            float hitRatePercent = hitRate * 100;
+            PlayerPrefs.SetInt("HitRate%", (int)hitRatePercent);
+        }
 
 
         // ---- Calculating winrate% ----
@@ -82,11 +85,14 @@ public class StatisticsMenuFunctionality : MonoBehaviour
         float wins = PlayerPrefs.GetInt("Wins");
         float losses = PlayerPrefs.GetInt("Losses");
 
-        // Calculates + sets win rate using these values
-        float totalGames = wins + losses; // Calculates total games played (wins + losses)
-        float winRate = wins / totalGames; // Divides wins / total games played to get winrate % (as decimal 0-1
-        float winRatePercent = winRate * 100;
-        PlayerPrefs.SetInt("WinRate%", (int)winRatePercent); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+        if (wins != 0 && losses != 0)
+        {
+            // Calculates + sets win rate using these values
+            float totalGames = wins + losses; // Calculates total games played (wins + losses)
+            float winRate = wins / totalGames; // Divides wins / total games played to get winrate % (as decimal 0-1
+            float winRatePercent = winRate * 100;
+            PlayerPrefs.SetInt("WinRate%", (int)winRatePercent); // Sets WinRate% playerpref to the winrate value (* 100 to make it a %)
+        }
 
 
         // ---- Calculate minutes spent in game (by default they're seconds) -----

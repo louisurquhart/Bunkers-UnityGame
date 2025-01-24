@@ -4,42 +4,44 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 [Serializable]
-public class ButtonSetting 
+public class ButtonSetting // Object to store values + references for a button setting
 {
     [SerializeField] public GameObject[] ButtonGameObjects;
     [SerializeField] public int CurrentButtonRef;
     [SerializeField] public string PlayerPrefName;
 }
 [Serializable]
-public class SliderSetting
+public class SliderSetting // Object to store values + references for a slider setting
 {
     [SerializeField] public Slider SliderObject;
     [SerializeField] public TextMeshProUGUI SliderValueText;
-    [SerializeField] public int MaxBound;
-    [SerializeField] public int MinBound;
+    [SerializeField] public int DefaultValue;
     [SerializeField] public string PlayerPrefName;
 }
 [Serializable]
-public class InputFieldSetting
+public class InputFieldSetting // Object to store values + references for an input field
 {
     [SerializeField] public TMP_InputField InputFieldObject;
-    [SerializeField] public int MaxBound;
-    [SerializeField] public int MinBound;
+    [SerializeField] public bool IsString;
     [SerializeField] public string PlayerPrefName;
 }
 
 public class OptionsMenuFunctionality : MonoBehaviour
 {
-    // Arrays to hold references to different setting objects (buttons, sliders and input fields)
+    private bool startActive; // Boolean value to represent if start is ongoing (to prevent validating input colours while initial start's ongoing)
+
+    // Arrays to hold references to different setting objects (buttons, sliders and input fields) - instantiated in unity inspector
     [SerializeField] private ButtonSetting[] buttonSettings;
     [SerializeField] private SliderSetting[] sliderSettings;
     [SerializeField] private InputFieldSetting[] inputFieldSettings;
 
-    private void Start() // Called by unity when scene is loaded
+    private void Start() // Called by unity when scene's loaded
     {
+        startActive = true;
         loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences (if there are any)
         loadSavedSliderValues(); // Calls LoadSavedSliderValues to change the slider/s + slider value/s next to it to the stored saved value (if there are any)
         loadSavedInputFieldValues(); // Calls LoadSavedInputFieldValues to load the input fields with saved values
+        startActive = false;
     }
 
 
@@ -50,8 +52,10 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         foreach (ButtonSetting buttonSetting in buttonSettings) // Goes through every button
         {
+            PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, 0); // Resets playerpref value
             // Changes current button to saved button (if no saved button, 0 is default):
-            changeActiveButton(buttonSetting, PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, 0));
+            //Debug.Log($"loadSavedButtonValues: PlayerPrefName: {buttonSetting.PlayerPrefName}, PlayerPrefValue: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName)}");
+            changeVisuallyActiveButton(buttonSetting, PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, 0));
         }
     }
 
@@ -62,7 +66,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
         foreach (SliderSetting sliderSetting in sliderSettings) // Goes through every slider
         {
-            int newSliderValue = PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, sliderSetting.MaxBound / 2); // Sets slider value to player saved value, if no value it sets it to default max value / 2
+            int newSliderValue = PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, sliderSetting.DefaultValue); // Sets slider value to player saved value, if no value it sets it to the sliders default value
             sliderSetting.SliderObject.value = newSliderValue;
             sliderSetting.SliderValueText.text = newSliderValue.ToString();
         }
@@ -73,28 +77,37 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         foreach (InputFieldSetting inputFieldSetting in inputFieldSettings)
         {
-            inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName, 1).ToString(); // Sets input fields text to saved value (1 as default if none saved)
+            if (inputFieldSetting.IsString) // If it's a string datatype input field
+            {
+                inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetString(inputFieldSetting.PlayerPrefName); // Sets input fields text to saved value (1 as default if none saved)
+            }
+            else // If it's an int datatype input field
+            {
+                inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName, 1).ToString(); // Sets input fields text to saved value (1 as default if none saved)
+            }
         }
     }
 
-    // ----------------------------------- CHANGE SETTING PROCEDURES -----------------------------------------
+    // ----------------------------------- CHANGE A SETTING PROCEDURES: -----------------------------------------
 
-    // --- Change button procedures
+    // ----- Change button procedures -----
 
     // Procedure to change the active setting (called via unities OnButtonClick for UI buttons)
     public void ChangeButton(int settingAndValueRef) // Has combined setting + value ref due to unity inspector limited to only 1 value passable through a method
     {
         int settingIndexRef = findFirstDigit(settingAndValueRef); // Finds buttonSetting array index through first digit of setting + value ref
+        int newValueRef = findLastDigit(settingAndValueRef);
         ButtonSetting buttonSetting = buttonSettings[settingIndexRef]; // Finds the referenced button setting 
-        GameObject newButton = buttonSetting.ButtonGameObjects[findLastDigit(settingAndValueRef)]; // Finds the referenced button setting (by finding array index by getting last digit of ref)
+        GameObject newButton = buttonSetting.ButtonGameObjects[newValueRef]; // Finds the referenced button setting (by finding array index by getting last digit of ref)
 
-        PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, settingIndexRef); // Saves the chosen difficulty to player prefs (the difficulty variables passed via the onclick button function)
+        PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, newValueRef); // Saves new chosen value to playerprefs via it's index (newValueRef)
+        changeVisuallyActiveButton(buttonSetting, newValueRef);
 
-        Debug.Log($"Setting: {buttonSetting.PlayerPrefName} changed to: {newButton}."); // Log for debugging
+        Debug.Log($"Current active button saved as: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName)} in PlayerPref: {buttonSetting.PlayerPrefName}");
     }
 
-    // Procedure to change the active outlined button 
-    private void changeActiveButton(ButtonSetting buttonSetting, int newButtonRef)
+    // procedure to change the active outlined button 
+    private void changeVisuallyActiveButton(ButtonSetting buttonSetting, int newButtonRef)
     {
         // Creates references to the new and old buttons
         GameObject currentButton = buttonSetting.ButtonGameObjects[buttonSetting.CurrentButtonRef];
@@ -112,49 +125,42 @@ public class OptionsMenuFunctionality : MonoBehaviour
         buttonSetting.CurrentButtonRef = newButtonRef;
     }
 
-    // --- Change slider value procedure
+    // ----- Change slider value procedure -----
 
-    // Procedure to update the slider value saved to what's dispalyed (called by unity slider when updated)
+    // Procedure to update the slider value saved to what's displayed (called by unity slider when updated)
     public void UpdateSliderValue(int sliderRef) // Method called when volume sliders value's changed (by unity slider)
     {
         SliderSetting sliderSetting = sliderSettings[sliderRef];
+        int sliderValue = (int)sliderSetting.SliderObject.value;
 
         // Updates saved playerpref value
-        PlayerPrefs.SetInt(sliderSetting.PlayerPrefName, (int)sliderSetting.SliderObject.value);
+        PlayerPrefs.SetInt(sliderSetting.PlayerPrefName, sliderValue); // Key is given as sliders playerpref value and value's given as sliders current value
 
+        // Updates value next to the slider
+        sliderSetting.SliderValueText.text = sliderValue.ToString();
+
+        Debug.Log($"Slider input saved as: {PlayerPrefs.GetInt(sliderSetting.PlayerPrefName)} in PlayerPref: {sliderSetting.PlayerPrefName}"); // Log for testing
     }
+
+    // ----- Change input field value procedure -----
 
     public void UpdateInputFieldValue(int inputFieldRef)
     {
+        // Creates references to objects based off input field reference
         InputFieldSetting inputFieldSetting = inputFieldSettings[inputFieldRef];
         TMP_InputField inputFieldObject = inputFieldSetting.InputFieldObject;
 
-        if(int.TryParse(inputFieldObject.text, out int value) && value >= 0 && value <= 9) // Trys to parse from the string input to an int and set it to value + validates it's within bounds 0-9 (although bit redundant as input field has 1 char limit)
+        if(inputFieldSetting.IsString) // If input field's string based
         {
-            PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, value);
-            
+            PlayerPrefs.SetString(inputFieldSetting.PlayerPrefName, inputFieldObject.text);
+            Debug.Log($"Input saved as string: {PlayerPrefs.GetString(inputFieldSetting.PlayerPrefName)} in PlayerPref: {inputFieldSetting.PlayerPrefName}");
         }
-        else // If validation fails
+        else // If input fields not string based (int based)
         {
-            inputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName).ToString(); // Sets text back to saved value to show no value saved
+            PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, int.Parse(inputFieldObject.text));
+            Debug.Log($"Input saved as int: {PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName)} in PlayerPref: {inputFieldSetting.PlayerPrefName}");
         }
-
-
-    }
-    // Called when text's modified to show if the input's valid or not
-    public void ValidateInputFieldValue(int inputFieldRef)
-    {
-        InputFieldSetting inputFieldSetting = inputFieldSettings[inputFieldRef];
-        TMP_InputField inputFieldObject = inputFieldSetting.InputFieldObject;
-
-        if (int.TryParse(inputFieldObject.text, out int value) && value >= 0 && value <= 9) // Trys to parse from the string input to an int and set it to value + validates it's within bounds 0-9 (although bit redundant as input field has 1 char limit)
-        {
-            inputFieldObject.textComponent.color = Color.green; // Changes text colour to green to show the input is valid
-        }
-        else // If validation fails
-        {
-            inputFieldObject.textComponent.color = Color.red; // Changes text colour to red to show the input is invalid
-        }
+        
     }
 
     // Procedure to find first digit of a number
@@ -183,11 +189,13 @@ public class OptionsMenuFunctionality : MonoBehaviour
         }
         else // Otherwise if a game is currently active
         {
+            // Sets active scene to the gamescene and reenables its audio listener + event system (disabled to stop multiple being active simultaniously)
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("Gamescene"));
             InstanceReferences.Instance.GameSceneAudioListener.enabled = true;
             InstanceReferences.Instance.GameSceneEventSystemParent.SetActive(true);
-            SceneManager.UnloadSceneAsync("OptionsMenu"); // If a game's active it only unloads the option menu because the users in the middle of the game
-                                                          // and the scene is overlayed ontop of it.
+
+            // Unloads the option menu
+            SceneManager.UnloadSceneAsync("OptionsMenu");
         }
     }
 

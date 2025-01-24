@@ -16,7 +16,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         StatisticsMenuFunctionality.IncrementStatisticValue("TotalGamesLaunched");
     }
 
-    // Generate random tile method
+    // ------------- GENERATE RANDOM TILE PROCEDURE -------------
     public static Tile GenerateRandomTile(GridManager gridManager)
     {
         // Generates a random row + column (position)
@@ -29,7 +29,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         return randomTile; // Returns the random tile
     }
 
-    // -------------------- CHANGE TURN ---------------------
+    // -------------------- CHANGE TURN ----------------------
     public static void ChangeTurn() // Procedure to switch turns between AI and the player
     {
         CommonVariables.PlayerTurn = !CommonVariables.PlayerTurn; // Changes turn to whatever the current turn isn't

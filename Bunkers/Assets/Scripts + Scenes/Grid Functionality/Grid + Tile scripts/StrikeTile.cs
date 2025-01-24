@@ -13,7 +13,7 @@ public class StrikeTile : Tile
         {
             Debug.Log("Player hit enemy board when manual bunker placement's active. No action performed");
         }
-        else if (PlayerPrefs.GetInt("SpecialStrikeStatus", 0) == 0 && GridManager.SpecialStrikeFunctionality is PlayerSpecialStrikeFunctionality playerSpecialStrikeFunctionality) // If special strikes are enabled (0 == enabled)
+        else if (PlayerPrefs.GetInt("SpecialStrikeStatus", 0) == 0 && GridManager.SpecialStrikeFunctionality is PlayerSpecialStrikeFunctionality playerSpecialStrikeFunctionality) // If special strikes are enabled (0 == enabled) + safely casts specialstrikefunctionality to playerspecialstrikefunctionality
         {
             Debug.Log($"SpecialStrikesEnabled (Status: {PlayerPrefs.GetInt("SpecialStrikeStatus", 0)}). Activating special weapon");
             GridManager.SpecialStrikeFunctionality.UseSpecialWeapon(null, Row, Col, GridManager);

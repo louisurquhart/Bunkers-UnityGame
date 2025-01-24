@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AILogic : MonoBehaviour
 {
@@ -108,9 +109,39 @@ public class AILogic : MonoBehaviour
         //{
         //}
     }
-
     // ----------------- BUNKER GENERATION SUB-PROCEDURES -------------------
+    private static void hitPlayerTile(Tile givenTile)
+    {
+        
+        if (PlayerPrefs.GetInt("SpecialStrikeStatus") == 0) // If special strikes are enabled (SpecailStrikeStatus == 0)
+        {
+            SpecialStrikeFunctionality specialStrikeFunctionality = gridManager.SpecialStrikeFunctionality;
 
+            foreach(SpecialStrikeWeapon specialStrikeWeapon in specialStrikeFunctionality.Weapons)
+            {
+                // Generates a random special strike weapon and assigns its reference to the variable randomWeapon 
+                int randomWeaponIndexNum = UnityEngine.Random.Range(0, specialStrikeFunctionality.Weapons.Length);
+                SpecialStrikeWeapon randomWeapon = specialStrikeFunctionality.Weapons[randomWeaponIndexNum];
+
+                // Checks that the weapon has uses left
+                if (randomWeapon.TotalUsesLeft > 0)
+                {
+                    // Activates random weapon and exits the loop
+                    randomWeapon.Activate(givenTile.Row, givenTile.Col, gridManager);
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        else // Otherwise if no special strikes enabled, the tile's hit normally
+        {
+            gridManager.OnTileHit(givenTile, true);
+        }
+    }
+    
     // ----------------- HIT AROUND BUNKER TILE SUB PROCEDURE -------------------
 
     // Procedure to generate a tile around a bunker which is alive and has already been hit
@@ -232,10 +263,9 @@ public class AILogic : MonoBehaviour
         //    vertical = true;
         //}
         //else { return; } // Otherwise if there's no nearby bunker tiles 
-
-
-
     }
+
+
 
 }
 

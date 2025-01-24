@@ -26,20 +26,20 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
 
     private void LoadSavedWeaponsUses()
     {
-        PlayerPrefs.SetInt("TotalRandomStrikes", 2);
-        PlayerPrefs.SetInt("TotalQuadrupleStrikes", 2);
-        PlayerPrefs.SetInt("TotalOctaStrikes", 2);
-        // Sets different special strikes uses left to their saved values. If there's no saved values a default value of 1 is set
-        Weapons[1].TotalUsesLeft = PlayerPrefs.GetInt("TotalRandomStrikes", 1);
-        Weapons[2].TotalUsesLeft = PlayerPrefs.GetInt("TotalQuadrupleStrikes", 1);
-        Weapons[3].TotalUsesLeft = PlayerPrefs.GetInt("TotalOctaStrikes", 1);
-        Debug.Log("WeaponUsesUpdated");
+        // Sets all special weapons uses left to their saved playerpref values. If there's no saved values a default value of 1 is set
+        for(int i = 1; i < Weapons.Length; i++)
+        {
+            SpecialStrikeWeapon weapon = Weapons[i]; // Finds the current special weapon
 
-        // The status of these special weapons is then updated
+            weapon.TotalUsesLeft = PlayerPrefs.GetInt(weapon.PlayerPrefName, 1); // Updates total uses left for the weapon with the saved value
+            UpdateWeaponStatus(weapon); // Updates the weapons visual status
+
+            // Test log:
+            Debug.Log($"Weapon {weapon} total uses left updated to: {weapon.TotalUsesLeft} from playerpref value: {weapon.PlayerPrefName}");
+        }
+
+        // Sets default weapon to 81 as it has a infinite amount of uses (81 is total amount of grid squares)
         Weapons[0].TotalUsesLeft = 81;
-        UpdateWeaponStatus(Weapons[1]);
-        UpdateWeaponStatus(Weapons[2]);
-        UpdateWeaponStatus(Weapons[3]);
     }
 
 
@@ -104,7 +104,7 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
             givenWeapon.WeaponButton.GetComponent<Image>().color = activeWeaponColour;
         }
 
-        // Updates uses left text on the buttons (if special)
+        // Updates uses left text on the buttons (if special, if not it's default which has no use counter)
         if (givenWeapon is not DefaultStrike)
         {
             givenWeapon.WeaponButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = givenWeapon.TotalUsesLeft.ToString();

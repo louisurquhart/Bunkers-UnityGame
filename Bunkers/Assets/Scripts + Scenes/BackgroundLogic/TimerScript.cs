@@ -82,12 +82,11 @@ public class TimerScript : MonoBehaviour
             return ("7", "30"); // returns the default time
         }
     }
-
     public void ResetTime()
     {
         // The Player and AI Time variables are set to either the saved times or a default time
-        CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the Player time value set in options with playerprefs and sets PlayerTimeLeft variable to it (if no value the default's set to 450 seconds)
-        CommonVariables.AITimeLeft = PlayerPrefs.GetInt("TimeLeft", 450); // loads the AI time value set in options and sets the AITimeLeft variable to it (if no value the default's set to 450 seconds)
+        CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("PlayerTime", 5) *60; // Sets playertime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
+        CommonVariables.AITimeLeft = PlayerPrefs.GetInt("AITime", 300) *60; // Sets AItime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
 
         // UpdateTimerText functions then called to update the onscreen text to the values
         updateTimerText(CommonVariables.PlayerTimeLeft, 0);

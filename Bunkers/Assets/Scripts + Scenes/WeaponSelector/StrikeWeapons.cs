@@ -17,6 +17,10 @@ public abstract class SpecialStrikeWeapon : ScriptableObject
         set { _weaponButton = value; }
     }
 
+    abstract public string PlayerPrefName
+    {
+        get;
+    }
     public int TotalUsesLeft;
     abstract public void Activate(int row, int col, GridManager gridManager);
     protected static void validateAndHitTilePosition(int row, int col, GridManager gridManager)
@@ -46,21 +50,41 @@ public abstract class SpecialStrikeWeapon : ScriptableObject
 // Subclass inherited from special strike weapon - Default strike only hits one tile 
 public class DefaultStrike : SpecialStrikeWeapon
 {
+    public override string PlayerPrefName
+    {
+        get { Debug.LogWarning("DefaultStrike: playerprefname attempted to be used, should't be possible. Null returned."); return null;  }
+    }
     override public void Activate(int row, int col, GridManager gridManager)
     {
-        gridManager.OnTileHit(gridManager.Grid[row, col], true);
+        if (TotalUsesLeft > 0)
+        {
+            gridManager.OnTileHit(gridManager.Grid[row, col], true);
+        }
+        else
+        {
+            Debug.LogError($"DefaultStrike called with no uses left (totalUsesLeft = {TotalUsesLeft} (s))");
+        }
     }
 }
 
 // Subclass inherited from special strike weapon - Random strike hits 3 random tiles
 public class RandomStrike : SpecialStrikeWeapon
 {
+    public override string PlayerPrefName
+    {
+        get { return "RandomStrikeQuantity"; }
+    }
     override public void Activate(int row, int col, GridManager gridManager)
     {
-        for (int i = 0; i < 3; i++)
+        gridManager.OnTileHit(gridManager.Grid[row, col], false); // Hits the tile clicked 
+
+        // + 2 random tiles
+        for (int i = 0; i < 2; i++)
         {
             gridManager.OnTileHit(GeneralBackgroundLogic.GenerateRandomTile(gridManager), false); // Generates random tile and hits it (position already valid so no need for extra validation
         }
+        
+        // Turn's then changed
         GeneralBackgroundLogic.ChangeTurn();
     }
 }
@@ -68,6 +92,10 @@ public class RandomStrike : SpecialStrikeWeapon
 // Subclass inherited from special strike weapon - Quadruple strike hits the tile + 4 adjacent tiles to the desginated tile
 public class QuadrupleStrike : SpecialStrikeWeapon
 {
+    public override string PlayerPrefName
+    {
+        get { return "QuadStrikeQuantity"; }
+    }
     override public void Activate(int row, int col, GridManager gridManager)
     {
         // Hits the tile itself (already validated)
@@ -81,6 +109,10 @@ public class QuadrupleStrike : SpecialStrikeWeapon
 // Subclass inherited from special strike weapon - Octa strike hits the tile + 4 adjacent tiles + 4 diagonal tiles to the designated tile
 public class OctaStrike : SpecialStrikeWeapon
 {
+    public override string PlayerPrefName
+    {
+        get { return "OctaStrikeQuantity"; }
+    }
     override public void Activate(int row, int col, GridManager gridManager)
     {
         // Hits the tile itself (already validated)
@@ -90,10 +122,10 @@ public class OctaStrike : SpecialStrikeWeapon
         hitAdjacentTiles(row, col, gridManager);
 
         // Hits the 4 diagonal tiles to the tile (validates before hitting as they could be off-grid)
-        gridManager.OnTileHit(gridManager.Grid[row + 1, col + 1], false);
-        gridManager.OnTileHit(gridManager.Grid[row + 1, col - 1], false);
-        gridManager.OnTileHit(gridManager.Grid[row - 1, col + 1], false);
-        gridManager.OnTileHit(gridManager.Grid[row - 1, col - 1], false);
+        validateAndHitTilePosition(row + 1, col + 1, gridManager);
+        validateAndHitTilePosition(row + 1, col - 1, gridManager);
+        validateAndHitTilePosition(row - 1, col + 1, gridManager);
+        validateAndHitTilePosition(row - 1, col - 1, gridManager);
         GeneralBackgroundLogic.ChangeTurn();
     }
 }
