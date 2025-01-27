@@ -1,20 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using UnityEngine.WSA;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class SpecialStrikeFunctionality : MonoBehaviour
 {
     //Array to store weapon sub classes
-    public SpecialStrikeWeapon[] Weapons = new SpecialStrikeWeapon[4];
+    public SpecialStrikeWeapon[] Weapons;
 
     // Reference to current active weapon
-    protected SpecialStrikeWeapon currentWeapon;
+    protected SpecialStrikeWeapon _currentWeapon;
 
-    private void Awake()
+    private void Awake() // Called by unity on scene load when class is instantiated
     {
         if (PlayerPrefs.GetInt("SpecialStrikeStatus", 0) != 0) // If special strikes aren't enabled by the player (0 == enabled, 1 == disabled)
         {
@@ -22,16 +16,21 @@ public class SpecialStrikeFunctionality : MonoBehaviour
             Debug.Log($"<b>SpecialStrikeFunctionality SpecialStrikes not enabled (SpecialStrikeStatus: {PlayerPrefs.GetInt("SpecialStrikeStatus")}. Self destroying");
             GameObject.Destroy(this);
         }
-        // Weapon sub classes are instantiated and added to the array 
-        Weapons[0] = ScriptableObject.CreateInstance<DefaultStrike>();
-        Weapons[1] = ScriptableObject.CreateInstance<RandomStrike>();
-        Weapons[2] = ScriptableObject.CreateInstance<QuadrupleStrike>();
-        Weapons[3] = ScriptableObject.CreateInstance<OctaStrike>();
+        else
+        {
+            // Weapons array is instantiated with a size of 4
+            Weapons = new SpecialStrikeWeapon[4];
 
-        currentWeapon = Weapons[0];
+            // Weapon sub classes are instantiated and added to the array 
+            Weapons[0] = ScriptableObject.CreateInstance<DefaultStrike>();
+            Weapons[1] = ScriptableObject.CreateInstance<RandomStrike>();
+            Weapons[2] = ScriptableObject.CreateInstance<QuadrupleStrike>();
+            Weapons[3] = ScriptableObject.CreateInstance<OctaStrike>();
+
+            // Sets current weapon to default strike (index 0)
+            _currentWeapon = Weapons[0];
+        }
     }
-
-
 
     // Procedure to use a weapon
     virtual public void UseSpecialWeapon(SpecialStrikeWeapon givenWeapon, int row, int col, GridManager gridManager)

@@ -1,15 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class GridManager : MonoBehaviour
 {
@@ -26,7 +15,6 @@ public class GridManager : MonoBehaviour
     // References to gameobject/component/other script instance set in inspector:
     [SerializeField] protected GameObject _tileprefab; // Reference to the corrosponding tile prefab for the entity
     [SerializeField] protected Transform _gridObject; // Reference to GridManagers parent GameObject (where the tiles positon will be based off)
-    [SerializeField] protected BunkerGenerator _bunkerGenerator;
     public SpecialStrikeFunctionality SpecialStrikeFunctionality;
 
     public Tile[,] Grid;  // Array to store the tiles in the grid (referenced by position [row, column])
@@ -68,7 +56,6 @@ public class GridManager : MonoBehaviour
                 
                 Grid[row, column] = tileScript; // Stores the tilescript into the grid array
                                                 // for working with later (identifying if bunker, setting if hit, ect)
-                                                //Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}New tile added at row: {row}, column: {column}. GridArray tile value: {Grid[row, column]}"); // Debug log for testing
             }
         }
 
@@ -117,7 +104,8 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void onBunkerHit(Tile tile) // function called when a tile with a bunkers been hit (validation already done)
+    // Procedure called when a tile with a bunkers been hit (validation already done)
+    private void onBunkerHit(Tile tile)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
@@ -129,6 +117,7 @@ public class GridManager : MonoBehaviour
         if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfHits"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
     }
 
+    // Procedure called when a tile with a bunkers been hit (validation already done)
     private void onBunkerMiss(Tile tile)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]} OnBunkerMiss: Determined tile wasn't a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
@@ -160,11 +149,9 @@ public class GridManager : MonoBehaviour
     {
         // Decrements entities full bunker count:
         CommonVariables.BunkerCountsDictionary[EntityNum].Set(CommonVariables.BunkerCountsDictionary[EntityNum].Get() - 1);
-        Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}New FullBunker count: {CommonVariables.BunkerCountsDictionary[EntityNum].Get()}");
         // --- Changes all bunker elements colours to the fullBunkers colour + more transparent (To show the player that they've destroyed a full bunker or their full bunkers been destroyed):
         Color newColor = fullBunker.BunkerColor; // Gets the sprites current colour
         newColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 80% (more transparent)
-        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Full bunker base row: {fullBunker.BaseRow}, base col: {fullBunker.BaseCol}, fullBunker rows: {fullBunker.Rows}, fullBunker columns: {fullBunker.Columns}");
         UpdateFullBunkerTilesColour(newColor, fullBunker, fullBunker.BaseRow, fullBunker.BaseCol, false); // Sets all the tiles colour to their fullBunkers colour
 
         // Updates statistics:
@@ -174,6 +161,8 @@ public class GridManager : MonoBehaviour
         GeneralBackgroundLogic.HasGameEnded(); 
     }
 
+    
+    // Procedure called to update all the tiles in a full bunker
     public void UpdateFullBunkerTilesColour(Color? newColor, FullBunker fullBunker, int row, int col, bool temporary)
     {
         int finalRow = row + fullBunker.Rows;
@@ -196,15 +185,14 @@ public class GridManager : MonoBehaviour
                     }
                 }
             }
-            //fullBunker.bunkerTilesArray[i].UpdateTileColour(newColor); // Calls UpdateTileColour with the colour
         }
     }
 
+    // Procedure called by a tile when mouse goes over it
     virtual public void TileOnMouseOver(Tile tile)
     {
         Color tempColor = tile.TileColour;  // Gets the sprites current colour
         tempColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
         tile.TileSpriteRenderer.color = tempColor;
     }
-
 }

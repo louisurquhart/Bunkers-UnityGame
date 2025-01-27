@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ScoreBoardLogic : MonoBehaviour
 {
+    // References to player + ai's name objects
     [SerializeField] TMP_Text playerName;
     [SerializeField] TMP_Text aiName;
-
+    // References to player + ai's score objects
     [SerializeField] TMP_Text playerScore;
     [SerializeField] TMP_Text aiScore;
 

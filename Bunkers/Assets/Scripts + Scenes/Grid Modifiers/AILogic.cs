@@ -1,19 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class AILogic : MonoBehaviour
 {
     private static GridManager gridManager = InstanceReferences.Instance.PlayerGridManager; // Creates a reference to the players grid manager
 
+    // Array to store the tiles which are part of a bunker which has been hit but not fully destroyed
     static List<Tile> hitAliveBunkerTiles = new List<Tile>();
-    static List<Tile> consecutiveHitAliveBunkerTiles = new List<Tile>();
 
     static Dictionary<int, Action> difficultyDictionary = new (3) // Dictionary to convert int difficulty values to their corrosponding methods (1 = Easy, 2 = Medium, 3 = Hard)
     {
@@ -55,7 +49,7 @@ public class AILogic : MonoBehaviour
                 // And then evaluates its success:
                 if (isTileHitSuccess(tileHitSuccess) && randomTile.IsBunker)
                 {
-                    addAliveBunkerTile(randomTile); // If OnTileHit was successful it adds it to the alivebunkertile array
+                    hitAliveBunkerTiles.Add(randomTile); // If OnTileHit was successful it adds it to the alivebunkertile array
                 }
                 return;
             }
@@ -77,14 +71,15 @@ public class AILogic : MonoBehaviour
         {
             Tile _randomNearbyBunkerTile = generateRandomNearbyBunkerTile();
 
-            if (_randomNearbyBunkerTile == null)
+            if (_randomNearbyBunkerTile == null) // If null is returned it means all posible tiles around the random anchor bunker tile have been hit.
+                                                 // Medium AI calls itself recursively to recheck there's bunkers to hit around and if so try again
             {
                 mediumAI();
                 return;
             }
             else if (_randomNearbyBunkerTile.IsBunker) // If the tile's a bunker
             {
-                addAliveBunkerTile(_randomNearbyBunkerTile); // It adds it to the hitAliveBunkerTiles array for future turns to guess around this position
+                hitAliveBunkerTiles.Add(_randomNearbyBunkerTile); // It adds it to the hitAliveBunkerTiles array for future turns to guess around this position
             }
 
             gridManager.OnTileHit(_randomNearbyBunkerTile, true); // Hits the tile generated
@@ -94,30 +89,19 @@ public class AILogic : MonoBehaviour
     // ------------------ HARD AI ------------------
     private static void hardAI() // Hard AI is a very advanced AI which guesses around where previous bunkers + countinues lines until a bunker has been fully destroyed.
     {
+        // Not implemented so calls mediumAI for the time being
         mediumAI();
         return;
-
-        // WIP:
-
-        //Debug.Log("HardAI called");
-        //if (hitAliveBunkerTiles.Count < 2) // Checks if there's multiple bunkers in a row to hit
-        //{
-        //    mediumAI();
-        //    return;
-        //}
-        //else
-        //{
-        //}
     }
     // ----------------- BUNKER GENERATION SUB-PROCEDURES -------------------
-    private static void hitPlayerTile(Tile givenTile)
+    private static void hitPlayerTile(Tile givenTile) // Procedure to hit a player tile + with the option of a special strike
     {
         
         if (PlayerPrefs.GetInt("SpecialStrikeStatus") == 0) // If special strikes are enabled (SpecailStrikeStatus == 0)
         {
             SpecialStrikeFunctionality specialStrikeFunctionality = gridManager.SpecialStrikeFunctionality;
 
-            foreach(SpecialStrikeWeapon specialStrikeWeapon in specialStrikeFunctionality.Weapons)
+            foreach(SpecialStrikeWeapon specialStrikeWeapon in specialStrikeFunctionality.Weapons) // Goes through each specail strike weapon in weapons array
             {
                 // Generates a random special strike weapon and assigns its reference to the variable randomWeapon 
                 int randomWeaponIndexNum = UnityEngine.Random.Range(0, specialStrikeFunctionality.Weapons.Length);
@@ -132,7 +116,7 @@ public class AILogic : MonoBehaviour
                 }
                 else
                 {
-                    continue;
+                    continue; // Otherwise for loop's continued to find a weapon with uses left 
                 }
             }
         }
@@ -145,7 +129,6 @@ public class AILogic : MonoBehaviour
     // ----------------- HIT AROUND BUNKER TILE SUB PROCEDURE -------------------
 
     // Procedure to generate a tile around a bunker which is alive and has already been hit
-
     private static Tile generateRandomNearbyBunkerTile()
     {
         // Finds a random tile which has already been hit + still has potential bunkers around it
@@ -161,7 +144,6 @@ public class AILogic : MonoBehaviour
         while (true)
         {
             Tile _randomNearbyBunkerTile;
-
             // Generates a random guess relative to the tile (0 = Col-1, 1 =  Col+1, 2 = Row-1, 3 = Row+1)
             int _randomGuessInt = UnityEngine.Random.Range(0, 4);
             numbersGenerated.Add(_randomGuessInt);
@@ -188,7 +170,6 @@ public class AILogic : MonoBehaviour
                     Debug.LogError("MediumAI - Given input fit none of the cases"); // An error's output for fixing/testing
                     return null; // And the procedure is ended as there's an error with it
             }
-
             if (_randomNearbyBunkerTile.IsPreviouslyHit) // If tile has already been hit
             {
                 // Loop exit condition if all posible positions have been hit (+ removal of hit bunker tile)
@@ -227,46 +208,6 @@ public class AILogic : MonoBehaviour
         Debug.LogError($"isTileHitSuccess: tileHitSuccess out of bounds (tileHitSuccess == {tileHitSuccess}"); // Outputs error
         return false; // Returns false to signify it was unsucessful
     }
-    
-
-
-    private static void addAliveBunkerTile(Tile hitAliveBunkerTile)
-    {
-        // --- Adds it to the hitaliveBunkerTile array
-        hitAliveBunkerTiles.Add(hitAliveBunkerTile);
-        //// --- Evaluates if it's a string of bunkers or just on its own. If it is it adds it to the aliveBunkerTile array ---
-        //Tile nearbyBunkerTile;
-        //bool vertical;
-        //int _anchorTileRow = hitAliveBunkerTile.Row;
-        //int _anchorTileCol = hitAliveBunkerTile.Col;
-
-        //// Checks left + right columns (horizonal)
-        //if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
-        //{
-        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
-        //    vertical = false;
-        //}
-        //else if (_anchorTileCol != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
-        //{
-        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
-        //    vertical = false;
-        //}
-        //// Checks up + down rows (vertical)
-        //else if (_anchorTileCol != 0 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol - 1]))
-        //{
-        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol - 1];
-        //    vertical = true;
-        //}
-        //else if (_anchorTileRow != 8 && hitAliveBunkerTiles.Contains(gridManager.Grid[_anchorTileRow, _anchorTileCol + 1]))
-        //{
-        //    nearbyBunkerTile = gridManager.Grid[_anchorTileRow, _anchorTileCol + 1];
-        //    vertical = true;
-        //}
-        //else { return; } // Otherwise if there's no nearby bunker tiles 
-    }
-
-
-
 }
 
 

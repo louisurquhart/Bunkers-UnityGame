@@ -28,20 +28,16 @@ public class InputFieldSetting // Object to store values + references for an inp
 
 public class OptionsMenuFunctionality : MonoBehaviour
 {
-    private bool startActive; // Boolean value to represent if start is ongoing (to prevent validating input colours while initial start's ongoing)
-
     // Arrays to hold references to different setting objects (buttons, sliders and input fields) - instantiated in unity inspector
-    [SerializeField] private ButtonSetting[] buttonSettings;
-    [SerializeField] private SliderSetting[] sliderSettings;
-    [SerializeField] private InputFieldSetting[] inputFieldSettings;
+    [SerializeField] private ButtonSetting[] _buttonSettings;
+    [SerializeField] private SliderSetting[] _sliderSettings;
+    [SerializeField] private InputFieldSetting[] _inputFieldSettings;
 
     private void Start() // Called by unity when scene's loaded
     {
-        startActive = true;
         loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences (if there are any)
         loadSavedSliderValues(); // Calls LoadSavedSliderValues to change the slider/s + slider value/s next to it to the stored saved value (if there are any)
         loadSavedInputFieldValues(); // Calls LoadSavedInputFieldValues to load the input fields with saved values
-        startActive = false;
     }
 
 
@@ -50,11 +46,9 @@ public class OptionsMenuFunctionality : MonoBehaviour
    // Procedure to set bold outlined button to the loaded saved button ref
     private void loadSavedButtonValues()
     {
-        foreach (ButtonSetting buttonSetting in buttonSettings) // Goes through every button
+        foreach (ButtonSetting buttonSetting in _buttonSettings) // Goes through every button
         {
-            PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, 0); // Resets playerpref value
             // Changes current button to saved button (if no saved button, 0 is default):
-            //Debug.Log($"loadSavedButtonValues: PlayerPrefName: {buttonSetting.PlayerPrefName}, PlayerPrefValue: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName)}");
             changeVisuallyActiveButton(buttonSetting, PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, 0));
         }
     }
@@ -64,7 +58,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         Debug.Log("Loading saved slider values"); // Outputs that the start functions being executed for testing purposes
 
-        foreach (SliderSetting sliderSetting in sliderSettings) // Goes through every slider
+        foreach (SliderSetting sliderSetting in _sliderSettings) // Goes through every slider
         {
             int newSliderValue = PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, sliderSetting.DefaultValue); // Sets slider value to player saved value, if no value it sets it to the sliders default value
             sliderSetting.SliderObject.value = newSliderValue;
@@ -75,7 +69,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     // Procedure to load input fields with their saved player value
     private void loadSavedInputFieldValues()
     {
-        foreach (InputFieldSetting inputFieldSetting in inputFieldSettings)
+        foreach (InputFieldSetting inputFieldSetting in _inputFieldSettings)
         {
             if (inputFieldSetting.IsString) // If it's a string datatype input field
             {
@@ -88,7 +82,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
         }
     }
 
-    // ----------------------------------- CHANGE A SETTING PROCEDURES: -----------------------------------------
+    // ----------------------------------- CHANGE SETTING PROCEDURES: -----------------------------------------
 
     // ----- Change button procedures -----
 
@@ -97,7 +91,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         int settingIndexRef = findFirstDigit(settingAndValueRef); // Finds buttonSetting array index through first digit of setting + value ref
         int newValueRef = findLastDigit(settingAndValueRef);
-        ButtonSetting buttonSetting = buttonSettings[settingIndexRef]; // Finds the referenced button setting 
+        ButtonSetting buttonSetting = _buttonSettings[settingIndexRef]; // Finds the referenced button setting 
         GameObject newButton = buttonSetting.ButtonGameObjects[newValueRef]; // Finds the referenced button setting (by finding array index by getting last digit of ref)
 
         PlayerPrefs.SetInt(buttonSetting.PlayerPrefName, newValueRef); // Saves new chosen value to playerprefs via it's index (newValueRef)
@@ -106,7 +100,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
         Debug.Log($"Current active button saved as: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName)} in PlayerPref: {buttonSetting.PlayerPrefName}");
     }
 
-    // procedure to change the active outlined button 
+    // Procedure to change the active outlined button (refactored from changeButton to make it more modular + intercompatible with loadSavedButtonValues)
     private void changeVisuallyActiveButton(ButtonSetting buttonSetting, int newButtonRef)
     {
         // Creates references to the new and old buttons
@@ -130,7 +124,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     // Procedure to update the slider value saved to what's displayed (called by unity slider when updated)
     public void UpdateSliderValue(int sliderRef) // Method called when volume sliders value's changed (by unity slider)
     {
-        SliderSetting sliderSetting = sliderSettings[sliderRef];
+        SliderSetting sliderSetting = _sliderSettings[sliderRef];
         int sliderValue = (int)sliderSetting.SliderObject.value;
 
         // Updates saved playerpref value
@@ -147,7 +141,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     public void UpdateInputFieldValue(int inputFieldRef)
     {
         // Creates references to objects based off input field reference
-        InputFieldSetting inputFieldSetting = inputFieldSettings[inputFieldRef];
+        InputFieldSetting inputFieldSetting = _inputFieldSettings[inputFieldRef];
         TMP_InputField inputFieldObject = inputFieldSetting.InputFieldObject;
 
         if(inputFieldSetting.IsString) // If input field's string based

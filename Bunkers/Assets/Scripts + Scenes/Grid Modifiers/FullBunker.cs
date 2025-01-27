@@ -46,9 +46,6 @@ public class FullBunker
         } // Validates that it's decremeneting total bunkers before setting
     }
 
-    // NumberIdentifer property. Read only to external classes
-    private int numberIdentifier;
-
     // BunkerColor property. Read only to external classes
     private Color bunkerColor;
     public Color BunkerColor
@@ -62,10 +59,6 @@ public class FullBunker
     {
         get { return gridManagerRef; }
     }
-
-    // Array to store all tiles which are apart of the full bunker
-    public Tile[] bunkerTilesArray;
-
 
     public FullBunker(int givenRows, int givenColumns, Color givenColor, GridManager givenGridManager) // Constructor to instantiate a bunker
     {

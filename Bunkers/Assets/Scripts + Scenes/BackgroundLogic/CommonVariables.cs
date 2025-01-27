@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Analytics;
 using UnityEngine;
 
 public class CommonVariables : ScriptableObject // a class for public static variables which need to remain consistant while a game's active and there can't be multiple instances of them

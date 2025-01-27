@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-
 
 public class InstanceReferences : MonoBehaviour // Class which holds references of instances to be used by methods which require to be static - but need to access instance based gameobjects / classes
 {

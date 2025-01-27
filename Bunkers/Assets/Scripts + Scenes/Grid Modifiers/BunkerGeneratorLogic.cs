@@ -1,19 +1,7 @@
-using NUnit.Framework.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.Rendering.DebugUI.Table;
 
-public class BunkerGenerator : MonoBehaviour
+public class BunkerGenerator : ScriptableObject
 {
-    // Reference to gridManager
-    protected GridManager _gridManager;
-
     public static void RandomBunkerGenerator(GridManager gridManager) // random bunker generator. Will be used for the AI's grid + potentially the players if selected in options. Input 0 = Player, Input 1 = AI
     {
         FullBunker[] fullBunkers = gridManager.FullBunkers;
@@ -39,40 +27,37 @@ public class BunkerGenerator : MonoBehaviour
                 Debug.LogError($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Failed to generate a random bunker position");
             }
         }
-
-        // Outputs logs for testing to check that the correct amount of bunkers have been made + the values for these have been updated:
-        Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Final bunker count - PlayerBunkerCount: {CommonVariables.BunkerCountsDictionary[0].Get()}, AIBunkerCount: {CommonVariables.BunkerCountsDictionary[1].Get()}. (Should be {fullBunkers.Length} each)");
-        Debug.Log($"{CommonVariables.DebugFormat[gridManager.EntityNum]}Variables set to - PlayerBunkerCount: {CommonVariables.PlayerAliveFullBunkerCount}, AIBunkerCount: {CommonVariables.AIAliveFullBunkerCount}");
-
     }
 
     public static void ManualBunkerGenerator(int row, int column, PlayerGridManager gridManager)
     {
         FullBunker[] fullBunkers = gridManager.FullBunkers;
 
-        if (gridManager.EntityNum != 0)
+        if (gridManager.EntityNum != 0) // Validates entity is player not AI
         {
+            // If it was called by AI grid manager it outputs an error and ends the procedure
             Debug.LogError("ManualBunkerGenerator called for AI");
             return;
         }
-        else
+        else // If validation is successful
         {
             FullBunker fullBunker = fullBunkers[gridManager.placementIteration]; // Finds the bunker which will be added to the board in the loop iteration
 
-            bool positionValidated = !DoesBunkerOverlap(row, column, fullBunker, gridManager);
+            bool positionValidated = !DoesBunkerOverlap(row, column, fullBunker, gridManager); // Validates that bunker doesn't overlap (or is off grid)
 
-            if (positionValidated)
+            if (positionValidated) // If validation's successful
             {
-                Debug.Log("ManualBunkerGenerator: Bunker being placed");
+                // Places the bunker + increases iteration of bunker being placed
                 placeFullBunker(row, column, gridManager, fullBunker);
                 gridManager.placementIteration++;
-                Debug.Log($"Iterations = {gridManager.placementIteration}");
+
                 // If all bunkers have been placed
                 if (gridManager.placementIteration >= fullBunkers.Length) { CommonVariables.ManualBunkerPlacementActive = false; } // It stops manual bunker placement
             }
-            else
+            else // If validation fails (which should've already been caught before being called)
             {
-                Debug.LogWarning("ManualBunkerGenerator: Bunker not placed as position unvalidated (should've already been caught)");
+                // Warning's output to console + no action performed
+                Debug.LogWarning("ManualBunkerGenerator: Bunker not placed as position unvalidated (should've already been caught!)");
             }
         }
     }
@@ -80,23 +65,18 @@ public class BunkerGenerator : MonoBehaviour
     // RandomBunkerGenerator sub methods (it's been refactored into smaller submethods for easier maintainability)
     protected static (int, int, bool) generateRandomValidatedBunkerPosition(FullBunker bunker, GridManager gridManager)
     {
-        int iterations = 0; // Iterations added for testing
-
-        while (iterations < 10000) // Loop repeats until a position has been found or if it has repeated 10,000 times which means that there's an issue with the code  (iteration check is done for testing to prevent infinite loop + softlock for testing)
+        while (true) // Loop repeats until a position has been found
         {
             // Generates random bunker position
-            int randomRow = UnityEngine.Random.Range(0, 10 - bunker.Rows); // Generates a random row number
-            int randomColumn = UnityEngine.Random.Range(0, 10 - bunker.Columns); // Generates a random column number
+            int randomRow = Random.Range(0, 10 - bunker.Rows); // Generates a random row number
+            int randomColumn = Random.Range(0, 10 - bunker.Columns); // Generates a random column number
 
             if (!DoesBunkerOverlap(randomRow, randomColumn, bunker, gridManager)) // Validates that the bunker won't overlap with any other bunkers
             {
                 //Debug.Log("Bunker doesn't overlap so generating a bunker");
                 return (randomRow, randomColumn, true); // sets external variable randomrow to the randomly generated row
             }
-            iterations++;
         }
-
-        return (0, 0, false); // If no position could be generated in 10000 iterations 0, 0 + false is returned to signify failiure
     }
 
     // Method to check if a bunker will overlap if placed at a specific position (row + column)
@@ -134,9 +114,6 @@ public class BunkerGenerator : MonoBehaviour
         int finalRow = row + bunkerType.Rows;
         int finalColumn = column + bunkerType.Columns;
 
-        // -- Initializes the bunkers tile array so tiles can be added in the for loop --
-        bunkerType.bunkerTilesArray = new Tile[bunkerType.Rows * bunkerType.Columns];
-
         int iterations = 0;
 
         // -- Code for testing --
@@ -155,8 +132,6 @@ public class BunkerGenerator : MonoBehaviour
                 Tile tile = gridManager.Grid[r, c]; // Finds the tile in the position through the grid manager array
 
                 tile.SetBunker(bunkerType); // Sets the tile as a bunker
-
-                bunkerType.bunkerTilesArray[iterations] = tile; // Adds this tile to the bunkers tile array
 
                 iterations++; // Increments iterations 
             }

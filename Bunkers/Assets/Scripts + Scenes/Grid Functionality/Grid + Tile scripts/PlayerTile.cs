@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTile : Tile // SubClass of Tile class with on clicked method specialised for player tiles
 {
+    // GridManager reference
     override public GridManager GridManager
     {
         get { return gridManager; }
@@ -36,12 +33,13 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
 
     protected void OnMouseDown()
     {
-        if (CommonVariables.ManualBunkerPlacementActive &&  GridManager is PlayerGridManager playerGridManager && !BunkerGenerator.DoesBunkerOverlap(Row, Col, playerGridManager.CurrentFullBunker, GridManager))
+        // If manual bunker placement's active + position is valid for bunker placement
+        if (CommonVariables.ManualBunkerPlacementActive && GridManager is PlayerGridManager playerGridManager && !BunkerGenerator.DoesBunkerOverlap(Row, Col, playerGridManager.CurrentFullBunker, GridManager))
         {
-            Debug.Log("OnMouseDown: Calling ManualBunkerGenerator ");
+            // A bunker's placed
             BunkerGenerator.ManualBunkerGenerator(Row, Col, playerGridManager);
         }
-        else
+        else // Otherwise a debug log is output to signify what occured
         {
             Debug.Log("OnMouseDown: Player clicked their board when bunker placement not active/bunker overlaps ");
         }

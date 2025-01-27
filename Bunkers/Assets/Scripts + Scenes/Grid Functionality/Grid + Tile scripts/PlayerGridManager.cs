@@ -1,23 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGridManager : GridManager
 {
-    // Extra logic/variables added to GridManager for the players manual bunker generation options
-    public int placementIteration;
+    public int placementIteration; // Variable to store iteration of which bunker's being placed for indexing
 
+    // Property to store the current full bunker being placed -> needs to be publically accessible for visualisation on board screen when placing 
     protected FullBunker currentFullBunker;
     public FullBunker CurrentFullBunker
     {
-        get
+        get // Only has get property as it shouldn't be set externally
         {
-            if (CommonVariables.ManualBunkerPlacementActive)
-            { currentFullBunker = FullBunkers[placementIteration]; return currentFullBunker; }
-            else { Debug.LogError("Bunker placing is no longer occuring but CurrentFullBunker requested."); return null; }
+            if (CommonVariables.ManualBunkerPlacementActive) // Validates ManualBunkerPlacement is active
+            { 
+                currentFullBunker = FullBunkers[placementIteration]; // If so variable's returned
+                return currentFullBunker; 
+            }
+            else // Otherwise errors output + null is returned
+            { 
+                Debug.LogError("Bunker placing is no longer occuring but CurrentFullBunker requested."); 
+                return null; 
+            } 
         }
     }
-    private Tile _currentOnMouseOverTile;
+    // Variable to store reference to tile which player's currently hovering over. 
+    private Tile _currentOnMouseOverTile; //Set by TileOnMouseOver (which is called by a tile when player mouses over it)
 
     private void Update() // Called every frame by unity
     {
@@ -26,9 +32,8 @@ public class PlayerGridManager : GridManager
         {
             // If so it rotates the bunker + updates tiles colours
             FullBunker fullBunker = FullBunkers[placementIteration];
-            Debug.Log($"Updating fullbunkers colour to default (maybe): fullBunker: {fullBunker}, baserow: {fullBunker.BaseRow}, basecol: {fullBunker.BaseCol}");
-            UpdateFullBunkerTilesColour(null, fullBunker, _currentOnMouseOverTile.Row, _currentOnMouseOverTile.Col, true);
-            BunkerGenerator.RotateBunker(fullBunker);
+            UpdateFullBunkerTilesColour(null, fullBunker, _currentOnMouseOverTile.Row, _currentOnMouseOverTile.Col, true); // Updates full bunkers tiles to default colour (true input to signify temporary)
+            BunkerGenerator.RotateBunker(fullBunker); // Rotates the bunker by calling RotateBunker
         }
     }
 
@@ -50,12 +55,11 @@ public class PlayerGridManager : GridManager
             }
             
         }
-        // If manual bunker placement's not active:
-        else
+        else // If manual bunker placement's not active:
         { 
             Color tempColor = tile.TileColour;  // Gets the sprites current colour
             tempColor.a = 0.5f; // Changes the alpha of the sprites colour colour to 125 (more transparent)
-            tile.TileSpriteRenderer.color = tempColor;
+            tile.TileSpriteRenderer.color = tempColor; // Sets the sprites colour to the more transparent colour
         }
     }
 }
