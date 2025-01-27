@@ -9333,7 +9333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0742037977dfcf45951638ecb9ec6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSettings:
+  _buttonSettings:
   - ButtonGameObjects:
     - {fileID: 1094081924}
     - {fileID: 1424386662}
@@ -9354,19 +9354,19 @@ MonoBehaviour:
     - {fileID: 69933249}
     - {fileID: 863517278}
     CurrentButtonRef: 0
-    PlayerPrefName: ManualBunkerGeneration
+    PlayerPrefName: ManualBunkerGenerationStatus
   - ButtonGameObjects:
     - {fileID: 1597970719}
     - {fileID: 1926912790}
     - {fileID: 2090559843}
     CurrentButtonRef: 0
     PlayerPrefName: Difficulty
-  sliderSettings:
+  _sliderSettings:
   - SliderObject: {fileID: 405753704}
     SliderValueText: {fileID: 595569993}
     DefaultValue: 50
     PlayerPrefName: Volume
-  inputFieldSettings:
+  _inputFieldSettings:
   - InputFieldObject: {fileID: 302889838}
     IsString: 0
     PlayerPrefName: RandomStrikeQuantity
@@ -9382,12 +9382,6 @@ MonoBehaviour:
   - InputFieldObject: {fileID: 491426875}
     IsString: 1
     PlayerPrefName: AIName
-  - InputFieldObject: {fileID: 1721984369}
-    IsString: 0
-    PlayerPrefName: AITime
-  - InputFieldObject: {fileID: 2099370159}
-    IsString: 0
-    PlayerPrefName: PlayerTime
 --- !u!1 &1525529689
 GameObject:
   m_ObjectHideFlags: 0
