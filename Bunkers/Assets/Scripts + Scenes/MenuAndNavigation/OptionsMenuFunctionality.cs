@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using TMPro;
 using UnityEngine;
@@ -50,6 +51,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
         {
             // Changes current button to saved button (if no saved button, 0 is default):
             changeVisuallyActiveButton(buttonSetting, PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, 0));
+            Debug.Log($"Button value ref loaded: {buttonSetting.CurrentButtonRef} from playerpref value: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName, -1)}"); // for testing
         }
     }
 
@@ -63,22 +65,29 @@ public class OptionsMenuFunctionality : MonoBehaviour
             int newSliderValue = PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, sliderSetting.DefaultValue); // Sets slider value to player saved value, if no value it sets it to the sliders default value
             sliderSetting.SliderObject.value = newSliderValue;
             sliderSetting.SliderValueText.text = newSliderValue.ToString();
+            Debug.Log($"Slider value loaded: {sliderSetting.SliderValueText.text} from playerpref value: {PlayerPrefs.GetInt(sliderSetting.PlayerPrefName, 50)}"); // for testing
         }
     }
 
     // Procedure to load input fields with their saved player value
     private void loadSavedInputFieldValues()
     {
+        Debug.Log("LoadingSavedInputFieldValues"); // for testing
+
         foreach (InputFieldSetting inputFieldSetting in _inputFieldSettings)
         {
             if (inputFieldSetting.IsString) // If it's a string datatype input field
             {
                 inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetString(inputFieldSetting.PlayerPrefName); // Sets input fields text to saved value (1 as default if none saved)
+                Debug.Log($"Set input field value to string: {inputFieldSetting.InputFieldObject.text} from playerpref value: {PlayerPrefs.GetString(inputFieldSetting.PlayerPrefName)}"); // for testing
             }
             else // If it's an int datatype input field
             {
                 inputFieldSetting.InputFieldObject.text = PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName, 1).ToString(); // Sets input fields text to saved value (1 as default if none saved)
+                Debug.Log($"Set input field value to int: {inputFieldSetting.InputFieldObject.text} from playerpref value: {PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName)}"); // for testing
             }
+
+
         }
     }
 
@@ -151,10 +160,12 @@ public class OptionsMenuFunctionality : MonoBehaviour
         }
         else // If input fields not string based (int based)
         {
-            PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, int.Parse(inputFieldObject.text));
-            Debug.Log($"Input saved as int: {PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName)} in PlayerPref: {inputFieldSetting.PlayerPrefName}");
+            if (int.TryParse(inputFieldObject.text, out int parsedInt)) // If input's a number between 0-9
+            {
+                PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, parsedInt);
+                Debug.Log($"Input saved as int: {PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName)} in PlayerPref: {inputFieldSetting.PlayerPrefName}");
+            }
         }
-        
     }
 
     // Procedure to find first digit of a number

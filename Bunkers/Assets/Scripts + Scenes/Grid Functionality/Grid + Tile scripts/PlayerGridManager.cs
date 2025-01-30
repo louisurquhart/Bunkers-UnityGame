@@ -1,7 +1,20 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerGridManager : GridManager
 {
+    void Start()
+    {
+        CreateGrid(); // Calls create grid to start the formation of grid as soon as scene's loaded
+        //StartCoroutine(TestCode());
+    }
+    //IEnumerator TestCode()
+    //{
+    //    yield return new WaitForSeconds(5); // Waits 5s so first overlay success/failiure can be seen
+    //    placementIteration = 4; // Increases the iteration of the bunker being placed to last
+    //}
+
     public int placementIteration; // Variable to store iteration of which bunker's being placed for indexing
 
     // Property to store the current full bunker being placed -> needs to be publically accessible for visualisation on board screen when placing 

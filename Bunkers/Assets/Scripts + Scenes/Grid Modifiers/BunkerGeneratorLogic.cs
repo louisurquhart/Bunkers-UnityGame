@@ -10,7 +10,7 @@ public class BunkerGenerator : ScriptableObject
         {
             FullBunker bunkerType = fullBunkers[i]; // Finds the bunker which will be added to the board in the loop iteration
 
-            int randomRotation = UnityEngine.Random.Range(0, 2); // Generates a random rotation for the bunker. 0 = horizontal, 1 = vertical
+            int randomRotation = Random.Range(0, 2); // Generates a random rotation for the bunker. 0 = horizontal, 1 = vertical
             if (randomRotation == 0)
             {
                 RotateBunker(bunkerType); // Generates a random rotation for the bunker

@@ -41,15 +41,17 @@ public class AILogic : MonoBehaviour
             // ------------ Generates random tile: ---------------
             Tile randomTile = GeneralBackgroundLogic.GenerateRandomTile(gridManager); // Uses GenerateRandomTile function to find a random tile 
 
+
             // ----- Checks if random tile's previously hit: ----
             if (!randomTile.IsPreviouslyHit) // If the tile isn't previously hit
             {
-                int tileHitSuccess = gridManager.OnTileHit(randomTile, true); // It calls OnTileHit
+                hitPlayerTile(randomTile); // Calls the hitPlayerTile procedure to hit the tile + with evaluation and potential special strike use
 
                 // And then evaluates its success:
-                if (isTileHitSuccess(tileHitSuccess) && randomTile.IsBunker)
+                if (randomTile.IsBunker) // If the tile's a bunker
                 {
-                    hitAliveBunkerTiles.Add(randomTile); // If OnTileHit was successful it adds it to the alivebunkertile array
+                    hitAliveBunkerTiles.Add(randomTile); // It adds it to the hitAliveBunkerTiles array for future turns to guess around this position
+                    Debug.Log("Bunker tile added to array");
                 }
                 return;
             }
@@ -80,9 +82,10 @@ public class AILogic : MonoBehaviour
             else if (_randomNearbyBunkerTile.IsBunker) // If the tile's a bunker
             {
                 hitAliveBunkerTiles.Add(_randomNearbyBunkerTile); // It adds it to the hitAliveBunkerTiles array for future turns to guess around this position
+                Debug.Log("Bunker tile added to array");
             }
 
-            gridManager.OnTileHit(_randomNearbyBunkerTile, true); // Hits the tile generated
+            hitPlayerTile(_randomNearbyBunkerTile); // Calls the hitPlayerTile procedure to hit the tile + with evaluation and potential special strike use
         }
     }
 
@@ -96,9 +99,10 @@ public class AILogic : MonoBehaviour
     // ----------------- BUNKER GENERATION SUB-PROCEDURES -------------------
     private static void hitPlayerTile(Tile givenTile) // Procedure to hit a player tile + with the option of a special strike
     {
-        
+        Debug.Log("HitPlayerTile called");
         if (PlayerPrefs.GetInt("SpecialStrikeStatus") == 0) // If special strikes are enabled (SpecailStrikeStatus == 0)
         {
+            Debug.Log("HitPlayerTile - identified special strikes are enabled");
             SpecialStrikeFunctionality specialStrikeFunctionality = gridManager.SpecialStrikeFunctionality;
 
             foreach(SpecialStrikeWeapon specialStrikeWeapon in specialStrikeFunctionality.Weapons) // Goes through each specail strike weapon in weapons array
@@ -122,6 +126,7 @@ public class AILogic : MonoBehaviour
         }
         else // Otherwise if no special strikes enabled, the tile's hit normally
         {
+            Debug.Log("HitPlayerTile - special strikes aren't enabled");
             gridManager.OnTileHit(givenTile, true);
         }
     }

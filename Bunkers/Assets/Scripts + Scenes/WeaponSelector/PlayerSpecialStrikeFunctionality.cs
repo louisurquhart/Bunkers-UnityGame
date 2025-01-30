@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +24,8 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
         }
         
         LoadSavedWeaponsUses(); // Loads the weapon status (uses + activeness) onto the players buttons
+
+
     }
 
     // Procedure to load saved weapon uses onto the weapon selector buttons
@@ -49,6 +53,8 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
         if (_currentWeapon.TotalUsesLeft > 0) // If the weapon has uses left (validation)
         {
             _currentWeapon.Activate(row, col, gridManager); // The weapon's activated at the given row + column
+
+            Debug.Log($"currentWeapon playerpref name: {_currentWeapon.PlayerPrefName}"); // log for testing
 
             _currentWeapon.TotalUsesLeft--; // Total uses left of the weapon's decremented
             UpdateWeaponStatus(_currentWeapon); // The weapons status is updated

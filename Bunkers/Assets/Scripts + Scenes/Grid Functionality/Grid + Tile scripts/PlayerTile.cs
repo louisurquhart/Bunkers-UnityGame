@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class PlayerTile : Tile // SubClass of Tile class with on clicked method specialised for player tiles
 {
-    // GridManager reference
-    override public GridManager GridManager
-    {
-        get { return gridManager; }
-    }
-
     public override void SetBunker(FullBunker givenBunkerType) // Procedure to be called when a tile is designated as a bunker (when bunker generation is happening)
     {
         FullBunkerReference = givenBunkerType;

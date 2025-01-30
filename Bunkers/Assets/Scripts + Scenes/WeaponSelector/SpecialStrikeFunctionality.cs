@@ -23,12 +23,17 @@ public class SpecialStrikeFunctionality : MonoBehaviour
 
             // Weapon sub classes are instantiated and added to the array 
             Weapons[0] = ScriptableObject.CreateInstance<DefaultStrike>();
+            //Debug.Log($"Weapons[0] = {Weapons[0]}");
             Weapons[1] = ScriptableObject.CreateInstance<RandomStrike>();
+            //Debug.Log($"Weapons[1] = {Weapons[1]}");
             Weapons[2] = ScriptableObject.CreateInstance<QuadrupleStrike>();
+            //Debug.Log($"Weapons[2] = {Weapons[2]}");
             Weapons[3] = ScriptableObject.CreateInstance<OctaStrike>();
+            //Debug.Log($"Weapons[3] = {Weapons[3]}");
 
             // Sets current weapon to default strike (index 0)
             _currentWeapon = Weapons[0];
+            //Debug.Log($"_currentWeapon = {_currentWeapon}");
         }
     }
 

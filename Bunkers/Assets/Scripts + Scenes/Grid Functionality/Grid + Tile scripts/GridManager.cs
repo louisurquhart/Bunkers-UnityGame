@@ -105,7 +105,7 @@ public class GridManager : MonoBehaviour
     }
 
     // Procedure called when a tile with a bunkers been hit (validation already done)
-    private void onBunkerHit(Tile tile)
+    protected void onBunkerHit(Tile tile)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
@@ -118,7 +118,7 @@ public class GridManager : MonoBehaviour
     }
 
     // Procedure called when a tile with a bunkers been hit (validation already done)
-    private void onBunkerMiss(Tile tile)
+    protected void onBunkerMiss(Tile tile)
     {
         Debug.Log($"{CommonVariables.DebugFormat[EntityNum]} OnBunkerMiss: Determined tile wasn't a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
@@ -130,7 +130,7 @@ public class GridManager : MonoBehaviour
 
 
     // ---------- Private methods created from refactoring OnBunkerHit to improve maintainability ---------
-    private void decrementBunkerCount(Tile tile)
+    protected void decrementBunkerCount(Tile tile)
     {
         FullBunker fullBunker = tile.FullBunkerReference;
 
@@ -145,7 +145,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void destroyFullBunker(FullBunker fullBunker) // Method called if a fullBunker has no bunkers left, changes colour of all tiles in it + decrements entities global bunker count
+    protected void destroyFullBunker(FullBunker fullBunker) // Method called if a fullBunker has no bunkers left, changes colour of all tiles in it + decrements entities global bunker count
     {
         // Decrements entities full bunker count:
         CommonVariables.BunkerCountsDictionary[EntityNum].Set(CommonVariables.BunkerCountsDictionary[EntityNum].Get() - 1);
