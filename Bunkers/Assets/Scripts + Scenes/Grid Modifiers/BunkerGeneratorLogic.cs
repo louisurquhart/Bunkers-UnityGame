@@ -41,7 +41,7 @@ public class BunkerGenerator : ScriptableObject
         }
         else // If validation is successful
         {
-            FullBunker fullBunker = fullBunkers[gridManager.placementIteration]; // Finds the bunker which will be added to the board in the loop iteration
+            FullBunker fullBunker = fullBunkers[gridManager.PlacementIteration]; // Finds the bunker which will be added to the board in the loop iteration
 
             bool positionValidated = !DoesBunkerOverlap(row, column, fullBunker, gridManager); // Validates that bunker doesn't overlap (or is off grid)
 
@@ -49,10 +49,10 @@ public class BunkerGenerator : ScriptableObject
             {
                 // Places the bunker + increases iteration of bunker being placed
                 placeFullBunker(row, column, gridManager, fullBunker);
-                gridManager.placementIteration++;
+                gridManager.PlacementIteration++;
 
                 // If all bunkers have been placed
-                if (gridManager.placementIteration >= fullBunkers.Length) { CommonVariables.ManualBunkerPlacementActive = false; } // It stops manual bunker placement
+                if (gridManager.PlacementIteration >= fullBunkers.Length) { CommonVariables.ManualBunkerPlacementActive = false; } // It stops manual bunker placement
             }
             else // If validation fails (which should've already been caught before being called)
             {

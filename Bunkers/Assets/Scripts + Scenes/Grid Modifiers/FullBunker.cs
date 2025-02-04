@@ -5,59 +5,59 @@ public class FullBunker
     // Bunker properties. All encapsulated as they are either read only to external classes, require validation or for rows + columns totalAliveBunkers needs recalculating when set.
 
     // Rows property. Recalculates totalAliveBunkers when set
-    private int rows;
+    private int _rows;
     public int Rows
     {
-        get { return rows; }
-        set { rows = value; totalAliveBunkers = Rows * Columns; }
+        get { return _rows; }
+        set { _rows = value; _totalAliveBunkers = Rows * Columns; }
     }
 
     // Columns property. Recalculates totalAliveBunkers when set
-    private int columns;
+    private int _columns;
     public int Columns
     {
-        get { return columns; }
-        set { columns = value; totalAliveBunkers = Rows * Columns; }
+        get { return _columns; }
+        set { _columns = value; _totalAliveBunkers = Rows * Columns; }
     }
 
-    private int baseRow;
+    private int _baseRow;
     public int BaseRow
     {
-        get { return baseRow; }
-        set { baseRow = value; }
+        get { return _baseRow; }
+        set { _baseRow = value; }
     }
 
-    private int baseCol;
+    private int _baseCol;
     public int BaseCol
     {
-        get { return baseCol; }
-        set { baseCol = value; }
+        get { return _baseCol; }
+        set { _baseCol = value; }
     }
 
     // TotalBunkers property. Validates that any external modification is decrementing it.
-    private int totalAliveBunkers;
+    private int _totalAliveBunkers;
     public int TotalAliveBunkers
     {
-        get { return totalAliveBunkers; }
+        get { return _totalAliveBunkers; }
         set
         {
-            if (value == totalAliveBunkers - 1) { totalAliveBunkers = value; }
+            if (value == _totalAliveBunkers - 1) { _totalAliveBunkers = value; }
             else { Debug.LogWarning($"TotalALiveBunker validation failiure. (Value given: {value}). No value set."); } // If validation fails a warning's output
         } // Validates that it's decremeneting total bunkers before setting
     }
 
     // BunkerColor property. Read only to external classes
-    private Color bunkerColor;
+    private Color _bunkerColor;
     public Color BunkerColor
     {
-        get { return bunkerColor; }
+        get { return _bunkerColor; }
     }
 
     // GridManager property. Read only to external classes
-    private GridManager gridManagerRef;
+    private GridManager _gridManagerRef;
     public GridManager GridManagerRef
     {
-        get { return gridManagerRef; }
+        get { return _gridManagerRef; }
     }
 
     public FullBunker(int givenRows, int givenColumns, Color givenColor, GridManager givenGridManager) // Constructor to instantiate a bunker
@@ -65,7 +65,7 @@ public class FullBunker
         // Sets variables to corrosponding given values
         Rows = givenRows;
         Columns = givenColumns;
-        bunkerColor = givenColor;
-        gridManagerRef = givenGridManager;
+        _bunkerColor = givenColor;
+        _gridManagerRef = givenGridManager;
     }
 }

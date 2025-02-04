@@ -4,7 +4,7 @@ using TMPro;
 public class TimerScript : MonoBehaviour
 {
     // Creates references to the TMP text objects in game for modification in an array
-    [SerializeField] TMP_Text[] timerTexts = new TMP_Text[2];
+    [SerializeField] TMP_Text[] _timerTexts = new TMP_Text[2];
 
     void Start() // Start function to load the saved default times and 
     {
@@ -53,7 +53,7 @@ public class TimerScript : MonoBehaviour
         if (entity >= 0 && entity <= 1) // Validation for entity input to make sure it's within bounds (either 0 or 1 /player or AI)
         {
             var (minutes, remainderSeconds) = SecondsToTime(seconds);
-            timerTexts[entity].SetText(minutes + ":" + remainderSeconds);
+            _timerTexts[entity].SetText(minutes + ":" + remainderSeconds);
         }
         else // Else means validation has failed (entity is out of bounds)
         {

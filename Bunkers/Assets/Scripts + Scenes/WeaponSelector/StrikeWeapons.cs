@@ -9,12 +9,15 @@ public abstract class SpecialStrikeWeapon : ScriptableObject
         get { return _weaponButton; }
         set { _weaponButton = value; }
     }
+
     abstract public string PlayerPrefName // Property for playerpref name with a get only accessor (no set as it's set as a constant inside the derived methods)
     {
         get;
     }
+
     public int TotalUsesLeft; // Int property for the total uses left of the weapon
     abstract public void Activate(int row, int col, GridManager gridManager); // Abstract procedure which needs to be overriden by all subprocedures as it executes the unique weapon functionality
+
     protected static void validateAndHitTilePosition(int row, int col, GridManager gridManager) // Procedure to validate a tile's within bounds of the Grid array before hitting it (used by strikes which use positions which are relative to another tiles position)
     {
         // Validates that position is within bounds of the grid
@@ -28,6 +31,7 @@ public abstract class SpecialStrikeWeapon : ScriptableObject
         // If it is within bounds it hits the tile
         else { gridManager.OnTileHit(gridManager.Grid[row, col], false); }
     }
+
     protected static void hitAdjacentTiles(int row, int col, GridManager gridManager) // Procedure to hit adjacent tiles to a designated position
     {
         // Hits all adjacent tiles (via validateAndHitTilePosition method as they could be out of bounds)

@@ -15,18 +15,18 @@ public class PlayerGridManager : GridManager
     //    placementIteration = 4; // Increases the iteration of the bunker being placed to last
     //}
 
-    public int placementIteration; // Variable to store iteration of which bunker's being placed for indexing
+    public int PlacementIteration; // Variable to store iteration of which bunker's being placed for indexing
 
     // Property to store the current full bunker being placed -> needs to be publically accessible for visualisation on board screen when placing 
-    protected FullBunker currentFullBunker;
+    protected FullBunker _currentFullBunker;
     public FullBunker CurrentFullBunker
     {
         get // Only has get property as it shouldn't be set externally
         {
             if (CommonVariables.ManualBunkerPlacementActive) // Validates ManualBunkerPlacement is active
             { 
-                currentFullBunker = FullBunkers[placementIteration]; // If so variable's returned
-                return currentFullBunker; 
+                _currentFullBunker = FullBunkers[PlacementIteration]; // If so variable's returned
+                return _currentFullBunker; 
             }
             else // Otherwise errors output + null is returned
             { 
@@ -44,7 +44,7 @@ public class PlayerGridManager : GridManager
         if (Input.GetKeyUp(KeyCode.R) && CommonVariables.ManualBunkerPlacementActive)
         {
             // If so it rotates the bunker + updates tiles colours
-            FullBunker fullBunker = FullBunkers[placementIteration];
+            FullBunker fullBunker = FullBunkers[PlacementIteration];
             UpdateFullBunkerTilesColour(null, fullBunker, _currentOnMouseOverTile.Row, _currentOnMouseOverTile.Col, true); // Updates full bunkers tiles to default colour (true input to signify temporary)
             BunkerGenerator.RotateBunker(fullBunker); // Rotates the bunker by calling RotateBunker
         }
@@ -58,13 +58,13 @@ public class PlayerGridManager : GridManager
         {
             
             // And the currently being placed bunker overlaps:
-            if (BunkerGenerator.DoesBunkerOverlap(tile.Row, tile.Col, FullBunkers[placementIteration], this))
+            if (BunkerGenerator.DoesBunkerOverlap(tile.Row, tile.Col, FullBunkers[PlacementIteration], this))
             {
-                UpdateFullBunkerTilesColour(new Color(1, 0.3f, 0.275f, 0.9f), FullBunkers[placementIteration], tile.Row, tile.Col, true); // Current bunker (that doesn't fit) is visualised as red
+                UpdateFullBunkerTilesColour(new Color(1, 0.3f, 0.275f, 0.9f), FullBunkers[PlacementIteration], tile.Row, tile.Col, true); // Current bunker (that doesn't fit) is visualised as red
             }
             else // If the currently being placed bunker doesn't overlap
             {
-                UpdateFullBunkerTilesColour(new Color(0, 1f, 0.275f, 0.9f), FullBunkers[placementIteration], tile.Row, tile.Col, true); // Current bunker (that fits) is visualised as green
+                UpdateFullBunkerTilesColour(new Color(0, 1f, 0.275f, 0.9f), FullBunkers[PlacementIteration], tile.Row, tile.Col, true); // Current bunker (that fits) is visualised as green
             }
             
         }

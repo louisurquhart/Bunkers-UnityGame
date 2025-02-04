@@ -12,10 +12,10 @@ public class Tile : MonoBehaviour
     // ------- Encapsulated properties for the tiles attributes --------
 
     // GridManager property
-    protected GridManager gridManager;
+    protected GridManager _gridManager;
     virtual public GridManager GridManager
     {
-        get { return gridManager; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
+        get { return _gridManager; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
     }
 
     // TileSpriteRenderer property 
@@ -71,7 +71,7 @@ public class Tile : MonoBehaviour
         // Sets corrosponding variables to the given ones
         Row = rowRef; 
         Col = colRef; 
-        gridManager = gridManagerRef; 
+        _gridManager = gridManagerRef; 
         tileSpriteRenderer = GetComponent<SpriteRenderer>();
         //Debug.Log($"Instantiated: gridManager = {gridManager}");
         // Outputs log for testing

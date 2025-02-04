@@ -21,7 +21,7 @@ public class StrikeTile : Tile
         {
             // A normal strike's performed and outputs a log for testing
             Debug.Log($"SpecialStrikes not enabled (PlayerPrefs Status: {PlayerPrefs.GetInt("SpecialStrikeStatus", 0)}, SpecialStrikeFunctionality: {GridManager.SpecialStrikeFunctionality}). Performing regular strike");
-            gridManager.OnTileHit(this, true);
+            _gridManager.OnTileHit(this, true);
         }
     }
 

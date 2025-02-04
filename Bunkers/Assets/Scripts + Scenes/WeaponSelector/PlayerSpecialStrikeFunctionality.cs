@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +22,6 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
         }
         
         LoadSavedWeaponsUses(); // Loads the weapon status (uses + activeness) onto the players buttons
-
-
     }
 
     // Procedure to load saved weapon uses onto the weapon selector buttons
@@ -38,9 +34,6 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
 
             weapon.TotalUsesLeft = PlayerPrefs.GetInt(weapon.PlayerPrefName, 1); // Updates total uses left for the weapon with the saved value
             UpdateWeaponStatus(weapon); // Updates the weapons visual status
-
-            // Test log:
-            Debug.Log($"Weapon {weapon} total uses left updated to: {weapon.TotalUsesLeft} from playerpref value: {weapon.PlayerPrefName}");
         }
 
         // Sets default weapon to 81 as it has a infinite amount of uses (81 is total amount of grid squares)
@@ -54,14 +47,12 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
         {
             _currentWeapon.Activate(row, col, gridManager); // The weapon's activated at the given row + column
 
-            Debug.Log($"currentWeapon playerpref name: {_currentWeapon.PlayerPrefName}"); // log for testing
-
             _currentWeapon.TotalUsesLeft--; // Total uses left of the weapon's decremented
             UpdateWeaponStatus(_currentWeapon); // The weapons status is updated
         }
         else // If weapon has been used with no uses left (shouldn't be possible, validation failiure)
         {
-            Debug.LogError("Weapon has no uses left. No action performed (should be impossible)");// An error is outputted
+            Debug.LogError("Weapon has no uses left. No action performed (should be impossible)"); // An error is outputted
         }
     }
 
@@ -85,7 +76,6 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
 
             // Sets current weapon to the new weapon
             _currentWeapon = newWeapon;
-            Debug.Log($"Current weapon changed to {newWeapon}"); // Log for debugging 
         }
         else // Otherwise if it has no uses left
         {
@@ -97,8 +87,6 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
     // Procedure to update a weapons weapon selector status 
     private void UpdateWeaponStatus(SpecialStrikeWeapon givenWeapon)
     {
-        Debug.Log($"Updating {givenWeapon}. Previous total uses left: {givenWeapon.TotalUsesLeft}"); // Log for testing
-
         if (givenWeapon.TotalUsesLeft <= 0) // If the weapon has 0 uses:
         {
             // Changes transparency/colour of weapon to more transparent to show it's inactive

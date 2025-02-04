@@ -18,7 +18,7 @@ public class AdditiveGameMenus : MonoBehaviour
     [SerializeField] TMP_Text _endMenuAIScoreTMP;
 
     // Array containing win/loss texts 
-    private static string[] winLossText = new string[2]
+    private static string[] _winLossText = new string[2]
     {
         "You won", // pos 0 - player wins
         "You lost" // pos 1 - ai wins
@@ -54,7 +54,7 @@ public class AdditiveGameMenus : MonoBehaviour
         InstanceReferences instanceReferences = InstanceReferences.Instance;
 
         _endMenuUI.SetActive(true); // Sets the EndMenuUI parent gameobject to active
-        _endMenuGameOutcomeTMPObject.text = winLossText[winner]; // Sets the GameOutcome text to the corrosponding win text (If player wins it's "You won", AI wins it's "You lost")
+        _endMenuGameOutcomeTMPObject.text = _winLossText[winner]; // Sets the GameOutcome text to the corrosponding win text (If player wins it's "You won", AI wins it's "You lost")
 
         // Sets the score TMP objects to the actual score values
         _endMenuPlayerScoreTMP.text = CommonVariables.PlayerScore.ToString();

@@ -15,7 +15,7 @@ public class GridManager : MonoBehaviour
     // References to gameobject/component/other script instance set in inspector:
     [SerializeField] protected GameObject _tileprefab; // Reference to the corrosponding tile prefab for the entity
     [SerializeField] protected Transform _gridObject; // Reference to GridManagers parent GameObject (where the tiles positon will be based off)
-    public SpecialStrikeFunctionality SpecialStrikeFunctionality;
+    public SpecialStrikeFunctionality SpecialStrikeFunctionality; // Reference to the SpecialStrikeFunctionality class
 
     public Tile[,] Grid;  // Array to store the tiles in the grid (referenced by position [row, column])
 
