@@ -20,7 +20,7 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
         TileSpriteRenderer.color = TileColour;
 
         if (CommonVariables.ManualBunkerPlacementActive && GridManager is PlayerGridManager playerGridManager)
-        { 
+        {
             playerGridManager.UpdateFullBunkerTilesColour(GridManager.DefaultColour, playerGridManager.CurrentFullBunker, Row, Col, true);
         }
     }
@@ -35,7 +35,7 @@ public class PlayerTile : Tile // SubClass of Tile class with on clicked method 
         }
         else // Otherwise a debug log is output to signify what occured
         {
-            Debug.Log("OnMouseDown: Player clicked their board when bunker placement not active/bunker overlaps ");
+            Debug.Log("OnMouseDown: Player clicked their board when bunker placement not active/bunker overlaps "); // Log for testing + matainence
         }
     }
 }

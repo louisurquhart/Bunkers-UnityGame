@@ -10,14 +10,16 @@ public class GeneralBackgroundLogic : MonoBehaviour
         CommonVariables.GameActive = true; // Sets gameactive = true 
         SceneManager.LoadScene("Gamescene"); // Loads the gamescene
         StatisticsMenuFunctionality.IncrementStatisticValue("TotalGamesLaunched");
+
+        // MAINTANANCE - could add start game sound effect here
     }
 
     // ------------- GENERATE RANDOM TILE PROCEDURE -------------
     public static Tile GenerateRandomTile(GridManager gridManager)
     {
         // Generates a random row + column (position)
-        int randomRow = UnityEngine.Random.Range(0, 9); // Generates a random row
-        int randomColumn = UnityEngine.Random.Range(0, 9); // Generates a random column
+        int randomRow = Random.Range(0, 9); // Generates a random row
+        int randomColumn = Random.Range(0, 9); // Generates a random column
 
         // Finds the tile located at the randomly generated position through the grid managers Grid array which stores all the tiles 
         Tile randomTile = gridManager.Grid[randomRow, randomColumn];
@@ -36,13 +38,15 @@ public class GeneralBackgroundLogic : MonoBehaviour
         if (CommonVariables.PlayerTurn) // If the new turn's the players turn
         {
             Debug.Log($"<b><color=white>PLAYER TURN:"); // Debug log for identifying which turn changes happened in testing
-            // Needs to prompt player it's their turn
+            
         }
         else // If the new turn value's the AI turn
         {
             Debug.Log($"<b><color=white>AI TURN:"); // Debug log for identifying which turn changes happened in testing
             AILogic.InitiateAITurn(); // If turn's changed to AI it calls the AI's turn
         }
+
+        // MAINTANANCE - could add turn change sound effect here
     }
 
 
@@ -71,6 +75,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         // Statistics update
         if (winner == 0) // If player won
         {
+            // MAINTANANCE - could add win sound effect here
             CommonVariables.PlayerScore++; // Incrments the players score
             StatisticsMenuFunctionality.IncrementStatisticValue("Wins"); // Increments the players win statistic
         }
@@ -78,6 +83,7 @@ public class GeneralBackgroundLogic : MonoBehaviour
         {
             CommonVariables.AIScore++; // Increments the AI's score
             StatisticsMenuFunctionality.IncrementStatisticValue("Losses"); // Increments the players loss statistic
+            // MAINTANANCE - could add loose sound effect here
         }
         else
         {

@@ -20,6 +20,7 @@ public class FullBunker
         set { _columns = value; _totalAliveBunkers = Rows * Columns; }
     }
 
+    // BaseRow property. The row which the bunker starts from
     private int _baseRow;
     public int BaseRow
     {
@@ -27,6 +28,7 @@ public class FullBunker
         set { _baseRow = value; }
     }
 
+    // BaseCol property. The column which the bunker starts from
     private int _baseCol;
     public int BaseCol
     {
@@ -41,9 +43,9 @@ public class FullBunker
         get { return _totalAliveBunkers; }
         set
         {
-            if (value == _totalAliveBunkers - 1) { _totalAliveBunkers = value; }
+            if (value == _totalAliveBunkers - 1) { _totalAliveBunkers = value; } // Validates that it's decremeneting total bunkers before setting
             else { Debug.LogWarning($"TotalALiveBunker validation failiure. (Value given: {value}). No value set."); } // If validation fails a warning's output
-        } // Validates that it's decremeneting total bunkers before setting
+        } 
     }
 
     // BunkerColor property. Read only to external classes

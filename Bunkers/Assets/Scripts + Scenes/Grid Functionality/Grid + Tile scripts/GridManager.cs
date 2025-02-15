@@ -38,8 +38,6 @@ public class GridManager : MonoBehaviour
     // Function to create the players own grid at the start of the game 
     public void CreateGrid()
     {
-        Debug.Log($"<b>{CommonVariables.DebugFormat[EntityNum]}CreateGrid has been called"); // Log for testing
-
         Grid = new Tile[_rows, _colums]; // Creates an array for the grid to store the tiles
 
         for (int row = 0; row < _rows; row++)  // Goes through every row for the grid (row = 0 until row == max rows - 1)
@@ -53,21 +51,26 @@ public class GridManager : MonoBehaviour
                 Tile tileScript = newTile.GetComponent<Tile>(); // Creates a reference to the tile's script attached to it
 
                 tileScript.Initalise(row, column, this); // Initializes the tileScript with its row + column
-                
+
                 Grid[row, column] = tileScript; // Stores the tilescript into the grid array
                                                 // for working with later (identifying if bunker, setting if hit, ect)
             }
         }
 
-        if (PlayerPrefs.GetInt("ManualBunkerPlacementActive", 0) == 0 && EntityNum == 0) // If manual bunker placement's active and the entity == player
+        if (PlayerPrefs.GetInt("ManualBunkerGenerationStatus", 0) == 0 && EntityNum == 0) // If manual bunker placement's active and the entity == player (0)
         {
-            CommonVariables.ManualBunkerPlacementActive = true; return; // Sets ManualBunkerPlacement == active + ends procedure
+            CommonVariables.ManualBunkerPlacementActive = true;  // Sets ManualBunkerPlacement == active
+            return; // Ends procedure
         }
-        else { BunkerGenerator.RandomBunkerGenerator(this); } // If manual bunker placement's not active or entity isn't player it ends the procedure
+        else 
+        {
+            BunkerGenerator.RandomBunkerGenerator(this);
+            return;
+        }
     }
 
     // OnTileHit function called when the AI chooses a tile to hit or a player clicks on a tile
-    public int OnTileHit(Tile tile, bool changeTurn) 
+    public int OnTileHit(Tile tile, bool changeTurn)
     {
         // Validates bunker placement isn't active
         if (CommonVariables.ManualBunkerPlacementActive)
@@ -75,7 +78,7 @@ public class GridManager : MonoBehaviour
 
         if (!tile.IsPreviouslyHit) // makes sure the tile hasn't been hit before + validating it's the entities turn
         {
-            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile: {tile} hit at: Row: {tile.Row} Column: {tile.Col}"); // outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
+            Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}Tile: {tile} hit at: Row: {tile.Row} Column: {tile.Col}"); // Outputs into the unity console that a tile has been detected to have been clicked. (for  testing purposes)
 
             tile.IsPreviouslyHit = true; // sets the isHit variable to true to signifiy it has already been clicked
 
@@ -99,7 +102,7 @@ public class GridManager : MonoBehaviour
             return 1; // Returns 1 to signify that the method failed to complete as tile's already hit
         }
         else // Its not the entities turn
-        { 
+        {
             return 2; // Returns 2 to signifiy method failed to complete as it's not the entities turn
         }
     }
@@ -107,14 +110,18 @@ public class GridManager : MonoBehaviour
     // Procedure called when a tile with a bunkers been hit (validation already done)
     protected void onBunkerHit(Tile tile)
     {
-        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
+        Debug.Log($"{CommonVariables.DebugFormat[EntityNum]}OnBunkerHit: Determined tile was a bunker"); // Outputs into the unity console that it's identified cell has been clicked. (for debugging + testing purposes)
 
         tile.UpdateTileColour(_hitColour, false); // Changes the tiles colour to red (false input to signify not temporary)
+
+        // MAINTANANCE - Could change to sprites instead of colours
 
         decrementBunkerCount(tile);
 
         // Statistic incrementation
         if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfHits"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
+
+        // MAINTANANCE - Could add hit sound effect
     }
 
     // Procedure called when a tile with a bunkers been hit (validation already done)
@@ -124,8 +131,12 @@ public class GridManager : MonoBehaviour
 
         tile.UpdateTileColour(_missColour, false); // Changes the tiles colour to blue to indicate miss (false input to signify not temporary)
 
+        // MAINTANANCE - Could change to sprites instead of colours
+
         // Statistic incrementation
         if (EntityNum == 1) { StatisticsMenuFunctionality.IncrementStatisticValue("TotalNumberOfMisses"); } // If it was the AI grid hit, it incrmenets the players totalNumberOfHits statistic
+
+        // MAINTANANCE - Could add miss sound effect
     }
 
 
@@ -158,10 +169,13 @@ public class GridManager : MonoBehaviour
         StatisticsMenuFunctionality.IncrementStatisticValue("FullBunkersDestroyed");
 
         // Checks if game has ended (as this could be a game ending change):
-        GeneralBackgroundLogic.HasGameEnded(); 
+        GeneralBackgroundLogic.HasGameEnded();
+
+        // MAINTANANCE - Could add sound effect for full bunker destruction
+
     }
 
-    
+
     // Procedure called to update all the tiles in a full bunker
     public void UpdateFullBunkerTilesColour(Color? newColor, FullBunker fullBunker, int row, int col, bool temporary)
     {
@@ -172,7 +186,7 @@ public class GridManager : MonoBehaviour
         {
             for (int c = col; c < finalCol; c++)
             {
-                if (r >= 0 && r < Grid.GetLength(0) && c >= 0 && c < Grid.GetLength(1) && Grid[r,c].IsBunker == !temporary)
+                if (r >= 0 && r < Grid.GetLength(0) && c >= 0 && c < Grid.GetLength(1) && Grid[r, c].IsBunker == !temporary)
                 {
                     if (newColor.HasValue)
                     {

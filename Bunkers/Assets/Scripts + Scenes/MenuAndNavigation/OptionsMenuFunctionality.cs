@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using TMPro;
 using UnityEngine;
@@ -39,12 +38,14 @@ public class OptionsMenuFunctionality : MonoBehaviour
         loadSavedButtonValues(); // Calls LoadSavedButtonValues to highlight the buttons which are the saved player preferences (if there are any)
         loadSavedSliderValues(); // Calls LoadSavedSliderValues to change the slider/s + slider value/s next to it to the stored saved value (if there are any)
         loadSavedInputFieldValues(); // Calls LoadSavedInputFieldValues to load the input fields with saved values
+
+        // MAINTANANCE - Could add audio feedback after everythings loaded to prompt user
     }
 
 
     // ----------------- PROCEDURES TO LOAD SAVED SETTING VALUES + DISPLAY THEM ON SCREEN: -----------------------
 
-   // Procedure to set bold outlined button to the loaded saved button ref
+    // Procedure to set bold outlined button to the loaded saved button ref
     private void loadSavedButtonValues()
     {
         foreach (ButtonSetting buttonSetting in _buttonSettings) // Goes through every button
@@ -107,6 +108,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
         changeVisuallyActiveButton(buttonSetting, newValueRef);
 
         Debug.Log($"Current active button saved as: {PlayerPrefs.GetInt(buttonSetting.PlayerPrefName)} in PlayerPref: {buttonSetting.PlayerPrefName}");
+
+        // MAINTANANCE - Could add audio feedback to signify button change
     }
 
     // Procedure to change the active outlined button (refactored from changeButton to make it more modular + intercompatible with loadSavedButtonValues)
@@ -143,6 +146,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
         sliderSetting.SliderValueText.text = sliderValue.ToString();
 
         Debug.Log($"Slider input saved as: {PlayerPrefs.GetInt(sliderSetting.PlayerPrefName)} in PlayerPref: {sliderSetting.PlayerPrefName}"); // Log for testing
+
+        // MAINTANANCE - Could add feedback for slider value change
     }
 
     // ----- Change input field value procedure -----
@@ -165,7 +170,11 @@ public class OptionsMenuFunctionality : MonoBehaviour
                 PlayerPrefs.SetInt(inputFieldSetting.PlayerPrefName, parsedInt);
                 Debug.Log($"Input saved as int: {PlayerPrefs.GetInt(inputFieldSetting.PlayerPrefName)} in PlayerPref: {inputFieldSetting.PlayerPrefName}");
             }
+
+            // MAINTANANCE - Could add feedback if input's invalid (text + audio prompt)
         }
+
+        // MAINTANANCE - Could add audio feedback to input field change
     }
 
     // Procedure to find first digit of a number
@@ -186,6 +195,16 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
     // ------------------------------------ BACK BUTTON --------------------------------------------
 
+    // Keybind to exit the options menu - for usability
+    void Update() // Update function runs every frame
+    {
+        if (Input.GetKeyUp(KeyCode.Escape)) // If escape key's pressed
+        {
+            ExitButton();
+        }
+    }
+
+    // Exit button procedure to determine how to exit options menu 
     public void ExitButton()
     {
         if (!CommonVariables.GameActive) // If a game isn't currently active
@@ -201,6 +220,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
 
             // Unloads the option menu
             SceneManager.UnloadSceneAsync("OptionsMenu");
+
+            // MAINTANANCE - Could add audio feedback for menu change
         }
     }
 

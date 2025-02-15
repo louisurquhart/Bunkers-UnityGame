@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Tile : MonoBehaviour
-{ 
+{
     // ------- Variables --------
     public int Row; // Row position of tile
     public int Col; // Column position of the tile
@@ -25,37 +25,37 @@ public class Tile : MonoBehaviour
         get { return tileSpriteRenderer; } // Only has getter to make it read only to other classes as only intialize method in the class should modify it.
     }
     // TileColour property
-    private Color tileColour;
+    private Color _tileColour;
     public Color TileColour
     {
-        get{ return tileColour; }
-        set 
-        { 
-            if (value == TileSpriteRenderer.color) {tileColour = value;} // If the value TileColour is being to set to is actually the tile's colour it sets it
-            else{ Debug.LogWarning("Given tileColour not synchronized with actual tile colour. (tileColour = {tileColour} actualTileColour = {TileSpriteRenderer.color. No changes made "); } // Otherwise it outputs a warning saying that the input wasn't accepted
+        get { return _tileColour; }
+        set
+        {
+            if (value == TileSpriteRenderer.color) { _tileColour = value; } // If the value TileColour is being to set to is actually the tile's colour it sets it
+            else { Debug.LogWarning("Given tileColour not synchronized with actual tile colour. (tileColour = {tileColour} actualTileColour = {TileSpriteRenderer.color. No changes made "); } // Otherwise it outputs a warning saying that the input wasn't accepted
         }
 
     }
     // FullBunkerReference property
-    private FullBunker fullBunkerReference;
-    public FullBunker FullBunkerReference 
+    private FullBunker _fullBunkerReference;
+    public FullBunker FullBunkerReference
     {
-        get 
+        get
         {
-            if (IsBunker) { return fullBunkerReference; } // If the tile is a bunker it returns the reference to the fullBunker
+            if (IsBunker) { return _fullBunkerReference; } // If the tile is a bunker it returns the reference to the fullBunker
             else { Debug.LogError($"FullBunkerReference not returned. isBunker == {IsBunker}"); return null; }// Otherwise it returns null as if the tile isn't a bunker it can't have a fullBunker reference + outputs error to signify this} 
         }
-        set { fullBunkerReference = value; }
+        set { _fullBunkerReference = value; }
     }
 
     // IsPreviouslyHit property
-    private bool isPreviouslyHit;
+    private bool _isPreviouslyHit;
     public bool IsPreviouslyHit
     {
-        get { return isPreviouslyHit; }
-        set 
+        get { return _isPreviouslyHit; }
+        set
         {
-            isPreviouslyHit = value;
+            _isPreviouslyHit = value;
         }
     }
 
@@ -69,9 +69,9 @@ public class Tile : MonoBehaviour
     public void Initalise(int rowRef, int colRef, GridManager gridManagerRef)
     {
         // Sets corrosponding variables to the given ones
-        Row = rowRef; 
-        Col = colRef; 
-        _gridManager = gridManagerRef; 
+        Row = rowRef;
+        Col = colRef;
+        _gridManager = gridManagerRef;
         tileSpriteRenderer = GetComponent<SpriteRenderer>();
         //Debug.Log($"Instantiated: gridManager = {gridManager}");
         // Outputs log for testing
@@ -90,8 +90,8 @@ public class Tile : MonoBehaviour
     {
         if (!temporary)
         {
-           tileColour = color;
-           //Debug.Log($"NewTileColour: {tileColour} at row {Row}, column {Col}");
+            _tileColour = color;
+            //Debug.Log($"NewTileColour: {tileColour} at row {Row}, column {Col}");
         }
         TileSpriteRenderer.color = color;
     }

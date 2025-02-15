@@ -1,15 +1,15 @@
 using UnityEngine;
 
 // Subclass of tile with specialised proceudres for strike grid tiles
-public class StrikeTile : Tile 
+public class StrikeTile : Tile
 {
     // Automatically called by unity if tile's clicked
-    protected void OnMouseDown() 
+    protected void OnMouseDown()
     {
         if (CommonVariables.ManualBunkerPlacementActive) // If manual bunker generation's active
         {
             // A log is output to signify no action's taken
-            Debug.Log("Player hit enemy board when manual bunker placement's active. No action performed"); 
+            Debug.Log("Player hit enemy board when manual bunker placement's active. No action performed");
         }
         else if (PlayerPrefs.GetInt("SpecialStrikeStatus", 0) == 0 && GridManager.SpecialStrikeFunctionality is PlayerSpecialStrikeFunctionality playerSpecialStrikeFunctionality) // If special strikes are enabled (0 == enabled) + safely casts specialstrikefunctionality to playerspecialstrikefunctionality
         {

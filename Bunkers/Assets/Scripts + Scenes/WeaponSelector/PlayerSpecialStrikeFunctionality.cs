@@ -76,10 +76,14 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
 
             // Sets current weapon to the new weapon
             _currentWeapon = newWeapon;
+
+            // MAINTANANCE - Could add audio feedback for weapon change
         }
         else // Otherwise if it has no uses left
         {
             Debug.Log("Weapon has no uses left. No action performed"); // Log output for testing
+
+            // MAINTANANCE - Could add negative text + audio feedback for invalid input
         }
     }
 
@@ -105,5 +109,7 @@ public class PlayerSpecialStrikeFunctionality : SpecialStrikeFunctionality
         {
             givenWeapon.WeaponButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = givenWeapon.TotalUsesLeft.ToString();
         }
+
+        // MAINTANANCE - Could add negative text + audio feedback for weapon running out of uses
     }
 }

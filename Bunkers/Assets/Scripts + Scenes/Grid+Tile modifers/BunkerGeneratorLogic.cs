@@ -51,8 +51,12 @@ public class BunkerGenerator : ScriptableObject
                 placeFullBunker(row, column, gridManager, fullBunker);
                 gridManager.PlacementIteration++;
 
+                // MAINTANANCE - Could add audio feedback for bunker placement
+
                 // If all bunkers have been placed
                 if (gridManager.PlacementIteration >= fullBunkers.Length) { CommonVariables.ManualBunkerPlacementActive = false; } // It stops manual bunker placement
+
+                // MAINTANANCE - Could add visual feedback here for when all bunkers have been placed
             }
             else // If validation fails (which should've already been caught before being called)
             {
@@ -88,7 +92,6 @@ public class BunkerGenerator : ScriptableObject
             {
                 if (!(r >= 0 && r < gridManager.Grid.GetLength(0) && c >= 0 && c < gridManager.Grid.GetLength(1)) || gridManager.Grid[r, c].IsBunker) // If the position is a bunker it means it would be overlapping another bunker if placed, loop restarts as another position has to be found
                 {
-                    //Debug.Log($"INFO: Overlap found at position: Row = {row} Column = {column}");
                     return true; // If a bunker is found in the way, true is returned as the would be position overlaps.
                 }
             }
@@ -116,11 +119,6 @@ public class BunkerGenerator : ScriptableObject
 
         int iterations = 0;
 
-        // -- Code for testing --
-        //int totalBunkersPlaced = bunkerType.Rows * bunkerType.Columns; // TotalBunkersPlaced calculated for debug log (testing)
-        //Debug.Log($"<b>{CommonVariables.DebugFormat[gridManager.EntityNum]}Placing full bunker (Number: {bunkerType.NumberIdentifier}). Total bunkers placed should be {totalBunkersPlaced}"); // Debug log output for testing
-
-        
         // -- Nested for loops go through every tile the bunker occupies and designated them as bunker tiles:
         for (int r = row; r < finalRow ; r++) // Goes over every row the bunker needs to occupy
         {

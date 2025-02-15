@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class AdditiveGameMenus : MonoBehaviour
 {
@@ -36,6 +31,8 @@ public class AdditiveGameMenus : MonoBehaviour
     // ------------ PAUSE MENU PROCEDURE:  -----------
     public void TogglePauseStatus()
     {
+        // MAINTAINANCE - Could add sound effect for pausing/unpausing
+
         CommonVariables.Paused = !CommonVariables.Paused; // Sets paused status to the opposite of what it is
         _pauseMenuUI.SetActive(CommonVariables.Paused); // Sets the PauseMenuUI active status to whatever the pause status is
     }
@@ -43,7 +40,7 @@ public class AdditiveGameMenus : MonoBehaviour
     // ------------ BOTH MENU PROCEDURES: ------------
     public static void ExitToMenuButton() // Procedure to end the game + go to main menu
     {
-        GeneralBackgroundLogic.FullyEndGame(); // 
+        GeneralBackgroundLogic.FullyEndGame();
     }
 
     // ------------ END MENU PROCEDURES: -------------
@@ -73,6 +70,8 @@ public class AdditiveGameMenus : MonoBehaviour
     // Procedure to initiate a rematch
     public static void Rematch() // function to play another game (when one's lost)
     {
+        // MAINTANANCE - Could add sound effect for button press
+
         GeneralBackgroundLogic.ResetGame(false); // Calls ResetGame function to reset game state variables default. Inputs false to not full reset so scores remain
         GeneralBackgroundLogic.StartGame(); // Calls StartGame to start a new game
     }

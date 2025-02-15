@@ -9,7 +9,7 @@ public class CommonVariables : ScriptableObject // a class for public static var
     public static bool GameActive = false; // Boolean property to signify if a game's active or not. Used by some methods for validation and to improve security
     public static bool PlayerTurn = true;  // Boolean property to signify it's currently the players turn (true by default as player starts by default)
     public static bool Paused = false; // Boolean property to signify if the game is paused or not
-    public static bool ManualBunkerPlacementActive = true;
+    public static bool ManualBunkerPlacementActive = false;
 
     // ----------------- INTEGER PROPERTIES FOR CALCULATION (ENCAPSULATED + VALIDATED) ---------------
 
@@ -99,7 +99,7 @@ public class CommonVariables : ScriptableObject // a class for public static var
     static public int PlayerAliveFullBunkerCount
     {
         get { return _playerAliveFullBunkerCount; }
-        set { _playerAliveFullBunkerCount = value; } 
+        set { _playerAliveFullBunkerCount = value; }
     }
 
     // AI alive bunker count property (encapsulated in case of future validation requirements) 

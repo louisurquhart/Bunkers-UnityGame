@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class StatisticsMenuFunctionality : MonoBehaviour
 {
+    // MAINTANANCE - could chane this to object oriented apporach with each statistic being an object
+
     // Const values set for array lengths (used for initializing arrays + looping through arrays)
     private const int _arrayCount = 2;
     private const int _competitiveArrayCount = 6;
@@ -56,6 +58,8 @@ public class StatisticsMenuFunctionality : MonoBehaviour
     {
         calculateDependentStatisticValues(); // Calculates statistic values which are dependent on one other values
         loadStatisticValues(); // Saved statistics are loaded onto the screen
+
+        // MAINTANANCE - Could add audio feedback for all statistics loaded
     }
 
     // --------- Procedure to calculate values for statistics dependent on other statistics --------------
@@ -143,22 +147,33 @@ public class StatisticsMenuFunctionality : MonoBehaviour
     // Public static method to update a statistic value - to be called when an event in game occurs requiring statistic update
     public static void IncrementStatisticValue(string statisticKey)
     {
-        int statisticRecordingStatus = PlayerPrefs.GetInt("StatisticRecordingStatus", 1);
-        int statisticRecordingType = PlayerPrefs.GetInt("StatisticRecordingType", 1);
+        int statisticRecordingStatus = PlayerPrefs.GetInt("StatisticRecordingStatus", 0);
+        int statisticRecordingType = PlayerPrefs.GetInt("StatisticRecordingType", 0);
 
-        if (statisticRecordingStatus == 1) // if statistics recording status == 1 it's enabled so update code runs
+        if (statisticRecordingStatus == 0) // if statistics recording status == 0 it's enabled so update code runs
         {
-            if (_competitivePlayerPrefNames.Contains(statisticKey) && statisticRecordingStatus == 1 || statisticRecordingStatus == 2) // If the statisticKey belongs to competitive statistics && competitive statistic recording's enabled
+            if (_competitivePlayerPrefNames.Contains(statisticKey) && statisticRecordingStatus == 0 || statisticRecordingStatus == 1) // If the statisticKey belongs to competitive statistics && competitive statistic recording's enabled (ALL || COMPETITIVE)
             {
                 // It increments the playerPref value which corrosponds to the given key
                 PlayerPrefs.SetInt(statisticKey, PlayerPrefs.GetInt(statisticKey) + 1);
 
             }
-            else if (_funPlayerPrefNames.Contains(statisticKey) && statisticRecordingStatus == 1 || statisticRecordingStatus == 3) // If the statisticKey belongs to fun statistics && fun statistic recording's enabled
+            else if (_funPlayerPrefNames.Contains(statisticKey) && statisticRecordingStatus == 0 || statisticRecordingStatus == 2) // If the statisticKey belongs to fun statistics && fun statistic recording's enabled (ALL || FUN)
             {
                 // It increments the playerPref value which corrosponds to the given key
                 PlayerPrefs.SetInt(statisticKey, PlayerPrefs.GetInt(statisticKey) + 1);
             }
+            else
+            {
+                Debug.Log("IncrementStatisticValue called but no action performed due to invalid key/specific key category recording not enabled");
+                return;
+            }
+
+            Debug.Log($"Statistic: {statisticKey} incremented by 1");
+        }
+        else
+        {
+            Debug.Log($"IncrementStatisticValue called but no action performed due recording disabled (StatisticRecordingStatus == {PlayerPrefs.GetInt("StatisticRecordingStatus", 0)} (0 = enabled, 1 = disabled)");
         }
     }
 }

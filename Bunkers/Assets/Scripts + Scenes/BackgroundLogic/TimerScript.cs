@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class TimerScript : MonoBehaviour
 {
@@ -16,8 +16,6 @@ public class TimerScript : MonoBehaviour
     {
         bool _validated = CommonVariables.GameActive & !CommonVariables.Paused; // Validation to check if game's active and not paused before executing
 
-        StatisticsMenuFunctionality.IncrementStatisticValue("MinutesSpentInGame");
-
         if (_validated) // Checks validation before executing
         {
             PlayerPrefs.SetInt("TimeSpentInGame", PlayerPrefs.GetInt("TimeSpentInGame" + 1)); // Increments the PlayerPref statistic "TimeSpentInGame" 
@@ -26,19 +24,23 @@ public class TimerScript : MonoBehaviour
             {
                 CommonVariables.PlayerTimeLeft = CommonVariables.PlayerTimeLeft - 1; // Decrements players timeleft
                 updateTimerText(CommonVariables.PlayerTimeLeft, 0); // UpdateTimer procedure's called to update the onscreen Player timer. PlayerTimeLeft is inputted + 0 to signify it's the players timer being updated
-              
+
 
                 if (CommonVariables.PlayerTimeLeft == 0) // Checks that the player still has time left
                 {
                     GeneralBackgroundLogic.EndGame(1); // Calls EndGame function passing in 1 to signify it was the AI who won
+                    return;
+                }
+                if (CommonVariables.PlayerTimeLeft % 60 == 0) // Code to check if a minute has passed. Updates minutes spent in game if so
+                {
+                    StatisticsMenuFunctionality.IncrementStatisticValue("MinutesSpentInGame");
                 }
             }
-
             else // If it isn't the players turn it's assumed to be the AI's turn. 
             {
                 CommonVariables.AITimeLeft = CommonVariables.AITimeLeft - 1; // Decrements the AI's time left
                 updateTimerText(CommonVariables.AITimeLeft, 1); // UpdateTimerText procedure's called to update the onscreen AI timer (AITimeLeft + 1 to signify its the AI's turn are inputted)
-                
+
                 if (CommonVariables.AITimeLeft == 0) // Checks that the AI still has time left
                 {
                     GeneralBackgroundLogic.EndGame(0); // Calls EndGame function passing in 0 to signify it was the player who won
@@ -82,8 +84,8 @@ public class TimerScript : MonoBehaviour
     public void ResetTime()
     {
         // The Player and AI Time variables are set to either the saved times or a default time
-        CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("PlayerTime", 5) *60; // Sets playertime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
-        CommonVariables.AITimeLeft = PlayerPrefs.GetInt("AITime", 5) *60; // Sets AItime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
+        CommonVariables.PlayerTimeLeft = PlayerPrefs.GetInt("PlayerTime", 5) * 60; // Sets playertime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
+        CommonVariables.AITimeLeft = PlayerPrefs.GetInt("AITime", 5) * 60; // Sets AItime to saved value * 60 (to convert from minutes to seconds) if no saved value, a default of 5 (*60) is loaded .
 
         // UpdateTimerText functions then called to update the onscreen text to the values
         updateTimerText(CommonVariables.PlayerTimeLeft, 0);

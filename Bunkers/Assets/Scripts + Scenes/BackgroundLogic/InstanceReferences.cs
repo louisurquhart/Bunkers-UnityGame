@@ -13,37 +13,37 @@ public class InstanceReferences : MonoBehaviour // Class which holds references 
     // ------- ENCAPSULATED READ ONLY PROPERTIES: --------
 
     // TimerScript instance property
-    [SerializeField] TimerScript timerScriptInstance;
+    [SerializeField] TimerScript _timerScriptInstance;
     public TimerScript TimerScriptInstance // Read only property
     {
-        get { return timerScriptInstance; }
+        get { return _timerScriptInstance; }
     }
 
     // AdditiveGameMenus instance property
-    [SerializeField] AdditiveGameMenus additiveGameMenusInstance;
+    [SerializeField] AdditiveGameMenus _additiveGameMenusInstance;
     public AdditiveGameMenus AdditiveGameMenusInstance
     {
-        get { return additiveGameMenusInstance; }
+        get { return _additiveGameMenusInstance; }
     }
 
     // Game scene event system parent GameObject reference property:
-    [SerializeField] private GameObject gameSceneEventSystemParent;
+    [SerializeField] private GameObject _gameSceneEventSystemParent;
     public GameObject GameSceneEventSystemParent // Read only property
     {
-        get { return gameSceneEventSystemParent; }
+        get { return _gameSceneEventSystemParent; }
     }
 
     // Game scene AudioListener component reference property:
-    [SerializeField] private AudioListener gameSceneAudioListener;
+    [SerializeField] private AudioListener _gameSceneAudioListener;
     public AudioListener GameSceneAudioListener
     {
-        get { return gameSceneAudioListener; }
+        get { return _gameSceneAudioListener; }
     }
 
     //
-    [SerializeField] private GridManager playerGridManager;
+    [SerializeField] private GridManager _playerGridManager;
     public GridManager PlayerGridManager
     {
-        get { return playerGridManager; }
+        get { return _playerGridManager; }
     }
 }

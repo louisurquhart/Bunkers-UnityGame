@@ -94,6 +94,9 @@ public class AILogic : MonoBehaviour
     {
         // Not implemented so calls mediumAI for the time being
         mediumAI();
+
+        // MAINTANANCE - Could add hard AI algorithm here
+
         return;
     }
     // ----------------- BUNKER GENERATION SUB-PROCEDURES -------------------
@@ -213,6 +216,9 @@ public class AILogic : MonoBehaviour
         Debug.LogError($"isTileHitSuccess: tileHitSuccess out of bounds (tileHitSuccess == {tileHitSuccess}"); // Outputs error
         return false; // Returns false to signify it was unsucessful
     }
+
+    // MAINTANANCE - Could add function to check if a bunker added is next to another bunker here (for future HardAI() implementation)
+
 }
 
 

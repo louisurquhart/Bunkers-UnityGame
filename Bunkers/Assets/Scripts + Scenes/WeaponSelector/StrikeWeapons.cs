@@ -24,7 +24,6 @@ public abstract class SpecialStrikeWeapon : ScriptableObject
         if (!(row >= 0 && row < gridManager.Grid.GetLength(0) && col >= 0 && col < gridManager.Grid.GetLength(1)))
         { 
             Debug.Log($"Tile at row: {row} col: {col} out of bounds, no action performed. (Grid rows: {gridManager.Grid.GetLength(0)}, Grid columns: {gridManager.Grid.GetLength(1)})");
-            Debug.Log($"Row validation {row >= 0 && row < gridManager.Grid.GetLength(0)} Column validation: {col >= 0 && col < gridManager.Grid.GetLength(1)}");
             return; 
         } // If not it exits performing nothing
 
@@ -96,6 +95,7 @@ public class QuadrupleStrike : SpecialStrikeWeapon
     {
         // Hits the tile itself (already validated)
         gridManager.OnTileHit(gridManager.Grid[row, col], false);
+
         // Hits the 4 adjacent tile's to the tile (validates before hitting as they could be off-grid)
         hitAdjacentTiles(row, col, gridManager);
         GeneralBackgroundLogic.ChangeTurn();
